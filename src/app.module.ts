@@ -4,6 +4,7 @@ import { envSchema } from './shared/env.config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { EnvModule } from './config/env.module'
 import { EnvService } from './shared/env.service'
+import { UsersModule } from './modules/users/users.module'
 
 @Module({
   imports: [
@@ -18,13 +19,14 @@ import { EnvService } from './shared/env.service'
         type: 'postgres',
         host: env.get('DB_HOST'),
         port: env.get('DB_PORT'),
-        username: env.get('DB_USER'),
+        username: env.get('DB_USERNAME'),
         password: env.get('DB_PASSWORD'),
         database: env.get('DB_NAME'),
         autoLoadEntities: true,
         synchronize: true,
       }),
     }),
+    UsersModule,
   ],
   controllers: [],
   providers: [],

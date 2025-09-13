@@ -1,0 +1,12 @@
+@apiurl = http://localhost:3333
+
+### POST user
+POST {{apiurl}}/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@gmail.com",
+  "password": "NewPass0rd",
+  "bio": "I like to discover new places"
+}
