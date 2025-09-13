@@ -1,7 +1,14 @@
-import { ConflictException, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { User } from './entities/user.entity'
 import { Repository } from 'typeorm'
+
+import { UserEmailAlreadyExistsError } from 'src/commons/errors/application-errors/user-email-already-exists'
+
+import { User } from './entities/user.entity'
+
+import { failure, success, } from 'src/shared/either'
+import { CreateUserRequest, CreateUserResponse } from './dto/create-user.dto'
+
 
 @Injectable()
 export class UsersService {
@@ -10,7 +17,7 @@ export class UsersService {
     private readonly userRepository: Repository<User>
   ) { }
 
-  async create(data: Partial<User>): Promise<User> {
+  async create(data: CreateUserRequest): Promise<CreateUserResponse> {
     const existingUser = await this.userRepository.findOne({
       where: {
         email: data.email
@@ -18,11 +25,13 @@ export class UsersService {
     })
 
     if (existingUser) {
-      throw new ConflictException('Email already registered')
+      return failure(new UserEmailAlreadyExistsError())
     }
 
     const user = this.userRepository.create(data)
-    
-    return this.userRepository.save(user)
+
+    await this.userRepository.save(user)
+
+    return success({ user })
   }
 }
