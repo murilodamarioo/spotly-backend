@@ -1,6 +1,7 @@
-import { UserEmailAlreadyExistsError } from 'src/commons/errors/application-errors/user-email-already-exists'
+import { UserEmailAlreadyExistsError } from '@/commons/errors/application-errors/user-email-already-exists'
 import { User } from '../entities/user.entity'
-import { Either } from 'src/shared/either'
+import { Either } from '@/shared/either'
+
 
 export class CreateUserRequest {
   name: string
