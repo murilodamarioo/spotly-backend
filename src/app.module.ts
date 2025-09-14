@@ -22,6 +22,7 @@ import { UsersModule } from './modules/users/users.module'
         username: env.get('DB_USERNAME'),
         password: env.get('DB_PASSWORD'),
         database: env.get('DB_NAME'),
+        schema: process.env.TYPEORM_SCHEMA || 'public',
         autoLoadEntities: true,
         synchronize: true,
       }),

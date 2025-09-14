@@ -1,4 +1,9 @@
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+
 import { User } from '@/modules/users/entities/user.entity'
+
 import { faker } from '@faker-js/faker'
 
 export function makeUser(override: Partial<User> = {}) {
@@ -10,4 +15,20 @@ export function makeUser(override: Partial<User> = {}) {
   user.bio = faker.person.bio()
 
   return Object.assign(user, override)
+}
+
+@Injectable()
+export class UserFactory {
+  constructor(
+    @InjectRepository(User)
+    private readonly orm: Repository<User>
+  ) { }
+
+  async makeOrmUser(data: Partial<User> = {}): Promise<User> {
+    const user = makeUser()
+
+    await this.orm.save(user)
+
+    return user
+  }
 }
