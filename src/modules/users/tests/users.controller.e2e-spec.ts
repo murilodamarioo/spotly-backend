@@ -6,7 +6,7 @@ import request from 'supertest'
 import { UserFactory } from 'test/factories/make-user'
 import { UserFactoryModule } from './user-factory.module'
 
-describe('Users Service (E2E)', () => {
+describe('Users Controller (E2E)', () => {
   let app: INestApplication
   let userFactory: UserFactory
 
