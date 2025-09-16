@@ -11,13 +11,13 @@ export class InMemoryUserRespository implements IUserRepository {
   }
 
   async save(user: User): Promise<User> {
-  const userIndex = this.users.findIndex(u => u.id === user.id)
+    const userIndex = this.users.findIndex(u => u.id === user.id)
 
-  if (userIndex === -1) {
-    this.users.push(user) // Insere se não existe
-  } else {
-    this.users[userIndex] = user // Atualiza se já existe
+    if (userIndex === -1) {
+      this.users.push(user)
+    } else {
+      this.users[userIndex] = user
+    }
+    return user
   }
-  return user
-}
 }
