@@ -7,3 +7,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id             String    @id @default(uuid())
+  name           String
+  email          String    @unique
+  password       String
+  profilePicture String?   @map("profile_picture")
+  bio            String?
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+  place          Place[]
+  review         Review[]
+
+  @@map("users")
+}
+
+model Place {
+  id          String    @id @default(uuid())
+  name        String
+  category    String
+  description String?
+  address     String
+  city        String
+  state       String
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+  userId      String    @map("user_id")
+
+  user       User         @relation(fields: [userId], references: [id])
+  review     Review[]
+  attachment Attachment[]
+
+  @@map("places")
+}
+
+model Review {
+  id         String    @id @default(uuid())
+  rating     Int
+  comment    String?
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
+  reviewerId String    @map("reviewer_id")
+  placeId    String    @map("place_id")
+
+  reviewer   User         @relation(fields: [reviewerId], references: [id])
+  place      Place        @relation(fields: [placeId], references: [id])
+  attachment Attachment[]
+
+  @@map("reviews")
+}
+
+model Attachment {
+  id       String  @id @default(uuid())
+  title    String
+  url      String
+  placeId  String? @map("place_id")
+  reviewId String? @map("review_id")
+
+  place  Place?  @relation(fields: [placeId], references: [id])
+  review Review? @relation(fields: [reviewId], references: [id])
+
+  @@map("attachments")
+}
