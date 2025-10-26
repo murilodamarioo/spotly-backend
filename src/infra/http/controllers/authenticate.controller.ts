@@ -5,6 +5,7 @@ import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/aut
 
 import { Public } from '@/infra/auth/public'
 import { InvalidCredentialsError } from '@/core/errors/errors-message'
+import { ApiBadRequestResponse, ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 const authenticateUserBodySchema = z.object({
   email: z.email(),
@@ -14,6 +15,7 @@ const authenticateUserBodySchema = z.object({
 type AuthenticateuserBodySchema = z.infer<typeof authenticateUserBodySchema>
 
 @Public()
+@ApiTags('authentication')
 @Controller('/auth/sign-in')
 export class AuthenticateController {
 
@@ -21,6 +23,37 @@ export class AuthenticateController {
 
   @Post()
   @HttpCode(200)
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: { type: 'string', example: 'john@gmail.com' },
+        password: { type: 'string', example: 'NeWP@ssword' }
+      },
+      required: ['email', 'password']
+    }
+  })
+  @ApiOkResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        access_token: {
+          type: 'string',
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ'
+        }
+      }
+    }
+  })
+  @ApiBadRequestResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'email/password is incorrect.' },
+        error: { type: 'string', example: 'Bad Request' },
+        statusCode: { type: 'number', example: 400 }
+      }
+    }
+  })
   async handle(@Body() body: AuthenticateuserBodySchema) {
     const { email, password } = body
 
