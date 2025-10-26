@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, failure, success } from '@/core/either'
 import { NotAllowedError, ResourceNotFoundError } from '@/core/errors/errors-message'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
@@ -23,6 +25,7 @@ interface EditPlaceUseCaseRequest {
 
 type EditPlaceUseCaseResponse = Either<NotAllowedError | ResourceNotFoundError, { place: Place }>
 
+@Injectable()
 export class EditPlaceUseCase {
   constructor(
     private placesRepository: PlacesRepository,
