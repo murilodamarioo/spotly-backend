@@ -6,6 +6,7 @@ import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-p
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
 
 const createPlaceBodySchema = z.object({
   name: z.string(),
@@ -19,6 +20,8 @@ const createPlaceBodySchema = z.object({
 
 type CretaePlaceBodySchema = z.infer<typeof createPlaceBodySchema>
 
+@ApiTags('places')
+@ApiBearerAuth('jwt')
 @Controller('/places/create')
 export class CreatePlaceController {
 
@@ -26,6 +29,46 @@ export class CreatePlaceController {
 
   @Post()
   @HttpCode(201)
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Bart`s Pub' },
+        category: { type: 'string', example: 'Pub' },
+        description: { type: 'string', example: 'A cozy pub in the heart of the city.' },
+        address: { type: 'string', example: '742 Evergreen Terrace' },
+        city: { type: 'string', example: 'Springfield' },
+        state: { type: 'string', example: 'IL' },
+        attachments: {
+          type: 'array',
+          items: { type: 'string', format: 'uuid' },
+          example: ['550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001']
+        }
+      },
+      required: ['name', 'category', 'description', 'address', 'city', 'state']
+    }
+  })
+  @ApiCreatedResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        id: { type: 'string', format: 'uuid', example: '550e8400-e29b-41d4-a716-446655440000' },
+        name: { type: 'string', example: 'Bart`s Pub' },
+        category: { type: 'string', example: 'Pub' },
+        description: { type: 'string', example: 'A cozy pub in the heart of the city.' },
+        address: { type: 'string', example: '742 Evergreen Terrace' },
+        city: { type: 'string', example: 'Springfield' },
+        state: { type: 'string', example: 'IL' },
+        attachments: {
+          type: 'array',
+          items: { type: 'string', format: 'uuid' },
+          example: ['550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001']
+        },
+        createdAt: { type: 'string', format: 'date-time', example: '2023-10-05T14:48:00.000Z' }
+      }
+    }
+  })
+  @ApiBadRequestResponse({ description: 'Bad request' })
   async handle(
     @CurrentUser() user: UserPayload,
     @Body(new ZodValidationPipe(createPlaceBodySchema)) body: CretaePlaceBodySchema
