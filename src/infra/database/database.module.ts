@@ -4,8 +4,8 @@ import { PrismaService } from './prisma/prisma.service'
 import { UsersRepository } from '@/domain/core/application/repositories/users-repository'
 import { PlacesRepository } from '@/domain/core/application/repositories/places-repository'
 
-import { PrismaUsersRepository } from './prisma/repositpries/prisma-user-repository'
-import { PrismaPlacesRepository } from './prisma/repositpries/prisma-places-repository'
+import { PrismaUsersRepository } from './prisma/repositories/prisma-user-repository'
+import { PrismaPlacesRepository } from './prisma/repositories/prisma-places-repository'
 
 @Module({
   providers: [
