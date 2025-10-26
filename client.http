@@ -14,8 +14,7 @@ Content-Type: application/json
 }
 
 
-###
-
+### Authentication endpoint
 # @name authenticate_user
 POST {{baseUrl}}/auth/sign-in
 Content-Type: application/json
@@ -24,3 +23,21 @@ Content-Type: application/json
   "email": "john@email.com",
   "password": "NewP@ssw0rd"
 }
+
+
+### Places endpoints
+# @name create_place
+POST {{baseUrl}}/places/create
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Bart`s Restaurant",
+  "description": "A cozy place for family dinners.",
+  "category": "Restaurant",
+  "address": "123 Main St",
+  "city": "Springfield",
+  "state": "IL",
+  "attachments": []
+}
+
