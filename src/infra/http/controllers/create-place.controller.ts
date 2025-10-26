@@ -22,7 +22,7 @@ type CretaePlaceBodySchema = z.infer<typeof createPlaceBodySchema>
 
 @ApiTags('places')
 @ApiBearerAuth('jwt')
-@Controller('/places/create')
+@Controller('/places/new')
 export class CreatePlaceController {
 
   constructor(private createPlace: CreatePlaceUseCase) { }
