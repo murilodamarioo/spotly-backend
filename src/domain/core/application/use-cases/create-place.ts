@@ -6,6 +6,7 @@ import { PlaceAttachment } from '../../enterprise/entities/place-attachment'
 import { PlaceAttachmentList } from '../../enterprise/entities/place-attachment-list'
 
 import { PlacesRepository } from '../repositories/places-repository'
+import { Injectable } from '@nestjs/common'
 
 interface CreatePlaceUseCaseRequest {
   userId: string
@@ -20,6 +21,7 @@ interface CreatePlaceUseCaseRequest {
 
 type CreatePlaceUseCaseResponse = Either<null, { place: Place }>
 
+@Injectable()
 export class CreatePlaceUseCase {
 
   constructor(private placesRepository: PlacesRepository) { }
