@@ -1,17 +1,30 @@
-import { AttachmentsRepository } from '@/domain/core/application/repositories/attachments-repository'
-import { PlaceAttachmentsRepository } from '@/domain/core/application/repositories/place-attachments-repository';
-import { Attachment } from '@/domain/core/enterprise/entities/attachment';
-import { PlaceAttachment } from '@/domain/core/enterprise/entities/place-attachment';
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
+
+import { PlaceAttachmentsRepository } from '@/domain/core/application/repositories/place-attachments-repository'
+import { PlaceAttachment } from '@/domain/core/enterprise/entities/place-attachment'
+
+import { PrismaService } from '../prisma.service'
+import { PrismaPlaceAttachmentMapper } from '../mappers/prisma-place-attachment-mapper'
 
 @Injectable()
 export class PrismaPlaceAttachmentsRepository implements PlaceAttachmentsRepository {
 
-  findManyByPlaceId(id: string): Promise<PlaceAttachment[]> {
-    throw new Error('Method not implemented.');
+  constructor(private prisma: PrismaService) { }
+
+  async findManyByPlaceId(id: string): Promise<PlaceAttachment[]> {
+    const placeAttachments = await this.prisma.attachment.findMany({
+      where: { placeId: id }
+    })
+
+    return placeAttachments.map(placeAttachment => {
+      return PrismaPlaceAttachmentMapper.toDomain(placeAttachment)
+    })
   }
-  deleteManyById(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async deleteManyById(id: string): Promise<void> {
+    await this.prisma.attachment.deleteMany({
+      where: { placeId: id }
+    })
   }
 
 }
