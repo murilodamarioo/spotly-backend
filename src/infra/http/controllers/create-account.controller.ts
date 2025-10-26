@@ -8,6 +8,7 @@ import { UserAlreadyExistsError } from '@/core/errors/errors-message'
 import { RegisterUserUseCase } from '@/domain/core/application/use-cases/register-user'
 
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { Public } from '@/infra/auth/public'
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -18,6 +19,7 @@ const createAccountBodySchema = z.object({
 
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
+@Public()
 @ApiTags('accounts')
 @Controller('/sign-up')
 export class CreateAccountController {
