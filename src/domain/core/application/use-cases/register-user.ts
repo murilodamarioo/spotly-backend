@@ -29,7 +29,7 @@ export class RegisterUserUseCase {
     const userAlreadyExists = await this.usersRepository.findByEmail(email)
 
     if (userAlreadyExists) {
-      return failure(new UserAlreadyExistsError(email))
+      return failure(new UserAlreadyExistsError())
     }
 
     const hashedPassword = await this.hashGenerator.hash(password)

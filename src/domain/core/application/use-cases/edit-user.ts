@@ -24,7 +24,7 @@ export class EditUserUseCase {
     const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
     if (userWithSameEmail) {
-      return failure(new UserAlreadyExistsError(email))
+      return failure(new UserAlreadyExistsError())
     }
 
     const user = await this.usersRepository.findById(userId)
