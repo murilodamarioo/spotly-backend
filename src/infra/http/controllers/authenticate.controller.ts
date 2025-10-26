@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
+import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common'
 import z from 'zod'
 
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
@@ -20,6 +20,7 @@ export class AuthenticateController {
   constructor(private authenticateUser: AuthenticateUserUseCase) { }
 
   @Post()
+  @HttpCode(200)
   async handle(@Body() body: AuthenticateuserBodySchema) {
     const { email, password } = body
 
