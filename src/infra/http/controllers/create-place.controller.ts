@@ -6,7 +6,7 @@ import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-p
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger'
 
 const createPlaceBodySchema = z.object({
   name: z.string(),
@@ -69,6 +69,15 @@ export class CreatePlaceController {
     }
   })
   @ApiBadRequestResponse({ description: 'Bad request' })
+  @ApiUnauthorizedResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Unauthorized' },
+        statusCode: { type: 'number', example: 401 }
+      }
+    }
+  })
   async handle(
     @CurrentUser() user: UserPayload,
     @Body(new ZodValidationPipe(createPlaceBodySchema)) body: CretaePlaceBodySchema
