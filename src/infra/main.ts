@@ -1,3 +1,4 @@
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { NestFactory } from '@nestjs/core'
 
 import { AppModule } from './app.module'
@@ -9,6 +10,14 @@ async function bootstrap() {
   const envService = app.get(EnvService)
 
   const port = envService.get('PORT')
+
+  const config = new DocumentBuilder()
+    .setTitle('Spotly API')
+    .setDescription('The Spotly API documentation')
+    .setVersion('1.0')
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
 
   await app.listen(port)
 }
