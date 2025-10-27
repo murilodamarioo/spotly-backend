@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, failure, success } from '@/core/either'
 import { NotAllowedError } from '@/core/errors/errors-message/not-allowed'
 
@@ -10,6 +12,7 @@ interface DeletePlaceUseCaseRequest {
 
 type DeletePlaceUseCaseResponse = Either<NotAllowedError, null>
 
+@Injectable()
 export class DeletePlaceUseCase {
   constructor(private placesRepository: PlacesRepository) { }
 
