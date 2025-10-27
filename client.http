@@ -24,6 +24,21 @@ Content-Type: application/json
   "password": "NewP@ssw0rd"
 }
 
+### Users endpoints
+# @name get_profile
+GET {{baseUrl}}/users/me
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name delete_account
+DELETE {{baseUrl}}/users/me
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
 
 ### Places endpoints
 # @name create_place
