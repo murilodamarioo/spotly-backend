@@ -14,7 +14,7 @@ import { DeletePlaceUseCase } from '@/domain/core/application/use-cases/delete-p
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { GetProfileController } from './controllers/get-profile.controller'
-import { DeleteAccountController } from './controllers/delete-account.controller.'
+import { DeleteAccountController } from './controllers/delete-account.controller'
 import { CreatePlaceController } from './controllers/create-place.controller'
 import { EditPlaceController } from './controllers/edit-place.controller'
 import { DeletePlaceController } from './controllers/delete-place.controller'
