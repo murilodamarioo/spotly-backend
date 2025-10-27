@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, failure, success } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors-message'
 
@@ -10,6 +12,7 @@ interface GetProfileUseCaseRequest {
 
 type GetProfileUseCaseResponse = Either<ResourceNotFoundError, { profile: User }>
 
+@Injectable()
 export class GetProfileUseCase {
   constructor(private usersRespository: UsersRepository) { }
 
