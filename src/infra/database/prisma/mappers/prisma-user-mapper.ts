@@ -3,13 +3,14 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { User } from '@/domain/core/enterprise/entities/user'
 
 export class PrismaUserMapper {
-  
+
   static toDomain(raw: PrismaUser): User {
     return User.create({
       name: raw.name,
       email: raw.email,
       password: raw.password,
-      bio: raw.bio
+      bio: raw.bio,
+      profilePicture: raw.profilePicture
     }, new UniqueEntityId(raw.id))
   }
 
@@ -19,7 +20,8 @@ export class PrismaUserMapper {
       name: user.name,
       email: user.email,
       password: user.password,
-      bio: user.bio
+      bio: user.bio,
+      profilePicture: user.profilePicture
     }
   }
 }

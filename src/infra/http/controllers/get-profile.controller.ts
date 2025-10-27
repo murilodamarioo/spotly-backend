@@ -5,6 +5,7 @@ import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profi
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ResourceNotFoundError } from '@/core/errors/errors-message'
+import { ProfilePresenter } from '@/infra/presenters/profile-presenter'
 
 @Controller('/users/my-profile')
 export class GetProfileController {
@@ -29,7 +30,7 @@ export class GetProfileController {
       }
     }
 
-    return response.value
+    return { profile: ProfilePresenter.toHttp(response.value.profile) }
   }
 
 }

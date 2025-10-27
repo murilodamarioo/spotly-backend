@@ -40,5 +40,12 @@ describe('Get profile (E2E)', () => {
       .auth(accessToken, { type: 'bearer' })
 
     expect(response.status).toBe(200)
+    expect(response.body).toMatchObject({
+      profile: expect.objectContaining({
+        name: user.name,
+        email: user.email,
+        bio: user.bio
+      })
+    })
   })
 })
