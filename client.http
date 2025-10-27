@@ -44,7 +44,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name edit_place
-PUT {{baseUrl}}/places/7f8fa0c4-bfd4-4347-9399-42e8ef9f4b36/edit
+PUT {{baseUrl}}/places/:id/edit
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -57,4 +57,12 @@ Authorization: Bearer {{authToken}}
   "state": "IL",
   "attachments": []
 }
+
+###
+
+# @name delete_place
+DELETE {{baseUrl}}/places/:id
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
 
