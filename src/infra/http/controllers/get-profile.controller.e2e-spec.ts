@@ -31,12 +31,12 @@ describe('Get profile (E2E)', () => {
     await app.init()
   })
 
-  test('[GET] /users/my-profile', async () => {
+  test('[GET] /users/me', async () => {
     const user = await userFactory.makePrismaUser()
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
     const response = await request(app.getHttpServer())
-      .get('/users/my-profile')
+      .get('/users/me')
       .auth(accessToken, { type: 'bearer' })
 
     expect(response.status).toBe(200)

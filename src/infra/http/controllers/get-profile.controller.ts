@@ -12,7 +12,7 @@ import { ProfilePresenter } from '@/infra/presenters/profile-presenter'
 
 @ApiTags('accounts')
 @ApiBearerAuth('jwt')
-@Controller('/users/my-profile')
+@Controller('/users/me')
 export class GetProfileController {
 
   constructor(private getProfile: GetProfileUseCase) { }
