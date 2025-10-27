@@ -1,5 +1,6 @@
 import z from 'zod'
 import { Body, Controller, HttpCode, Put, Param, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common'
+import { ApiBearerAuth, ApiBody, ApiForbiddenResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger'
 
 import { NotAllowedError, ResourceNotFoundError } from '@/core/errors/errors-message'
 
@@ -22,6 +23,8 @@ const editPlaceBodySchema = z.object({
 
 type EditPlaceBodySchema = z.infer<typeof editPlaceBodySchema>
 
+@ApiTags('places')
+@ApiBearerAuth('jwt')
 @Controller('/places/:id/edit')
 export class EditPlaceController {
 
@@ -29,6 +32,54 @@ export class EditPlaceController {
 
   @Put()
   @HttpCode(200)
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Loop' },
+        category: { type: 'string', example: 'Bar' },
+        description: { type: 'string', example: 'You will always come back here' },
+        address: { type: 'string', example: 'Av. Paulista, 1000' },
+        city: { type: 'string', example: 'São Paulo' },
+        state: { type: 'string', example: 'SP' },
+        attachments: { type: 'array', items: { type: 'string', format: 'uuid' } }
+      }
+    }
+  })
+  @ApiOkResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Loop' },
+        category: { type: 'string', example: 'Bar' },
+        description: { type: 'string', example: 'You will always come back here' },
+        address: { type: 'string', example: 'Av. Paulista, 1000' },
+        city: { type: 'string', example: 'São Paulo' },
+        state: { type: 'string', example: 'SP' },
+        attachments: { type: 'array', items: { type: 'string', format: 'uuid' } }
+      }
+    }
+  })
+  @ApiNotFoundResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Resource not found.' },
+        error: { type: 'string', example: 'Not Found' },
+        statusCode: { type: 'number', example: 404 }
+      }
+    }
+  })
+  @ApiForbiddenResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Not allowed to perform this action.' },
+        error: { type: 'string', example: 'Forbidden' },
+        statusCode: { type: 'number', example: 403 }
+      }
+    }
+  })
   async handle(
     @CurrentUser() user: UserPayload,
     @Param('id') placeId: string,

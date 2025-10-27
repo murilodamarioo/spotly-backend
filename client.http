@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ### Places endpoints
 # @name create_place
-POST {{baseUrl}}/places/create
+POST {{baseUrl}}/places/new
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -35,6 +35,23 @@ Authorization: Bearer {{authToken}}
   "name": "Bart`s Restaurant",
   "description": "A cozy place for family dinners.",
   "category": "Restaurant",
+  "address": "123 Main St",
+  "city": "Springfield",
+  "state": "IL",
+  "attachments": []
+}
+
+###
+
+# @name edit_place
+PUT {{baseUrl}}/places/7f8fa0c4-bfd4-4347-9399-42e8ef9f4b36/edit
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Bart`s Pub",
+  "description": "The best Pub for you!",
+  "category": "Pub",
   "address": "123 Main St",
   "city": "Springfield",
   "state": "IL",
