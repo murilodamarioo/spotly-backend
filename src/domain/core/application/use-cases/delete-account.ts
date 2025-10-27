@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, failure, success } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors-message'
 
@@ -9,13 +11,14 @@ interface DeleteAccountUseCaseRequest {
 
 type DeleteAccountUseCaseResponse = Either<ResourceNotFoundError, null>
 
+@Injectable()
 export class DeleteAccountUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
   async execute({ userId }: DeleteAccountUseCaseRequest): Promise<DeleteAccountUseCaseResponse> {
     const user = await this.usersRepository.findById(userId)
 
-    if(!user) {
+    if (!user) {
       return failure(new ResourceNotFoundError())
     }
 
