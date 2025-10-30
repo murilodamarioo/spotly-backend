@@ -2,6 +2,7 @@ import { Either, failure, success } from '@/core/either'
 import { ResourceNotFoundError, UserAlreadyExistsError } from '@/core/errors/errors-message'
 
 import { UsersRepository } from '../repositories/users-repository'
+import { Injectable } from '@nestjs/common'
 
 interface EditUserUseCaseRequest {
   userId: string
@@ -10,8 +11,9 @@ interface EditUserUseCaseRequest {
   bio?: string | null
 }
 
-type EditUserUseCaseResponse = Either<UserAlreadyExistsError, null>
+type EditUserUseCaseResponse = Either<UserAlreadyExistsError | ResourceNotFoundError, null>
 
+@Injectable()
 export class EditUserUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
@@ -23,7 +25,7 @@ export class EditUserUseCase {
   }: EditUserUseCaseRequest): Promise<EditUserUseCaseResponse> {
     const userWithSameEmail = await this.usersRepository.findByEmail(email)
 
-    if (userWithSameEmail) {
+    if (userWithSameEmail && userWithSameEmail.id.toString() !== userId) {
       return failure(new UserAlreadyExistsError())
     }
 
@@ -33,9 +35,9 @@ export class EditUserUseCase {
       return failure(new ResourceNotFoundError())
     }
 
-    user.name = name
-    user.email = email
-    user.bio = bio
+    user.name = name ?? user.name
+    user.email = email ?? user.email
+    user.bio = bio ?? user.bio
 
     await this.usersRepository.save(user)
 
