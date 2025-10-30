@@ -6,6 +6,7 @@ import { CryptographyModule } from '../cryptography/cryptography.module'
 import { RegisterUserUseCase } from '@/domain/core/application/use-cases/register-user'
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
 import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profile'
+import { EditUserUseCase } from '@/domain/core/application/use-cases/edit-user'
 import { DeleteAccountUseCase } from '@/domain/core/application/use-cases/delete-account'
 import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-place'
 import { EditPlaceUseCase } from '@/domain/core/application/use-cases/edit-place'
@@ -14,6 +15,7 @@ import { DeletePlaceUseCase } from '@/domain/core/application/use-cases/delete-p
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { GetProfileController } from './controllers/get-profile.controller'
+import { EditUserController } from './controllers/edit-user.controller'
 import { DeleteAccountController } from './controllers/delete-account.controller'
 import { CreatePlaceController } from './controllers/create-place.controller'
 import { EditPlaceController } from './controllers/edit-place.controller'
@@ -25,6 +27,7 @@ import { DeletePlaceController } from './controllers/delete-place.controller'
     CreateAccountController,
     AuthenticateController,
     GetProfileController,
+    EditUserController,
     DeleteAccountController,
     CreatePlaceController,
     EditPlaceController,
@@ -34,6 +37,7 @@ import { DeletePlaceController } from './controllers/delete-place.controller'
     RegisterUserUseCase,
     AuthenticateUserUseCase,
     GetProfileUseCase,
+    EditUserUseCase,
     DeleteAccountUseCase,
     CreatePlaceUseCase,
     EditPlaceUseCase,
