@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, success } from '@/core/either'
 
 import { Place } from '../../enterprise/entities/place'
@@ -9,6 +11,7 @@ interface FetchPlacesUseCaseRequest {
 
 type FetchPlacesUseCaseResponse = Either<null, { places: Place[] }>
 
+@Injectable()
 export class FetchPlacesUseCase {
   constructor(private placesRepository: PlacesRepository) { }
 
