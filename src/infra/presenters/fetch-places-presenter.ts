@@ -1,4 +1,4 @@
-import { Place } from "@/domain/core/enterprise/entities/place";
+import { Place } from '@/domain/core/enterprise/entities/place'
 
 export class FetchPlacesPresenter {
 
@@ -6,7 +6,7 @@ export class FetchPlacesPresenter {
     return {
       name: place.name,
       category: place.category,
-      description: place.description && place.description.length > 117 
+      description: place.description && place.description.length > 117
         ? place.description.substring(0, 117).concat('...')
         : place.description,
       attachments: place.attachments.getItems()
