@@ -32,6 +32,19 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+# @name edit_user
+PUT {{baseUrl}}/users/me/edit
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "john Doe",
+  "email": "john@email.com",
+  "bio": "Hello, I'm John Doe!"
+}
+
+###
+
 # @name delete_account
 DELETE {{baseUrl}}/users/me
 Content-Type: application/json

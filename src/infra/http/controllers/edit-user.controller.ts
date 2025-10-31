@@ -10,6 +10,7 @@ import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
 
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { ApiBearerAuth, ApiBody, ApiConflictResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger'
 
 const editUserBodySchema = z.object({
   name: z.string(),
@@ -19,6 +20,8 @@ const editUserBodySchema = z.object({
 
 type EditUserBodySchema = z.infer<typeof editUserBodySchema>
 
+@ApiTags('accounts')
+@ApiBearerAuth('jwt')
 @Controller('/users/me/edit')
 export class EditUserController {
 
@@ -26,6 +29,37 @@ export class EditUserController {
 
   @Put()
   @HttpCode(204)
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string', example: 'Markus Nicolas' },
+        email: { type: 'string', example: 'mark@gmail.com' },
+        bio: { type: 'string', example: 'Coffe lover' }
+      }
+    }
+  })
+  @ApiNoContentResponse({ description: 'User updated successfully' })
+  @ApiConflictResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'User already exists with the same e-mail' },
+        error: { type: 'string', example: 'Conflict' },
+        statusCode: { type: 'number', example: 409 }
+      }
+    }
+  })
+  @ApiNotFoundResponse({
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Resource not found.' },
+        error: { type: 'string', example: 'Not Found' },
+        statusCode: { type: 'number', example: 404 }
+      }
+    }
+  })
   async handle(
     @CurrentUser() user: UserPayload,
     @Body(new ZodValidationPipe(editUserBodySchema)) body: EditUserBodySchema
