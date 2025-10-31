@@ -47,8 +47,6 @@ describe('Fetch places (E2E)', () => {
       .get('/places?page=1')
       .auth(accessToken, { type: 'bearer' })
 
-    console.log(response.body.places)
-
     expect(response.status).toBe(200)
     expect(response.body.places).toHaveLength(3)
   })
