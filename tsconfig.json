@@ -28,7 +28,8 @@
     },
     "types": [
       "node",
-      "vitest/globals"
+      "vitest/globals",
+      "multer"
     ]
   }
 }
