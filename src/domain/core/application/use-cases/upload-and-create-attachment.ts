@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, failure, success } from '@/core/either'
 import { InvalidAttachementTypeError } from '@/core/errors/errors-message'
 
@@ -13,6 +15,7 @@ interface UploadeAndCreateAttachmentUseCaseRequest {
 
 type UploadAndCreateAttachmentUseCaseResponse = Either<InvalidAttachementTypeError, { attachment: Attachment }>
 
+@Injectable()
 export class UploadAndCreateAttachmentUseCase {
 
   constructor(
