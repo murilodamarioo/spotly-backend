@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 
 import { DatabaseModule } from '../database/database.module'
 import { CryptographyModule } from '../cryptography/cryptography.module'
+import { StorageModule } from '../storage/storage.module'
 
 import { RegisterUserUseCase } from '@/domain/core/application/use-cases/register-user'
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
@@ -12,6 +13,7 @@ import { FetchPlacesUseCase } from '@/domain/core/application/use-cases/fetch-pl
 import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-place'
 import { EditPlaceUseCase } from '@/domain/core/application/use-cases/edit-place'
 import { DeletePlaceUseCase } from '@/domain/core/application/use-cases/delete-place'
+import { UploadAndCreateAttachmentUseCase } from '@/domain/core/application/use-cases/upload-and-create-attachment'
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
@@ -22,9 +24,10 @@ import { FetchPlacesController } from './controllers/fetch-places.controller'
 import { CreatePlaceController } from './controllers/create-place.controller'
 import { EditPlaceController } from './controllers/edit-place.controller'
 import { DeletePlaceController } from './controllers/delete-place.controller'
+import { UploadAndCreateAttachmentController } from './controllers/upload-and-create-attachment.controller'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     CreateAccountController,
     AuthenticateController,
@@ -35,6 +38,7 @@ import { DeletePlaceController } from './controllers/delete-place.controller'
     CreatePlaceController,
     EditPlaceController,
     DeletePlaceController,
+    UploadAndCreateAttachmentController
   ],
   providers: [
     RegisterUserUseCase,
@@ -45,7 +49,8 @@ import { DeletePlaceController } from './controllers/delete-place.controller'
     FetchPlacesUseCase,
     CreatePlaceUseCase,
     EditPlaceUseCase,
-    DeletePlaceUseCase
+    DeletePlaceUseCase,
+    UploadAndCreateAttachmentUseCase
   ]
 })
 export class HttpModule { }
