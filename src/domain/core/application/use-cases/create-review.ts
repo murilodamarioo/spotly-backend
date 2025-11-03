@@ -1,4 +1,7 @@
+import { Injectable } from '@nestjs/common'
+
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { ResourceNotFoundError } from '@/core/errors/errors-message'
 import { Either, failure, success } from '@/core/either'
 
 import { Review } from '../../enterprise/entities/review'
@@ -6,7 +9,6 @@ import { Review } from '../../enterprise/entities/review'
 import { ReviewsRepository } from '../repositories/reviews-repository'
 import { PlacesRepository } from '../repositories/places-repository'
 import { UsersRepository } from '../repositories/users-repository'
-import { ResourceNotFoundError } from '@/core/errors/errors-message'
 import { ReviewAttachment } from '../../enterprise/entities/review-attachment'
 import { ReviewAttachmentList } from '../../enterprise/entities/review-attachment-list'
 
@@ -20,6 +22,7 @@ interface CreateReviewUseCaseRequest {
 
 type CreateReviewUseCaseResponse = Either<ResourceNotFoundError, { review: Review }>
 
+@Injectable()
 export class CreateReviewUseCase {
   constructor(
     private reviewsRepository: ReviewsRepository,

@@ -5,11 +5,13 @@ import { UsersRepository } from '@/domain/core/application/repositories/users-re
 import { PlacesRepository } from '@/domain/core/application/repositories/places-repository'
 import { PlaceAttachmentsRepository } from '@/domain/core/application/repositories/place-attachments-repository'
 import { AttachmentsRepository } from '@/domain/core/application/repositories/attachments-repository'
+import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 
 import { PrismaUsersRepository } from './prisma/repositories/prisma-user-repository'
 import { PrismaPlacesRepository } from './prisma/repositories/prisma-places-repository'
 import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments'
 import { PrismaPlaceAttachmentsRepository } from './prisma/repositories/prisma-place-attachments-repository'
+import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-repository'
 
 @Module({
   providers: [
@@ -29,6 +31,10 @@ import { PrismaPlaceAttachmentsRepository } from './prisma/repositories/prisma-p
     {
       provide: PlaceAttachmentsRepository,
       useClass: PrismaPlaceAttachmentsRepository
+    },
+    {
+      provide: ReviewsRepository,
+      useClass: PrismaReviewsRepository
     }
   ],
   exports: [
@@ -36,7 +42,8 @@ import { PrismaPlaceAttachmentsRepository } from './prisma/repositories/prisma-p
     UsersRepository,
     PlacesRepository,
     AttachmentsRepository,
-    PlaceAttachmentsRepository
+    PlaceAttachmentsRepository,
+    ReviewsRepository
   ]
 })
 export class DatabaseModule { }
