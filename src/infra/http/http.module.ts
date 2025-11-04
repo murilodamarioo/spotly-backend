@@ -15,6 +15,7 @@ import { EditPlaceUseCase } from '@/domain/core/application/use-cases/edit-place
 import { DeletePlaceUseCase } from '@/domain/core/application/use-cases/delete-place'
 import { UploadAndCreateAttachmentUseCase } from '@/domain/core/application/use-cases/upload-and-create-attachment'
 import { CreateReviewUseCase } from '@/domain/core/application/use-cases/create-review'
+import { DeleteReviewUseCase } from '@/domain/core/application/use-cases/delete-review'
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
@@ -27,6 +28,7 @@ import { EditPlaceController } from './controllers/edit-place.controller'
 import { DeletePlaceController } from './controllers/delete-place.controller'
 import { UploadAndCreateAttachmentController } from './controllers/upload-and-create-attachment.controller'
 import { CreateReviewController } from './controllers/create-review.controller'
+import { DeleteReviewController } from './controllers/delete-review.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -41,7 +43,8 @@ import { CreateReviewController } from './controllers/create-review.controller'
     EditPlaceController,
     DeletePlaceController,
     UploadAndCreateAttachmentController,
-    CreateReviewController
+    CreateReviewController,
+    DeleteReviewController
   ],
   providers: [
     RegisterUserUseCase,
@@ -54,7 +57,8 @@ import { CreateReviewController } from './controllers/create-review.controller'
     EditPlaceUseCase,
     DeletePlaceUseCase,
     UploadAndCreateAttachmentUseCase,
-    CreateReviewUseCase
+    CreateReviewUseCase,
+    DeleteReviewUseCase
   ]
 })
 export class HttpModule { }

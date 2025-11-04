@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, failure, success } from '@/core/either'
 import { NotAllowedError, ResourceNotFoundError } from '@/core/errors/errors-message'
 
@@ -10,10 +12,11 @@ interface DeleteReviewUseCaseRequest {
 
 type DeleteReviewUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, null>
 
+@Injectable()
 export class DeleteReviewUseCase {
   constructor(private reviewsRepository: ReviewsRepository) { }
 
-  async execute({reviewId, reviewerId}: DeleteReviewUseCaseRequest): Promise<DeleteReviewUseCaseResponse> {
+  async execute({ reviewId, reviewerId }: DeleteReviewUseCaseRequest): Promise<DeleteReviewUseCaseResponse> {
     const review = await this.reviewsRepository.findById(reviewId)
 
     if (!review) {
