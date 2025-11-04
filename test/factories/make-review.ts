@@ -1,8 +1,13 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-
-import { Review, ReviewProps } from '@/domain/core/enterprise/entities/review'
+import { Injectable } from '@nestjs/common'
 
 import { faker } from '@faker-js/faker'
+
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { PrismaReviewMapper } from '@/infra/database/prisma/mappers/prisma-review-mapper'
+
+import { Review, ReviewProps } from '@/domain/core/enterprise/entities/review'
 
 export function makeReview(override: Partial<ReviewProps> = {}, id?: UniqueEntityId): Review {
   const review = Review.create({
@@ -14,4 +19,20 @@ export function makeReview(override: Partial<ReviewProps> = {}, id?: UniqueEntit
   }, id)
 
   return review
+}
+
+@Injectable()
+export class ReviewFactory {
+
+  constructor(private prisma: PrismaService) { }
+
+  async makePrismaReview(data: Partial<ReviewProps> = {}): Promise<Review> {
+    const review = makeReview(data)
+
+    await this.prisma.review.create({
+      data: PrismaReviewMapper.toPrisma(review)
+    })
+
+    return review
+  }
 }
