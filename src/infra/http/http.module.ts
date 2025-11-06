@@ -16,6 +16,7 @@ import { DeletePlaceUseCase } from '@/domain/core/application/use-cases/delete-p
 import { UploadAndCreateAttachmentUseCase } from '@/domain/core/application/use-cases/upload-and-create-attachment'
 import { CreateReviewUseCase } from '@/domain/core/application/use-cases/create-review'
 import { DeleteReviewUseCase } from '@/domain/core/application/use-cases/delete-review'
+import { FetchReviewsUseCase } from '@/domain/core/application/use-cases/fetch-review'
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
@@ -29,6 +30,7 @@ import { DeletePlaceController } from './controllers/delete-place.controller'
 import { UploadAndCreateAttachmentController } from './controllers/upload-and-create-attachment.controller'
 import { CreateReviewController } from './controllers/create-review.controller'
 import { DeleteReviewController } from './controllers/delete-review.controller'
+import { FetchReviewsController } from './controllers/fetch-reviews.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -44,7 +46,8 @@ import { DeleteReviewController } from './controllers/delete-review.controller'
     DeletePlaceController,
     UploadAndCreateAttachmentController,
     CreateReviewController,
-    DeleteReviewController
+    DeleteReviewController,
+    FetchReviewsController
   ],
   providers: [
     RegisterUserUseCase,
@@ -58,7 +61,8 @@ import { DeleteReviewController } from './controllers/delete-review.controller'
     DeletePlaceUseCase,
     UploadAndCreateAttachmentUseCase,
     CreateReviewUseCase,
-    DeleteReviewUseCase
+    DeleteReviewUseCase,
+    FetchReviewsUseCase
   ]
 })
 export class HttpModule { }

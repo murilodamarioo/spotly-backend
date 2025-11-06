@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, success } from '@/core/either'
 
 import { Review } from '../../enterprise/entities/review'
@@ -11,6 +13,7 @@ interface FetchReviewsUseCaseRequest {
 
 type FetchReviewsUseCaseResponse = Either<null, { reviews: Review[] }>
 
+@Injectable()
 export class FetchReviewsUseCase {
   constructor(private reviewsRepository: ReviewsRepository) { }
 
