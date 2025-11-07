@@ -1,4 +1,5 @@
 import { Controller, Get, HttpCode, Param, Query } from '@nestjs/common'
+import { ApiBearerAuth, ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger'
 
 import z from 'zod'
 
@@ -18,6 +19,8 @@ type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
 const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
+@ApiTags('reviews')
+@ApiBearerAuth('jwt')
 @Controller('/places/:placeId/reviews')
 export class FetchReviewsController {
 
@@ -25,6 +28,42 @@ export class FetchReviewsController {
 
   @Get()
   @HttpCode(200)
+  @ApiParam({
+    name: 'placeId',
+    type: 'uuid',
+    example: 'a0b1c2d3-e4f5-6g7h-8i9j-0k1l2m3n4o'
+  })
+  @ApiQuery({
+    name: 'page',
+    type: 'number',
+    example: 1
+  })
+  @ApiOkResponse({
+    schema: {
+      example: {
+        reviews: [
+          {
+            id: '550e8400-e29b-41d4-a716-446655440000',
+            rating: 4,
+            comment: 'Great place! Would definitely come back.',
+            reviewerId: '550e8400-e29b-41d4-a716-446655440000',
+            placeId: '550e8400-e29b-41d4-a716-446655440000',
+            createdAt: '2025-11-02T14:00:00Z',
+            updatedAt: '2025-11-02T14:00:00Z'
+          },
+          {
+            id: '660e8400-e29b-41d4-a716-446655440001',
+            rating: 5,
+            comment: 'Excellent service and atmosphere!',
+            reviewerId: '550e8400-e29b-41d4-a716-446655440000',
+            placeId: '550e8400-e29b-41d4-a716-446655440000',
+            createdAt: '2025-11-03T10:00:00Z',
+            updatedAt: null
+          }
+        ]
+      }
+    }
+  })
   async handle(
     @Param('placeId') placeId: string,
     @Query('page', queryValidationPipe) page: PageQueryParamSchema
@@ -37,7 +76,7 @@ export class FetchReviewsController {
     const reviews = response.value?.reviews
 
     return {
-      reviews: reviews ? reviews.map(review => ReviewPresenter.toHTTP(review)): []
+      reviews: reviews ? reviews.map(review => ReviewPresenter.toHTTP(review)) : []
     }
   }
 }
