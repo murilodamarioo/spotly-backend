@@ -5,6 +5,8 @@ import { PaginationParam } from '@/core/repositories/pagination-param'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 import { Review } from '@/domain/core/enterprise/entities/review'
 
+import { ReviewWithReviewer, ReviewWithReviewerPresenter } from '@/infra/presenters/review-with-reviewer-presenter'
+
 import { PrismaService } from '../prisma.service'
 
 import { PrismaReviewMapper } from '../mappers/prisma-review-mapper'
@@ -21,17 +23,24 @@ export class PrismaReviewsRepository implements ReviewsRepository {
     return review ? PrismaReviewMapper.toDomain(review) : null
   }
 
-  async findManyByPlaceId(id: string, params: PaginationParam): Promise<Review[]> {
+  async findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewWithReviewer[]> {
     const reviews = await this.prisma.review.findMany({
-      where: { placeId: id },
-      orderBy: { createdAt: 'desc' },
+      where: {
+        placeId: id,
+      },
+      include: {
+        reviewer: {
+          select: {
+            name: true,
+            profilePicture: true
+          }
+        }
+      },
       take: 20,
-      skip: (params.page - 1) * 20
+      skip: (params.page - 1) * 20,
     })
 
-    return reviews.map(review => {
-      return PrismaReviewMapper.toDomain(review)
-    })
+    return reviews
   }
 
   async create(review: Review): Promise<void> {

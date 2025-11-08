@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { Either, success } from '@/core/either'
 
-import { Review } from '../../enterprise/entities/review'
+import { ReviewWithReviewerPresenter } from '@/infra/presenters/review-with-reviewer-presenter'
 
 import { ReviewsRepository } from '../repositories/reviews-repository'
 
@@ -11,7 +11,7 @@ interface FetchReviewsUseCaseRequest {
   page: number
 }
 
-type FetchReviewsUseCaseResponse = Either<null, { reviews: Review[] }>
+type FetchReviewsUseCaseResponse = Either<null, { reviews: ReviewWithReviewerPresenter[] }>
 
 @Injectable()
 export class FetchReviewsUseCase {

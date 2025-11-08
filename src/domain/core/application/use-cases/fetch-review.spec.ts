@@ -6,10 +6,11 @@ import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repos
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryReviewsRepository } from 'test/repositories/in-memory-reviews-repository'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
+import { InMemoryReviewAttachmentsRepository } from 'test/repositories/in-memory-review-attachments-repository'
 
 import { makePlace } from 'test/factories/make-place'
 import { makeReview } from 'test/factories/make-review'
-import { InMemoryReviewAttachmentsRepository } from 'test/repositories/in-memory-review-attachments-repository'
+import { makeUser } from 'test/factories/make-user'
 
 let inMemoryReviewsRepository: InMemoryReviewsRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
@@ -20,24 +21,29 @@ let sut: FetchReviewsUseCase
 
 describe('Fetch Review', () => {
   beforeEach(() => {
+    inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryReviewAttachmentsRepository = new InMemoryReviewAttachmentsRepository()
     inMemoryReviewsRepository = new InMemoryReviewsRepository(
-      inMemoryReviewAttachmentsRepository
+      inMemoryReviewAttachmentsRepository,
+      inMemoryUsersRepository
     )
     inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
     inMemoryPlaceRepository = new InMemoryPlacesRepository(
       inMemoryPlaceAttachmentsRepository
     )
-    inMemoryUsersRepository = new InMemoryUsersRepository()
     sut = new FetchReviewsUseCase(inMemoryReviewsRepository)
   })
 
   it('should be able to fetch reviews', async () => {
+    const user = makeUser()
+    inMemoryUsersRepository.create(user)
+
     const place = makePlace()
     await inMemoryPlaceRepository.create(place)
 
     await inMemoryReviewsRepository.create(
       makeReview({
+        reviewerId: user.id,
         placeId: place.id,
         rating: 4,
         comment: 'The Best Place in Town',
@@ -47,6 +53,7 @@ describe('Fetch Review', () => {
 
     await inMemoryReviewsRepository.create(
       makeReview({
+        reviewerId: user.id,
         placeId: place.id,
         rating: 3,
         comment: 'Not bad',
@@ -56,6 +63,7 @@ describe('Fetch Review', () => {
 
     await inMemoryReviewsRepository.create(
       makeReview({
+        reviewerId: user.id,
         placeId: place.id,
         rating: 5,
         comment: 'Awesome Restaurant',
@@ -77,10 +85,14 @@ describe('Fetch Review', () => {
   })
 
   it('should be able to fetch paginated reviews', async () => {
+    const user = makeUser()
+    inMemoryUsersRepository.create(user)
+
     for (let i = 1; i <= 22; i++) {
       await inMemoryReviewsRepository.create(
         makeReview({
-          placeId: new UniqueEntityId('place-1')
+          placeId: new UniqueEntityId('place-1'),
+          reviewerId: user.id
         })
       )
     }

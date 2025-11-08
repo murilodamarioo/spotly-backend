@@ -59,5 +59,17 @@ describe('Fetch reviews (E2E)', () => {
 
     expect(response.status).toBe(200)
     expect(response.body.reviews).toHaveLength(5)
+    expect(response.body.reviews[0]).toMatchObject({
+      id: expect.any(String),
+      rating: expect.any(Number),
+      comment: expect.any(String),
+      reviewerId: user.id.toString(),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+      reviewer: {
+        name: user.name,
+        profilePicture: null
+      }
+    })
   })
 })

@@ -2,6 +2,8 @@ import { PaginationParam } from '@/core/repositories/pagination-param'
 
 import { Review } from '../../enterprise/entities/review'
 
+import { ReviewWithReviewer, ReviewWithReviewerPresenter } from '@/infra/presenters/review-with-reviewer-presenter'
+
 export abstract class ReviewsRepository {
 
   /**
@@ -18,7 +20,7 @@ export abstract class ReviewsRepository {
    * @param {PaginationParam} params - The pagination parameters.
    * @return {Promise<Place[]>} A promise that resolves to an array of `Reviews` matching the pagination parameters.
    */
-  abstract findManyByPlaceId(id: string, params: PaginationParam): Promise<Review[]>
+  abstract findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewWithReviewer[]>
 
   /**
    * Persists a new `Review` in the repository.

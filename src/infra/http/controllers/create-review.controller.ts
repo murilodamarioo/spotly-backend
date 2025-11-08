@@ -24,7 +24,7 @@ import { CreateReviewUseCase } from '@/domain/core/application/use-cases/create-
 
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
-import { ReviewPresenter } from '@/infra/presenters/review-presenter'
+import { ReviewPresenter } from '@/infra/presenters/review-with-reviewer-presenter'
 
 const createReviewBodySchema = z.object({
   rating: z.number(),
