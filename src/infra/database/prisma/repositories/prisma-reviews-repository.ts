@@ -5,7 +5,7 @@ import { PaginationParam } from '@/core/repositories/pagination-param'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 import { Review } from '@/domain/core/enterprise/entities/review'
 
-import { ReviewWithReviewer, ReviewWithReviewerPresenter } from '@/infra/presenters/review-with-reviewer-presenter'
+import { ReviewWithReviewer } from '@/infra/presenters/review-with-reviewer-presenter'
 
 import { PrismaService } from '../prisma.service'
 
