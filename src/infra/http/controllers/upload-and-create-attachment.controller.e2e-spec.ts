@@ -40,7 +40,7 @@ describe('Upload and create attachment (E2E)', () => {
     const response = await request(app.getHttpServer())
       .post('/attachments')
       .auth(accessToken, { type: 'bearer' })
-      .attach('file', './test/e2e/chills.jpg')
+      .attach('file', './test/e2e/restaurant.png')
 
     expect(response.status).toBe(201)
     expect(response.body).toEqual({
