@@ -48,18 +48,24 @@ export class FetchReviewsController {
             rating: 4,
             comment: 'Great place! Would definitely come back.',
             reviewerId: '550e8400-e29b-41d4-a716-446655440000',
-            placeId: '550e8400-e29b-41d4-a716-446655440000',
             createdAt: '2025-11-02T14:00:00Z',
-            updatedAt: '2025-11-02T14:00:00Z'
+            updatedAt: '2025-11-02T14:00:00Z',
+            reviewer: {
+              name: 'John Doe',
+              profilePicture: 'https://example.com/profile-picture.jpg'
+            }
           },
           {
             id: '660e8400-e29b-41d4-a716-446655440001',
             rating: 5,
             comment: 'Excellent service and atmosphere!',
             reviewerId: '550e8400-e29b-41d4-a716-446655440000',
-            placeId: '550e8400-e29b-41d4-a716-446655440000',
             createdAt: '2025-11-03T10:00:00Z',
-            updatedAt: null
+            updatedAt: null,
+            reviewer: {
+              name: 'Jane Smith',
+              profilePicture: null
+            }
           }
         ]
       }
