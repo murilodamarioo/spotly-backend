@@ -57,6 +57,13 @@ Authorization: Bearer {{authToken}}
 
 ### Places routes
 
+# @name fetch_places
+GET {{baseUrl}}/places?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
 # @name create_place
 POST {{baseUrl}}/places/new
 Content-Type: application/json
