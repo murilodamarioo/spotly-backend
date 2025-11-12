@@ -2,6 +2,20 @@
 
 @authToken = {{authenticate_user.response.body.access_token}}
 
+
+### Authentication route
+
+# @name authenticate_user
+POST {{baseUrl}}/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "john@email.com",
+  "password": "NewP@ssw0rd"
+}
+
+### Users endpoints
+
 # @name create_account
 POST {{baseUrl}}/sign-up
 Content-Type: application/json
@@ -13,18 +27,6 @@ Content-Type: application/json
   "bio": "Hello, I'm John Doe!"
 }
 
-
-### Authentication route
-# @name authenticate_user
-POST {{baseUrl}}/auth/sign-in
-Content-Type: application/json
-
-{
-  "email": "john@email.com",
-  "password": "NewP@ssw0rd"
-}
-
-### Users endpoints
 # @name get_profile
 GET {{baseUrl}}/users/me
 Content-Type: application/json
@@ -54,6 +56,7 @@ Authorization: Bearer {{authToken}}
 
 
 ### Places routes
+
 # @name create_place
 POST {{baseUrl}}/places/new
 Content-Type: application/json
@@ -96,6 +99,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 ### Reviews routes
+
 # @name create_review
 POST {{baseUrl}}/places/1dacd097-9ebe-40dc-916d-23947ae41560/reviews/new
 Content-Type: application/json
