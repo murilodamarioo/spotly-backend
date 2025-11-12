@@ -31,7 +31,7 @@ export class FetchReviewsController {
   @HttpCode(200)
   @ApiParam({
     name: 'placeId',
-    type: 'uuid',
+    type: 'string',
     example: 'a0b1c2d3-e4f5-6g7h-8i9j-0k1l2m3n4o'
   })
   @ApiQuery({

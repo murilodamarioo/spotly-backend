@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 
-### Authentication endpoint
+### Authentication route
 # @name authenticate_user
 POST {{baseUrl}}/auth/sign-in
 Content-Type: application/json
@@ -53,7 +53,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 
-### Places endpoints
+### Places routes
 # @name create_place
 POST {{baseUrl}}/places/new
 Content-Type: application/json
@@ -93,4 +93,31 @@ DELETE {{baseUrl}}/places/:id
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
+###
+
+### Reviews routes
+# @name create_review
+POST {{baseUrl}}/places/1dacd097-9ebe-40dc-916d-23947ae41560/reviews/new
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "rating": 3,
+  "comment": "I will always return here.",
+  "attachments": []
+}
+
+###
+
+# @name fetch_review
+GET {{baseUrl}}/places/1dacd097-9ebe-40dc-916d-23947ae41560/reviews?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name delete_review
+DELETE {{baseUrl}}/reviews/04212a33-16e7-4f84-80f5-187fe6ca3a9c
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
