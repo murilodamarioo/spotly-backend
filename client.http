@@ -54,11 +54,17 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-
 ### Places routes
 
 # @name fetch_places
 GET {{baseUrl}}/places?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name get_place
+GET {{baseUrl}}/places/1dacd097-9ebe-40dc-916d-23947ae41560
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
