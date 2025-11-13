@@ -10,6 +10,7 @@ import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profi
 import { EditUserUseCase } from '@/domain/core/application/use-cases/edit-user'
 import { DeleteAccountUseCase } from '@/domain/core/application/use-cases/delete-account'
 import { FetchPlacesUseCase } from '@/domain/core/application/use-cases/fetch-places'
+import { GetPlaceUseCase } from '@/domain/core/application/use-cases/get-place'
 import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-place'
 import { EditPlaceUseCase } from '@/domain/core/application/use-cases/edit-place'
 import { DeletePlaceUseCase } from '@/domain/core/application/use-cases/delete-place'
@@ -24,6 +25,7 @@ import { GetProfileController } from './controllers/get-profile.controller'
 import { EditUserController } from './controllers/edit-user.controller'
 import { DeleteAccountController } from './controllers/delete-account.controller'
 import { FetchPlacesController } from './controllers/fetch-places.controller'
+import { GetPlaceController } from './controllers/get-place.controller'
 import { CreatePlaceController } from './controllers/create-place.controller'
 import { EditPlaceController } from './controllers/edit-place.controller'
 import { DeletePlaceController } from './controllers/delete-place.controller'
@@ -41,6 +43,7 @@ import { FetchReviewsController } from './controllers/fetch-reviews.controller'
     EditUserController,
     DeleteAccountController,
     FetchPlacesController,
+    GetPlaceController,
     CreatePlaceController,
     EditPlaceController,
     DeletePlaceController,
@@ -56,6 +59,7 @@ import { FetchReviewsController } from './controllers/fetch-reviews.controller'
     EditUserUseCase,
     DeleteAccountUseCase,
     FetchPlacesUseCase,
+    GetPlaceUseCase,
     CreatePlaceUseCase,
     EditPlaceUseCase,
     DeletePlaceUseCase,
