@@ -1,22 +1,31 @@
+import { Injectable } from '@nestjs/common'
+
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
+import { PlaceAttachmentsRepository } from '@/domain/core/application/repositories/place-attachments-repository'
 import { PlacesRepository } from '@/domain/core/application/repositories/places-repository'
 import { Place } from '@/domain/core/enterprise/entities/place'
 
 import { PrismaService } from '../prisma.service'
 
 import { PrismaPlaceMapper } from '../mappers/prisma-place-mapper'
-import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class PrismaPlacesRepository implements PlacesRepository {
 
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private placeAttachmentsRepository: PlaceAttachmentsRepository
+  ) { }
 
   async create(place: Place): Promise<void> {
     const data = PrismaPlaceMapper.toPrisma(place)
 
     await this.prisma.place.create({ data })
+
+    await this.placeAttachmentsRepository.createMany(
+      place.attachments.getItems()
+    )
   }
 
   async findById(id: string): Promise<Place | null> {

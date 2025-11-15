@@ -4,6 +4,10 @@ import { PlaceAttachmentsRepository } from '@/domain/core/application/repositori
 export class InMemoryPlaceAttachmentsRepository implements PlaceAttachmentsRepository {
   public attachments: PlaceAttachment[] = []
 
+  async createMany(attachments: PlaceAttachment[]): Promise<void> {
+    this.attachments.push(...attachments)
+  }
+
   async findManyByPlaceId(id: string): Promise<PlaceAttachment[]> {
     const placeAttachments = this.attachments.filter(
       (attachment) => attachment.placeId.toString() === id

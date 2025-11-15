@@ -6,6 +6,7 @@ import { AppModule } from '@/infra/app.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { DatabaseModule } from '@/infra/database/database.module'
 
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { UserFactory } from 'test/factories/make-user'
 
 import request from 'supertest'
@@ -13,18 +14,20 @@ import request from 'supertest'
 describe('Create place (E2E)', () => {
   let app: INestApplication
   let userFactory: UserFactory
+  let attachmentFactory: AttachmentFactory
   let prisma: PrismaService
   let jwt: JwtService
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [UserFactory]
+      providers: [UserFactory, AttachmentFactory]
     }).compile()
 
     app = moduleRef.createNestApplication()
 
     userFactory = moduleRef.get(UserFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
 
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
@@ -37,6 +40,9 @@ describe('Create place (E2E)', () => {
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
+    const attachment1 = await attachmentFactory.makePrismaAttchament()
+    const attachment2 = await attachmentFactory.makePrismaAttchament()
+
     const response = await request(app.getHttpServer())
       .post('/places/new')
       .set('Authorization', `Bearer ${accessToken}`)
@@ -47,7 +53,10 @@ describe('Create place (E2E)', () => {
         address: '123 Main St',
         city: 'New York',
         state: 'NY',
-        attachments: []
+        attachments: [
+          attachment1.id.toString(),
+          attachment2.id.toString()
+        ]
       })
 
     expect(response.status).toBe(201)
@@ -57,5 +66,11 @@ describe('Create place (E2E)', () => {
     })
 
     expect(placeOnDatabase).toBeTruthy()
+
+    const attachmentsOnDatabase = await prisma.attachment.findMany({
+      where: { placeId: placeOnDatabase?.id }
+    })
+
+    expect(attachmentsOnDatabase).toHaveLength(2)
   })
 })

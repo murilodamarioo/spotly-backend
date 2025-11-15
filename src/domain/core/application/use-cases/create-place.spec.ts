@@ -34,9 +34,8 @@ describe('Create Place', () => {
     expect(response.value).toEqual({
       place: inMemoryPlacesRepository.places[0]
     })
-    expect(inMemoryPlacesRepository.places[0].attachments.currentItems).toEqual([
-      expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
-      expect.objectContaining({ attachmentId: new UniqueEntityId('2') })
-    ])
+    expect(inMemoryPlaceAttachmentsRepository.attachments[0].placeId).toEqual(
+      inMemoryPlacesRepository.places[0].id
+    )
   })
 })

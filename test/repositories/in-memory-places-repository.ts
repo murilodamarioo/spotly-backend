@@ -1,7 +1,6 @@
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
 import { Place } from '@/domain/core/enterprise/entities/place'
-import { PlaceAttachmentsRepository } from '@/domain/core/application/repositories/place-attachments-repository'
 import { PlacesRepository } from '@/domain/core/application/repositories/places-repository'
 import { InMemoryPlaceAttachmentsRepository } from './in-memory-place-attachments-repository'
 
@@ -12,6 +11,10 @@ export class InMemoryPlacesRepository implements PlacesRepository {
 
   async create(place: Place): Promise<void> {
     this.places.push(place)
+
+    await this.placeAttachmentsRepository.createMany(
+      place.attachments.getItems()
+    )
   }
 
   async findById(id: string): Promise<Place | null> {

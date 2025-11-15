@@ -35,7 +35,7 @@ import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-re
     {
       provide: ReviewsRepository,
       useClass: PrismaReviewsRepository
-    }
+    },
   ],
   exports: [
     PrismaService,

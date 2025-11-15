@@ -11,6 +11,16 @@ export class PrismaPlaceAttachmentsRepository implements PlaceAttachmentsReposit
 
   constructor(private prisma: PrismaService) { }
 
+  async createMany(attachments: PlaceAttachment[]): Promise<void> {
+    if (attachments.length === 0) {
+      return
+    }
+
+    const data = PrismaPlaceAttachmentMapper.toPrismaUpdateMany(attachments)
+
+    await this.prisma.attachment.updateMany(data)
+  }
+
   async findManyByPlaceId(id: string): Promise<PlaceAttachment[]> {
     const placeAttachments = await this.prisma.attachment.findMany({
       where: { placeId: id }

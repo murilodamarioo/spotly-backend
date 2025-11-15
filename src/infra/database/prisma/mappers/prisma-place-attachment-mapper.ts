@@ -17,9 +17,9 @@ export class PrismaPlaceAttachmentMapper {
     }, new UniqueEntityId(raw.id))
   }
 
-  static toPrisma(attachment: PlaceAttachment[]): Prisma.AttachmentUpdateManyArgs {
+  static toPrismaUpdateMany(attachment: PlaceAttachment[]): Prisma.AttachmentUpdateManyArgs {
     const attachmentIds = attachment.map((attachment) => {
-      return attachment.id.toString()
+      return attachment.attachmentId.toString()
     })
 
     return {
