@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Controller,
-  ForbiddenException,
   Get,
   HttpCode,
   NotFoundException,
@@ -17,12 +16,10 @@ import {
   ApiTags
 } from '@nestjs/swagger'
 
-import { NotAllowedError, ResourceNotFoundError } from '@/core/errors/errors-message'
+import { ResourceNotFoundError } from '@/core/errors/errors-message'
 
 import { GetPlaceUseCase } from '@/domain/core/application/use-cases/get-place'
 
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import { PlacePresenter } from '@/infra/presenters/place-presenter'
 
 @ApiTags('places')
@@ -68,22 +65,11 @@ export class GetPlaceController {
       }
     }
   })
-  @ApiForbiddenResponse({
-    schema: {
-      properties: {
-        message: { type: 'string', example: 'Not allowed to perform this action.' },
-        error: { type: 'string', example: 'Forbidden' },
-        statusCode: { type: 'number', example: 403 }
-      }
-    }
-  })
   async handle(
     @Param('id') placeId: string,
-    @CurrentUser() user: UserPayload
   ) {
-    const userId = user.sub
 
-    const response = await this.getPlace.execute({ userId, placeId })
+    const response = await this.getPlace.execute({ placeId })
 
     if (response.isFailure()) {
       const error = response.value
@@ -91,8 +77,6 @@ export class GetPlaceController {
       switch (error.constructor) {
         case ResourceNotFoundError:
           throw new NotFoundException(error.message)
-        case NotAllowedError:
-          throw new ForbiddenException(error.message)
         default:
           throw new BadRequestException(error.message)
       }
