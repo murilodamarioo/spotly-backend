@@ -36,7 +36,7 @@ model Place {
 
   user       User         @relation(fields: [userId], references: [id])
   review     Review[]
-  attachment Attachment[]
+  attachments Attachment[]
 
   @@map("places")
 }
@@ -52,7 +52,7 @@ model Review {
 
   reviewer   User         @relation(fields: [reviewerId], references: [id])
   place      Place        @relation(fields: [placeId], references: [id])
-  attachment Attachment[]
+  attachments Attachment[]
 
   @@map("reviews")
 }

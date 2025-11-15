@@ -82,13 +82,13 @@ Authorization: Bearer {{authToken}}
   "address": "123 Main St",
   "city": "Springfield",
   "state": "IL",
-  "attachments": []
+  "attachments": ["c06c928e-4856-4bc7-b91f-2288cfd7b77d"]
 }
 
 ###
 
 # @name edit_place
-PUT {{baseUrl}}/places/:id/edit
+PUT {{baseUrl}}/places/1dacd097-9ebe-40dc-916d-23947ae41560/edit
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -138,3 +138,16 @@ DELETE {{baseUrl}}/reviews/04212a33-16e7-4f84-80f5-187fe6ca3a9c
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
+###
+
+# @name attachments
+POST {{baseUrl}}/attachments
+Content-Type: multipart/form-data; boundary=MyBoundary
+Authorization: Bearer {{authToken}}
+
+--MyBoundary
+Content-Disposition: form-data; name="file"; filename="restaurant.png"
+Content-Type: image/png
+
+< ./test/e2e/restaurant.png
+--MyBoundary--
