@@ -58,8 +58,12 @@ export class InMemoryReviewsRepository implements ReviewsRepository {
     return reviews
   }
 
-  async create(review: Review) {
+  async create(review: Review): Promise<void> {
     this.reviews.push(review)
+
+    await this.reviewsAttachmentsRepository.createMany(
+      review.attachments.getItems()
+    )
 
     DomainEvents.dispatchEventsForAggregate(review.id)
   }
@@ -71,6 +75,6 @@ export class InMemoryReviewsRepository implements ReviewsRepository {
 
     this.reviews.splice(reviewIndex, 1)
 
-    this.reviewsAttachmentsRepository.delete(id)
+    this.reviewsAttachmentsRepository.deleteManyById(id)
   }
 }

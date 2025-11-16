@@ -24,7 +24,8 @@ describe('Create Review', () => {
     inMemoryReviewAttachmentsRepository = new InMemoryReviewAttachmentsRepository()
     inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
     inMemoryReviewsRepository = new InMemoryReviewsRepository(
-      inMemoryReviewAttachmentsRepository
+      inMemoryReviewAttachmentsRepository,
+      inMemoryUsersRepository
     )
     inMemoryPlacesRepository = new InMemoryPlacesRepository(
       inMemoryPlaceAttachmentsRepository
@@ -56,10 +57,11 @@ describe('Create Review', () => {
     expect(response.value).toEqual({
       review: inMemoryReviewsRepository.reviews[0]
     })
-    expect(inMemoryReviewsRepository.reviews[0].attachments.currentItems).toEqual([
-      expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
-      expect.objectContaining({ attachmentId: new UniqueEntityId('2') })
-    ])
+    expect(inMemoryReviewAttachmentsRepository.attachments[0]).toEqual(
+      expect.objectContaining({
+        attachmentId: new UniqueEntityId('1')
+      })
+    )
   })
 
   it('should not be able to create a review', async () => {

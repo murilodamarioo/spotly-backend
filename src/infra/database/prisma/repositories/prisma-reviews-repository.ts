@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
+import { ReviewAttachmentsRepository } from '@/domain/core/application/repositories/review-attachments-repository'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 import { Review } from '@/domain/core/enterprise/entities/review'
 
@@ -13,7 +14,10 @@ import { PrismaReviewMapper } from '../mappers/prisma-review-mapper'
 
 @Injectable()
 export class PrismaReviewsRepository implements ReviewsRepository {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private reviewAttachmentsRepository: ReviewAttachmentsRepository
+  ) { }
 
   async findById(id: string): Promise<Review | null> {
     const review = await this.prisma.review.findUnique({
@@ -47,12 +51,18 @@ export class PrismaReviewsRepository implements ReviewsRepository {
     const data = PrismaReviewMapper.toPrisma(review)
 
     await this.prisma.review.create({ data })
+
+    await this.reviewAttachmentsRepository.createMany(
+      review.attachments.getItems()
+    )
   }
 
   async delete(id: string): Promise<void> {
     await this.prisma.review.delete({
       where: { id }
     })
+
+    await this.reviewAttachmentsRepository.deleteManyById(id)
   }
 
 }

@@ -5,7 +5,6 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { PlaceAttachment, PlaceAttachmentProps } from '@/domain/core/enterprise/entities/place-attachment'
 
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { PrismaPlaceAttachmentMapper } from '@/infra/database/prisma/mappers/prisma-place-attachment-mapper'
 
 
 export function makePlaceAttachment(override: Partial<PlaceAttachmentProps> = {}, id?: UniqueEntityId): PlaceAttachment {

@@ -56,14 +56,14 @@ export class CreateReviewUseCase {
       placeId: place.id
     })
 
-    const reviewsAttachments = attachmentsIds.map((attachmentId) => {
+    const reviewAttachments = attachmentsIds.map((attachmentId) => {
       return ReviewAttachment.create({
         reviewId: review.id,
         attachmentId: new UniqueEntityId(attachmentId)
       })
     })
 
-    review.attachments = new ReviewAttachmentList(reviewsAttachments)
+    review.attachments = new ReviewAttachmentList(reviewAttachments)
 
     await this.reviewsRepository.create(review)
 
