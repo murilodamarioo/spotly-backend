@@ -1,12 +1,23 @@
 import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common'
 
+import {
+  ApiBadRequestResponse,
+  ApiBearerAuth,
+  ApiBody,
+  ApiCreatedResponse,
+  ApiTags,
+  ApiUnauthorizedResponse
+} from '@nestjs/swagger'
+
 import z from 'zod'
 
 import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-place'
+
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
+import { PlacePresenter } from '@/infra/presenters/place-presenter'
+
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger'
 
 const createPlaceBodySchema = z.object({
   name: z.string(),
@@ -52,19 +63,23 @@ export class CreatePlaceController {
     schema: {
       type: 'object',
       properties: {
-        id: { type: 'string', format: 'uuid', example: '550e8400-e29b-41d4-a716-446655440000' },
-        name: { type: 'string', example: 'Bart`s Pub' },
-        category: { type: 'string', example: 'Pub' },
-        description: { type: 'string', example: 'A cozy pub in the heart of the city.' },
-        address: { type: 'string', example: '742 Evergreen Terrace' },
-        city: { type: 'string', example: 'Springfield' },
-        state: { type: 'string', example: 'IL' },
-        attachments: {
-          type: 'array',
-          items: { type: 'string', format: 'uuid' },
-          example: ['550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001']
-        },
-        createdAt: { type: 'string', format: 'date-time', example: '2023-10-05T14:48:00.000Z' }
+        place: {
+          properties: {
+            id: { type: 'string', format: 'uuid', example: '550e8400-e29b-41d4-a716-446655440000' },
+            name: { type: 'string', example: 'Bart`s Pub' },
+            category: { type: 'string', example: 'Pub' },
+            description: { type: 'string', example: 'A cozy pub in the heart of the city.' },
+            address: { type: 'string', example: '742 Evergreen Terrace' },
+            city: { type: 'string', example: 'Springfield' },
+            state: { type: 'string', example: 'IL' },
+            attachments: {
+              type: 'array',
+              items: { type: 'string', format: 'uuid' },
+              example: ['550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001']
+            },
+            createdAt: { type: 'string', format: 'date-time', example: '2023-10-05T14:48:00.000Z' }
+          }
+        }
       }
     }
   })
@@ -101,6 +116,6 @@ export class CreatePlaceController {
       throw new BadRequestException()
     }
 
-    return response.value
+    return { place: PlacePresenter.toHttp(response.value.place) }
   }
 }
