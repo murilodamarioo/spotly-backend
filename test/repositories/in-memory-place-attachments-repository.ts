@@ -16,6 +16,14 @@ export class InMemoryPlaceAttachmentsRepository implements PlaceAttachmentsRepos
     return placeAttachments
   }
 
+  async deleteMany(attachments: PlaceAttachment[]): Promise<void> {
+    const placeAttachments = this.attachments.filter(
+      (attachment) => !attachments.includes(attachment)
+    )
+
+    this.attachments = placeAttachments
+  }
+
   async deleteManyById(id: string): Promise<void> {
     const placeAttachments = this.attachments.filter(
       (attachments) => attachments.placeId.toString() !== id

@@ -18,7 +18,7 @@ const editPlaceBodySchema = z.object({
   address: z.string(),
   city: z.string(),
   state: z.string(),
-  attachments: z.array(z.uuid()).optional()
+  attachmentsIds: z.array(z.uuid())
 })
 
 type EditPlaceBodySchema = z.infer<typeof editPlaceBodySchema>
@@ -42,7 +42,7 @@ export class EditPlaceController {
         address: { type: 'string', example: 'Av. Paulista, 1000' },
         city: { type: 'string', example: 'São Paulo' },
         state: { type: 'string', example: 'SP' },
-        attachments: { type: 'array', items: { type: 'string', format: 'uuid' } }
+        attachmentIds: { type: 'array', items: { type: 'string', format: 'uuid' } }
       }
     }
   })
@@ -56,7 +56,7 @@ export class EditPlaceController {
         address: { type: 'string', example: 'Av. Paulista, 1000' },
         city: { type: 'string', example: 'São Paulo' },
         state: { type: 'string', example: 'SP' },
-        attachments: { type: 'array', items: { type: 'string', format: 'uuid' } }
+        attachmentIds: { type: 'array', items: { type: 'string', format: 'uuid' } }
       }
     }
   })
@@ -87,7 +87,7 @@ export class EditPlaceController {
   ) {
     const userId = user.sub
 
-    const { name, category, description, address, city, state, attachments } = body
+    const { name, category, description, address, city, state, attachmentsIds } = body
 
     const response = await this.editPlace.execute({
       userId,
@@ -98,7 +98,7 @@ export class EditPlaceController {
       address,
       city,
       state,
-      attachmentsIds: attachments || []
+      attachmentsIds: attachmentsIds || []
     })
 
     if (response.isFailure()) {

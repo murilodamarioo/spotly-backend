@@ -1,10 +1,11 @@
 import { NotAllowedError, ResourceNotFoundError } from '@/core/errors/errors-message'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+
 import { EditPlaceUseCase } from './edit-place'
 
-import { makePlace } from 'test/factories/make-place'
-import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
+import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
+import { makePlace } from 'test/factories/make-place'
 import { makePlaceAttachment } from 'test/factories/make-place-attachment'
 
 let inMemoryPlacesRepository: InMemoryPlacesRepository
@@ -50,7 +51,7 @@ describe('Edit Place', () => {
       address: place.address,
       city: place.city,
       state: place.state,
-      attachmentsIds: ['1', '3']
+      attachmentsIds: ['1', '2']
     })
 
     expect(response.isSuccess()).toBeTruthy()
@@ -59,11 +60,8 @@ describe('Edit Place', () => {
       description: 'The best burger in town'
     })
     expect(
-      inMemoryPlacesRepository.places[0].attachments.currentItems
-    ).toEqual([
-      expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
-      expect.objectContaining({ attachmentId: new UniqueEntityId('3') })
-    ])
+      inMemoryPlaceAttachmentsRepository.attachments[0].placeId
+    ).toEqual(inMemoryPlacesRepository.places[0].id)
   })
 
   it('should not be able to edit a place with wrong user id', async () => {

@@ -31,6 +31,22 @@ export class PrismaPlaceAttachmentsRepository implements PlaceAttachmentsReposit
     })
   }
 
+  async deleteMany(attachments: PlaceAttachment[]): Promise<void> {
+    if (attachments.length === 0) {
+      return
+    }
+
+    const attachmentIds = attachments.map((attachment) => {
+      return attachment.attachmentId.toString()
+    })
+
+    await this.prisma.attachment.deleteMany({
+      where: {
+        id: { in: attachmentIds }
+      }
+    })
+  }
+
   async deleteManyById(id: string): Promise<void> {
     await this.prisma.attachment.deleteMany({
       where: { placeId: id }

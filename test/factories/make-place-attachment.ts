@@ -1,6 +1,11 @@
+import { Injectable } from '@nestjs/common'
+
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 import { PlaceAttachment, PlaceAttachmentProps } from '@/domain/core/enterprise/entities/place-attachment'
+
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { PrismaPlaceAttachmentMapper } from '@/infra/database/prisma/mappers/prisma-place-attachment-mapper'
 
 
 export function makePlaceAttachment(override: Partial<PlaceAttachmentProps> = {}, id?: UniqueEntityId): PlaceAttachment {
@@ -13,4 +18,20 @@ export function makePlaceAttachment(override: Partial<PlaceAttachmentProps> = {}
   return placeAttachment
 }
 
-// TODO: Implements PlaceFactory
+@Injectable()
+export class PlaceAttachmentFactory {
+  constructor(private prisma: PrismaService) { }
+
+  async makePrismaPlaceAttachment(data: Partial<PlaceAttachmentProps> = {}): Promise<PlaceAttachment> {
+    const placeAttachment = makePlaceAttachment(data)
+
+    await this.prisma.attachment.update({
+      where: { id: placeAttachment.attachmentId.toString() },
+      data: {
+        placeId: placeAttachment.placeId.toString()
+      }
+    })
+
+    return placeAttachment
+  }
+}

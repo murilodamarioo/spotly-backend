@@ -51,10 +51,14 @@ export class PrismaPlacesRepository implements PlacesRepository {
   async save(place: Place): Promise<void> {
     const data = PrismaPlaceMapper.toPrisma(place)
 
-    await this.prisma.place.update({
-      where: { id: data.id },
-      data
-    })
+    await Promise.all([
+      this.prisma.place.update({
+        where: { id: data.id },
+        data
+      }),
+      this.placeAttachmentsRepository.createMany(place.attachments.getNewItems()),
+      this.placeAttachmentsRepository.deleteMany(place.attachments.getRemovedItems())
+    ])
   }
 
   async delete(id: string): Promise<void> {
