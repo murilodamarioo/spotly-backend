@@ -77,7 +77,8 @@ export class CreatePlaceController {
               items: { type: 'string', format: 'uuid' },
               example: ['550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001']
             },
-            createdAt: { type: 'string', format: 'date-time', example: '2023-10-05T14:48:00.000Z' }
+            createdAt: { type: 'string', format: 'date-time', example: '2023-10-05T14:48:00.000Z' },
+            updatedAt: { type: 'string', format: 'date-time', example: '2023-10-05T14:48:00.000Z' }
           }
         }
       }

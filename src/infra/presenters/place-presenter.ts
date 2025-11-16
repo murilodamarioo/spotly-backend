@@ -13,7 +13,8 @@ export class PlacePresenter {
       state: place.state,
       attachments: place.attachments.getItems()
         .map(attachment => attachment.attachmentId.toString()),
-      createdAt: place.createdAt
+      createdAt: place.createdAt,
+      updatedAt: place.updatedAt
     }
   }
 
