@@ -18,7 +18,7 @@ export abstract class ReviewsRepository {
    * Finds multiple reviews based on the provided pagination parameters.
    * 
    * @param {PaginationParam} params - The pagination parameters.
-   * @return {Promise<Place[]>} A promise that resolves to an array of `Reviews` matching the pagination parameters.
+   * @return {Promise<ReviewWithReviewerce[]>} A promise that resolves to an array of `Reviews` matching the pagination parameters.
    */
   abstract findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewWithReviewer[]>
 
