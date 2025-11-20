@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { ResourceNotFoundError } from '@/core/errors/errors-message'
 import { Either, failure, success } from '@/core/either'
 
@@ -11,6 +13,7 @@ interface GetReviewUseCaseRequest {
 
 type GetReviewUseCaseResponse = Either<ResourceNotFoundError, { review: Review }>
 
+@Injectable()
 export class GetReviewUseCase {
 
   constructor(private reviewsRepository: ReviewsRepository) { }
