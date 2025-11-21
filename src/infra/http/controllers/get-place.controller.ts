@@ -20,7 +20,7 @@ import { ResourceNotFoundError } from '@/core/errors/errors-message'
 
 import { GetPlaceUseCase } from '@/domain/core/application/use-cases/get-place'
 
-import { PlacePresenter } from '@/infra/presenters/place-presenter'
+import { PlaceDetailsPresenter } from '@/infra/presenters/place-details-presenter'
 
 @ApiTags('places')
 @ApiBearerAuth('jwt')
@@ -82,6 +82,6 @@ export class GetPlaceController {
       }
     }
 
-    return { place: PlacePresenter.toHttp(response.value.place) }
+    return { place: PlaceDetailsPresenter.toHttp(response.value.place) }
   }
 }
