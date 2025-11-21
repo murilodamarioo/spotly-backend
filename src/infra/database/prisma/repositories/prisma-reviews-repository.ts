@@ -6,7 +6,8 @@ import { ReviewAttachmentsRepository } from '@/domain/core/application/repositor
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 import { Review } from '@/domain/core/enterprise/entities/review'
 
-import { ReviewWithReviewer } from '@/infra/presenters/review-with-reviewer-presenter'
+import { ReviewDetails } from '@/infra/presenters/review-details-presenter'
+import { ReviewSummary } from '@/infra/presenters/review-summary-presenter'
 
 import { PrismaService } from '../prisma.service'
 
@@ -19,6 +20,7 @@ export class PrismaReviewsRepository implements ReviewsRepository {
     private reviewAttachmentsRepository: ReviewAttachmentsRepository
   ) { }
 
+
   async findById(id: string): Promise<Review | null> {
     const review = await this.prisma.review.findUnique({
       where: { id }
@@ -27,7 +29,7 @@ export class PrismaReviewsRepository implements ReviewsRepository {
     return review ? PrismaReviewMapper.toDomain(review) : null
   }
 
-  async findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewWithReviewer[]> {
+  async findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewSummary[]> {
     const reviews = await this.prisma.review.findMany({
       where: {
         placeId: id,

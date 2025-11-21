@@ -4,10 +4,11 @@ import { DomainEvents } from '@/core/events/domain-events'
 import { Review } from '@/domain/core/enterprise/entities/review'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 
-import { ReviewWithReviewer } from '@/infra/presenters/review-with-reviewer-presenter'
+import { ReviewSummary } from '@/infra/presenters/review-summary-presenter'
 
 import { InMemoryReviewAttachmentsRepository } from './in-memory-review-attachments-repository'
 import { InMemoryUsersRepository } from './in-memory-users-repository'
+import { ReviewDetails } from '@/infra/presenters/review-details-presenter'
 
 export class InMemoryReviewsRepository implements ReviewsRepository {
   public reviews: Review[] = []
@@ -25,7 +26,7 @@ export class InMemoryReviewsRepository implements ReviewsRepository {
     return review ? review : null
   }
 
-  async findManyByPlaceId(id: string, { page }: PaginationParam): Promise<ReviewWithReviewer[]> {
+  async findManyByPlaceId(id: string, { page }: PaginationParam): Promise<ReviewSummary[]> {
     const reviews = this.reviews
       .filter(item => item.placeId.toString() === id)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
@@ -56,6 +57,10 @@ export class InMemoryReviewsRepository implements ReviewsRepository {
       })
 
     return reviews
+  }
+
+  async findByIdWithDetails(id: string): Promise<ReviewDetails | null> {
+    throw new Error('Method not implemented.')
   }
 
   async create(review: Review): Promise<void> {

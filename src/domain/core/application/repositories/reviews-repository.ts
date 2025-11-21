@@ -1,8 +1,10 @@
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
+import { ReviewSummary } from '@/infra/presenters/review-summary-presenter'
+import { ReviewDetails } from '@/infra/presenters/review-details-presenter'
+
 import { Review } from '../../enterprise/entities/review'
 
-import { ReviewWithReviewer, ReviewWithReviewerPresenter } from '@/infra/presenters/review-with-reviewer-presenter'
 
 export abstract class ReviewsRepository {
 
@@ -15,12 +17,20 @@ export abstract class ReviewsRepository {
   abstract findById(id: string): Promise<Review | null>
 
   /**
+   * Returns a `ReviewDetails` from the repository.
+   * 
+   * @param {string} id - Unique identifier of the `Review`.
+   * @return {Promise<ReviewDetails | null>} A promise that resolves to the `ReviewDetails` entity if found, or null if not found.
+   */
+  abstract findByIdWithDetails(id: string): Promise<ReviewDetails | null>
+
+  /**
    * Finds multiple reviews based on the provided pagination parameters.
    * 
    * @param {PaginationParam} params - The pagination parameters.
-   * @return {Promise<ReviewWithReviewerce[]>} A promise that resolves to an array of `Reviews` matching the pagination parameters.
+   * @return {Promise<ReviewSummay[]>} A promise that resolves to an array of `ReviewSummay` matching the pagination parameters.
    */
-  abstract findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewWithReviewer[]>
+  abstract findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewSummary[]>
 
   /**
    * Persists a new `Review` in the repository.
