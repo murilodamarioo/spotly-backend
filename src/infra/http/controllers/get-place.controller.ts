@@ -49,6 +49,17 @@ export class GetPlaceController {
             address: { type: 'string', example: 'Address' },
             city: { type: 'string', example: 'City' },
             state: { type: 'string', example: 'State' },
+            attachments: {
+              type: 'array',
+              items: { type: 'object' },
+              example: [
+                {
+                  id: 'c06c928e-4856-4bc7-b91f-2288cfd7b77d',
+                  title: 'restaurant.png',
+                  url: 'a90c95a4-259f-4cdf-a975-ac910d1d0ca8-restaurant.png'
+                }
+              ]
+            },
             createdAt: { type: 'string', example: '2023-01-01T00:00:00.000Z' },
             updatedAt: { type: 'string', example: '2023-01-01T00:00:00.000Z' }
           }
