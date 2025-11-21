@@ -1,6 +1,7 @@
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
 import { Place } from '../../enterprise/entities/place'
+import { PlaceDetails } from '../../enterprise/entities/value-objects/place-details'
 
 export abstract class PlacesRepository {
 
@@ -19,6 +20,14 @@ export abstract class PlacesRepository {
    * @return {Promise<Place | null>} A promise that resolves to the `Place` entity if found, or null if not found.
    */
   abstract findById(id: string): Promise<Place | null>
+
+  /**
+   * Returns a `Place` from the repository.
+   * 
+   * @param {string} id - Unique identifier of the `Place`.
+   * @return {Promise<PlaceDetails | null>} A promise that resolves to the `PlaceDeatils` entity if found, or null if not found.
+   */
+  abstract findByIdWithDetails(id: string): Promise<PlaceDetails | null>
 
   /**
    * Finds multiple places based on the provided pagination parameters.

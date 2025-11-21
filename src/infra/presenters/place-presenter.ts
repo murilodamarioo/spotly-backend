@@ -11,8 +11,9 @@ export class PlacePresenter {
       address: place.address,
       city: place.city,
       state: place.state,
-      attachments: place.attachments.getItems()
-        .map(attachment => attachment.attachmentId.toString()),
+      attachments: place.attachments.getItems().map(
+        (attachment) => attachment.attachmentId.toString()
+      ),
       createdAt: place.createdAt,
       updatedAt: place.updatedAt
     }
