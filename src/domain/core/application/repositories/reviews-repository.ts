@@ -1,9 +1,9 @@
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
 import { ReviewSummary } from '@/infra/presenters/review-summary-presenter'
-import { ReviewDetails } from '@/infra/presenters/review-details-presenter'
 
 import { Review } from '../../enterprise/entities/review'
+import { ReviewDetails } from '../../enterprise/entities/value-objects/review-details'
 
 
 export abstract class ReviewsRepository {

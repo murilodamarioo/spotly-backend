@@ -3,12 +3,12 @@ import { DomainEvents } from '@/core/events/domain-events'
 
 import { Review } from '@/domain/core/enterprise/entities/review'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
+import { ReviewDetails } from '@/domain/core/enterprise/entities/value-objects/review-details'
 
 import { ReviewSummary } from '@/infra/presenters/review-summary-presenter'
 
 import { InMemoryReviewAttachmentsRepository } from './in-memory-review-attachments-repository'
 import { InMemoryUsersRepository } from './in-memory-users-repository'
-import { ReviewDetails } from '@/infra/presenters/review-details-presenter'
 
 export class InMemoryReviewsRepository implements ReviewsRepository {
   public reviews: Review[] = []
@@ -60,7 +60,51 @@ export class InMemoryReviewsRepository implements ReviewsRepository {
   }
 
   async findByIdWithDetails(id: string): Promise<ReviewDetails | null> {
-    throw new Error('Method not implemented.')
+    const review = this.reviews.find((item) => item.id.toString() === id)
+
+    if (!review) {
+      return null
+    }
+
+    const reviewer = this.usersRepository.users.find((user) => {
+      return user.id.equals(review.reviewerId)
+    })
+
+    if (!reviewer) {
+      throw new Error(`Reviewer with ID "${review.reviewerId.toString()}" does not exist`)
+    }
+
+    const reviewAttachments = this.reviewsAttachmentsRepository.attachments.filter(
+      (reviewAttachment) => {
+        return reviewAttachment.reviewId.equals(review.id)
+      }
+    )
+
+    const attachments = reviewAttachments.map((reviewAttachment) => {
+      const attachment = this.reviewsAttachmentsRepository.attachments.find((attachment) => {
+        return attachment.id.equals(reviewAttachment.attachmentId)
+      })
+
+      if (!attachment) {
+        throw new Error(
+          `Attachment with ID "${reviewAttachment.attachmentId.toString()}" does not exists`
+        )
+      }
+
+      return attachments
+    })
+
+    return ReviewDetails.create({
+      reviewId: review.id,
+      rating: review.rating,
+      comment: review.comment,
+      attachments,
+      reviewer: {
+        name: reviewer.name,
+        profilePicutre: reviewer.profilePicture
+      },
+      createdAt: review.createdAt
+    })
   }
 
   async create(review: Review): Promise<void> {
