@@ -8,10 +8,9 @@ import { DatabaseModule } from '@/infra/database/database.module'
 
 import { UserFactory } from 'test/factories/make-user'
 import { ReviewFactory } from 'test/factories/make-review'
+import { PlaceFactory } from 'test/factories/make-place'
 
 import request from 'supertest'
-import { PlaceFactory } from 'test/factories/make-place'
-import { compareSync } from 'bcryptjs'
 
 describe('Get review (E2E)', () => {
   let app: INestApplication
@@ -55,5 +54,14 @@ describe('Get review (E2E)', () => {
       .auth(accessToken, { type: 'bearer' })
 
     expect(response.statusCode).toBe(200)
+    expect(response.body.review).toMatchObject({
+      rating: expect.any(Number),
+      comment: expect.any(String),
+      createdAt: expect.any(String),
+      attachments: expect.any(Array),
+      reviewer: expect.objectContaining({
+        name: expect.any(String)
+      })
+    })
   })
 })
