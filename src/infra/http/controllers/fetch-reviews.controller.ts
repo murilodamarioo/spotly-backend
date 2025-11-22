@@ -5,7 +5,7 @@ import z from 'zod'
 
 import { FetchReviewsUseCase } from '@/domain/core/application/use-cases/fetch-review'
 
-import { ReviewWithReviewerPresenter } from '@/infra/presenters/review-with-reviewer-presenter'
+import { ReviewSummaryPresenter } from '@/infra/presenters/review-summary-presenter'
 
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
@@ -83,7 +83,7 @@ export class FetchReviewsController {
     const reviews = response.value?.reviews
 
     return {
-      reviews: reviews ? reviews.map(ReviewWithReviewerPresenter.toHTTP) : []
+      reviews: reviews ? reviews.map(ReviewSummaryPresenter.toHTTP) : []
     }
   }
 }
