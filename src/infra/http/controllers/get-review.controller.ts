@@ -2,6 +2,7 @@ import { BadRequestException, Controller, Get, HttpCode, NotFoundException, Para
 
 import { GetReviewUseCase } from '@/domain/core/application/use-cases/get-review'
 import { ResourceNotFoundError } from '@/core/errors/errors-message'
+import { ReviewDetailsPresenter } from '@/infra/presenters/review-details-presenter'
 
 @Controller('/reviews/:id')
 export class GetReviewController {
@@ -24,6 +25,6 @@ export class GetReviewController {
       }
     }
 
-    return response.value
+    return { review: ReviewDetailsPresenter.toHttp(response.value.review) }
   }
 }

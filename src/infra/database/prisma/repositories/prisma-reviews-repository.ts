@@ -3,15 +3,16 @@ import { Injectable } from '@nestjs/common'
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
 import { ReviewAttachmentsRepository } from '@/domain/core/application/repositories/review-attachments-repository'
+import { ReviewDetails } from '@/domain/core/enterprise/entities/value-objects/review-details'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 import { Review } from '@/domain/core/enterprise/entities/review'
 
-import { ReviewDetails } from '@/infra/presenters/review-details-presenter'
 import { ReviewSummary } from '@/infra/presenters/review-summary-presenter'
 
 import { PrismaService } from '../prisma.service'
 
 import { PrismaReviewMapper } from '../mappers/prisma-review-mapper'
+import { PrismaReviewDetailsMapper } from '../mappers/prisma-review-details-mapper'
 
 @Injectable()
 export class PrismaReviewsRepository implements ReviewsRepository {
@@ -27,6 +28,29 @@ export class PrismaReviewsRepository implements ReviewsRepository {
     })
 
     return review ? PrismaReviewMapper.toDomain(review) : null
+  }
+
+  async findByIdWithDetails(id: string): Promise<ReviewDetails | null> {
+    const review = await this.prisma.review.findUnique({
+      where: { id },
+      include: {
+        attachments: true,
+        reviewer: {
+          select: {
+            name: true,
+            profilePicture: true
+          }
+        }
+      }
+    })
+
+    if (!review) {
+      return null
+    }
+
+    const reviewDetails = PrismaReviewDetailsMapper.toDomain(review)
+
+    return reviewDetails
   }
 
   async findManyByPlaceId(id: string, params: PaginationParam): Promise<ReviewSummary[]> {
