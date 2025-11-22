@@ -6,6 +6,7 @@ export class ReviewDetailsPresenter {
 
   static toHttp(reviewDetails: ReviewDetails) {
     return {
+      reviewId: reviewDetails.reviewId.toString(),
       rating: reviewDetails.rating,
       comment: reviewDetails.comment,
       reviewer: {
