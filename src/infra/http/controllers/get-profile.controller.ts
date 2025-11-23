@@ -10,7 +10,7 @@ import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ProfilePresenter } from '@/infra/presenters/profile-presenter'
 
-@ApiTags('accounts')
+@ApiTags('users')
 @ApiBearerAuth('jwt')
 @Controller('/users/me')
 export class GetProfileController {

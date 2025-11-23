@@ -8,7 +8,7 @@ import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ApiBearerAuth, ApiNoContentResponse, ApiNotFoundResponse, ApiTags } from '@nestjs/swagger'
 
-@ApiTags('accounts')
+@ApiTags('users')
 @ApiBearerAuth('jwt')
 @Controller('/users/me')
 export class DeleteAccountController {

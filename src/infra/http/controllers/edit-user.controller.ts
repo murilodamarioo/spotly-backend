@@ -20,7 +20,7 @@ const editUserBodySchema = z.object({
 
 type EditUserBodySchema = z.infer<typeof editUserBodySchema>
 
-@ApiTags('accounts')
+@ApiTags('users')
 @ApiBearerAuth('jwt')
 @Controller('/users/me/edit')
 export class EditUserController {
