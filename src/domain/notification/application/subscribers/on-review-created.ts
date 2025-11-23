@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { DomainEvents } from '@/core/events/domain-events'
 import { EventHandler } from '@/core/events/event-handler'
 
@@ -6,6 +8,7 @@ import { ReviewCreatedEvent } from '@/domain/core/enterprise/events/review-creat
 
 import { SendNotificationUseCase } from '../use-cases/send-notification'
 
+@Injectable()
 export class OnReviewCreated implements EventHandler {
 
   constructor(

@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(uuid())
+  id             String         @id @default(uuid())
   name           String
-  email          String    @unique
+  email          String         @unique
   password       String
-  profilePicture String?   @map("profile_picture")
+  profilePicture String?        @map("profile_picture")
   bio            String?
-  createdAt      DateTime  @default(now()) @map("created_at")
-  updatedAt      DateTime? @updatedAt @map("updated_at")
-  place          Place[]
-  review         Review[]
+  createdAt      DateTime       @default(now()) @map("created_at")
+  updatedAt      DateTime?      @updatedAt @map("updated_at")
+  places          Place[]
+  reviews         Review[]
+  notifications  Notification[]
 
   @@map("users")
 }
@@ -34,8 +35,8 @@ model Place {
   updatedAt   DateTime? @updatedAt @map("updated_at")
   userId      String    @map("user_id")
 
-  user       User         @relation(fields: [userId], references: [id])
-  review     Review[]
+  user        User         @relation(fields: [userId], references: [id])
+  reviews      Review[]
   attachments Attachment[]
 
   @@map("places")
@@ -50,8 +51,8 @@ model Review {
   reviewerId String    @map("reviewer_id")
   placeId    String    @map("place_id")
 
-  reviewer   User         @relation(fields: [reviewerId], references: [id])
-  place      Place        @relation(fields: [placeId], references: [id])
+  reviewer    User         @relation(fields: [reviewerId], references: [id])
+  place       Place        @relation(fields: [placeId], references: [id])
   attachments Attachment[]
 
   @@map("reviews")
@@ -68,4 +69,17 @@ model Attachment {
   review Review? @relation(fields: [reviewId], references: [id])
 
   @@map("attachments")
+}
+
+model Notification {
+  id          String    @id @default(uuid())
+  recipientId String    @map("recipient_id")
+  title       String
+  content     String
+  readAt      DateTime? @map("read_at")
+  createdAt   DateTime  @map("created_at")
+
+  recipient User @relation(fields: [recipientId], references: [id])
+
+  @@map("notifications")
 }
