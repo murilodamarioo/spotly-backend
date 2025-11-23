@@ -19,6 +19,7 @@ import { CreateReviewUseCase } from '@/domain/core/application/use-cases/create-
 import { DeleteReviewUseCase } from '@/domain/core/application/use-cases/delete-review'
 import { FetchReviewsUseCase } from '@/domain/core/application/use-cases/fetch-review'
 import { GetReviewUseCase } from '@/domain/core/application/use-cases/get-review'
+import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
@@ -35,6 +36,7 @@ import { CreateReviewController } from './controllers/create-review.controller'
 import { DeleteReviewController } from './controllers/delete-review.controller'
 import { FetchReviewsController } from './controllers/fetch-reviews.controller'
 import { GetReviewController } from './controllers/get-review.controller'
+import { ReadNotificationController } from './controllers/read-notification.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -53,7 +55,8 @@ import { GetReviewController } from './controllers/get-review.controller'
     CreateReviewController,
     DeleteReviewController,
     FetchReviewsController,
-    GetReviewController
+    GetReviewController,
+    ReadNotificationController
   ],
   providers: [
     RegisterUserUseCase,
@@ -70,7 +73,8 @@ import { GetReviewController } from './controllers/get-review.controller'
     CreateReviewUseCase,
     DeleteReviewUseCase,
     FetchReviewsUseCase,
-    GetReviewUseCase
+    GetReviewUseCase,
+    ReadNotificationUseCase
   ]
 })
 export class HttpModule { }
