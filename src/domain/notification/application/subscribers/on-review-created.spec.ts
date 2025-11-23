@@ -9,12 +9,14 @@ import { InMemoryReviewAttachmentsRepository } from 'test/repositories/in-memory
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 
 import { makePlace } from 'test/factories/make-place'
 import { makeReview } from 'test/factories/make-review'
 
 import { waitFor } from 'test/utils/wait.for'
 
+let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryPlacesRepository: InMemoryPlacesRepository
 let inMemoryPlacesAttachmentsRepository: InMemoryPlaceAttachmentsRepository
 let inMemoryReviewsRepository: InMemoryReviewsRepository
@@ -26,13 +28,15 @@ let sendNotificationExecuteSpy: MockInstance
 
 describe('On review created', () => {
   beforeEach(() => {
+    inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryPlacesAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
     inMemoryPlacesRepository = new InMemoryPlacesRepository(
       inMemoryPlacesAttachmentsRepository
     )
     inMemoryReviewsAttachmentsRepository = new InMemoryReviewAttachmentsRepository()
     inMemoryReviewsRepository = new InMemoryReviewsRepository(
-      inMemoryReviewsAttachmentsRepository
+      inMemoryReviewsAttachmentsRepository,
+      inMemoryUsersRepository
     )
     inMemoryNotificationRepository = new InMemoryNotificationsRepository()
     sendNotificationUseCase = new SendNotificationUseCase(
