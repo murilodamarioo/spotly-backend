@@ -13,6 +13,7 @@ import { PrismaService } from '../prisma.service'
 
 import { PrismaReviewMapper } from '../mappers/prisma-review-mapper'
 import { PrismaReviewDetailsMapper } from '../mappers/prisma-review-details-mapper'
+import { DomainEvents } from '@/core/events/domain-events'
 
 @Injectable()
 export class PrismaReviewsRepository implements ReviewsRepository {
@@ -81,6 +82,8 @@ export class PrismaReviewsRepository implements ReviewsRepository {
     await this.reviewAttachmentsRepository.createMany(
       review.attachments.getItems()
     )
+
+    DomainEvents.dispatchEventsForAggregate(review.id)
   }
 
   async delete(id: string): Promise<void> {

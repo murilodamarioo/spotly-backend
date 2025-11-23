@@ -7,6 +7,7 @@ import { PlaceAttachmentsRepository } from '@/domain/core/application/repositori
 import { AttachmentsRepository } from '@/domain/core/application/repositories/attachments-repository'
 import { ReviewAttachmentsRepository } from '@/domain/core/application/repositories/review-attachments-repository'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
+import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications-repository'
 
 import { PrismaUsersRepository } from './prisma/repositories/prisma-user-repository'
 import { PrismaPlacesRepository } from './prisma/repositories/prisma-places-repository'
@@ -14,6 +15,7 @@ import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attach
 import { PrismaPlaceAttachmentsRepository } from './prisma/repositories/prisma-place-attachments-repository'
 import { PrismaReviewAttachmentsRepository } from './prisma/repositories/prisma-review-attachments-repository'
 import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-repository'
+import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notifications-repository'
 
 @Module({
   providers: [
@@ -42,6 +44,10 @@ import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-re
       provide: ReviewsRepository,
       useClass: PrismaReviewsRepository
     },
+    {
+      provide: NotificationsRepository,
+      useClass: PrismaNotificationsRepository
+    }
   ],
   exports: [
     PrismaService,
@@ -50,7 +56,8 @@ import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-re
     AttachmentsRepository,
     PlaceAttachmentsRepository,
     ReviewAttachmentsRepository,
-    ReviewsRepository
+    ReviewsRepository,
+    NotificationsRepository
   ]
 })
 export class DatabaseModule { }
