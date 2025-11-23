@@ -29,6 +29,8 @@ beforeAll(async () => {
 
   process.env.DATABASE_URL = dabaseURL
 
+  DomainEvents.shouldRun = false
+
   execSync('npx prisma migrate deploy')
 })
 

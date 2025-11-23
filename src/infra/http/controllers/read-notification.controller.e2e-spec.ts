@@ -5,29 +5,27 @@ import { Test } from '@nestjs/testing'
 
 import { DomainEvents } from '@/core/events/domain-events'
 
-import { AppModule } from '../app.module'
-import { DatabaseModule } from '../database/database.module'
+import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 
-import { PrismaService } from '../database/prisma/prisma.service'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
+import { NotificationFactory } from 'test/factories/make-notification'
 import { UserFactory } from 'test/factories/make-user'
-import { PlaceFactory } from 'test/factories/make-place'
-
-import { waitFor } from 'test/utils/wait.for'
 
 import request from 'supertest'
 
-describe('On review created (E2E)', () => {
+describe('Read notification (E2E)', () => {
   let app: INestApplication
   let userFactory: UserFactory
-  let placeFactory: PlaceFactory
+  let notificationFactory: NotificationFactory
   let prisma: PrismaService
   let jwt: JwtService
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [UserFactory, PlaceFactory]
+      providers: [UserFactory, NotificationFactory]
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -36,38 +34,33 @@ describe('On review created (E2E)', () => {
     jwt = moduleRef.get(JwtService)
 
     userFactory = moduleRef.get(UserFactory)
-    placeFactory = moduleRef.get(PlaceFactory)
+    notificationFactory = moduleRef.get(NotificationFactory)
 
     DomainEvents.shouldRun = true
 
     await app.init()
   })
 
-  it('should send notification when a review is created', async () => {
+  test('[PATCH] /notifications/:id/read', async () => {
     const user = await userFactory.makePrismaUser()
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    const place = await placeFactory.makePrismaPlace({
-      userId: user.id
+    const notification = await notificationFactory.makePrismaNotification({
+      recipientId: user.id
     })
 
     const response = await request(app.getHttpServer())
-      .post(`/places/${place.id.toString()}/reviews/new`)
+      .patch(`/notifications/${notification.id}/read`)
       .auth(accessToken, { type: 'bearer' })
-      .send({
-        content: 'This a new review',
-        rating: 5,
-        attachments: []
-      })
 
-    await waitFor(async () => {
-      const notificationOnDatabase = await prisma.notification.findFirst({
-        where: {
-          recipientId: user.id.toString()
-        }
-      })
+    expect(response.status).toBe(204)
 
-      expect(notificationOnDatabase).not.toBeNull()
+    const notificationOnDatabase = await prisma.notification.findFirst({
+      where: {
+        recipientId: user.id.toString()
+      }
     })
+
+    expect(notificationOnDatabase?.readAt).not.toBeNull()
   })
 })
