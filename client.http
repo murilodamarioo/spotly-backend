@@ -64,7 +64,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name get_place
-GET {{baseUrl}}/places/1dacd097-9ebe-40dc-916d-23947ae41560
+GET {{baseUrl}}/places/ae0c4a59-dece-46f3-b238-684325430c7d
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -114,7 +114,7 @@ Authorization: Bearer {{authToken}}
 ### Reviews routes
 
 # @name create_review
-POST {{baseUrl}}/places/1dacd097-9ebe-40dc-916d-23947ae41560/reviews/new
+POST {{baseUrl}}/places/ae0c4a59-dece-46f3-b238-684325430c7d/reviews/new
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -151,3 +151,10 @@ Content-Type: image/png
 
 < ./test/e2e/restaurant.png
 --MyBoundary--
+
+###
+
+# @name read_notification
+PATCH {{baseUrl}}/notifications/69ded367-8444-4011-b1df-aacf4d871bff/read
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
