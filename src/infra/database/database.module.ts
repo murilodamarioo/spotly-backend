@@ -11,7 +11,7 @@ import { NotificationsRepository } from '@/domain/notification/application/repos
 
 import { PrismaUsersRepository } from './prisma/repositories/prisma-user-repository'
 import { PrismaPlacesRepository } from './prisma/repositories/prisma-places-repository'
-import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments'
+import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments-repository'
 import { PrismaPlaceAttachmentsRepository } from './prisma/repositories/prisma-place-attachments-repository'
 import { PrismaReviewAttachmentsRepository } from './prisma/repositories/prisma-review-attachments-repository'
 import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-repository'
