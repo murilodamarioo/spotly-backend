@@ -47,7 +47,7 @@ export class PrismaPlacesRepository implements PlacesRepository {
     if (cacheHit) {
       const cacheData = JSON.parse(cacheHit)
 
-      return cacheData
+      return PrismaPlaceDetailsMapper.toDomain(cacheData)
     }
 
     const place = await this.prisma.place.findUnique({
