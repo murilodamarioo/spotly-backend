@@ -7,6 +7,8 @@ import { PlacesRepository } from '@/domain/core/application/repositories/places-
 import { PlaceDetails } from '@/domain/core/enterprise/entities/value-objects/place-details'
 import { Place } from '@/domain/core/enterprise/entities/place'
 
+import { CacheRepository } from '@/infra/cache/cache-repository'
+
 import { PrismaService } from '../prisma.service'
 
 import { PrismaPlaceMapper } from '../mappers/prisma-place-mapper'
@@ -17,6 +19,7 @@ export class PrismaPlacesRepository implements PlacesRepository {
 
   constructor(
     private prisma: PrismaService,
+    private cache: CacheRepository,
     private placeAttachmentsRepository: PlaceAttachmentsRepository
   ) { }
 
@@ -39,6 +42,14 @@ export class PrismaPlacesRepository implements PlacesRepository {
   }
 
   async findByIdWithDetails(id: string): Promise<PlaceDetails | null> {
+    const cacheHit = await this.cache.get(id)
+
+    if (cacheHit) {
+      const cacheData = JSON.parse(cacheHit)
+
+      return cacheData
+    }
+
     const place = await this.prisma.place.findUnique({
       where: { id },
       include: {
@@ -49,6 +60,8 @@ export class PrismaPlacesRepository implements PlacesRepository {
     if (!place) {
       return null
     }
+
+    await this.cache.set(`place:${id}:details`, JSON.stringify(place))
 
     const placeDetails = PrismaPlaceDetailsMapper.toDomain(place)
 
@@ -76,7 +89,8 @@ export class PrismaPlacesRepository implements PlacesRepository {
         data
       }),
       this.placeAttachmentsRepository.createMany(place.attachments.getNewItems()),
-      this.placeAttachmentsRepository.deleteMany(place.attachments.getRemovedItems())
+      this.placeAttachmentsRepository.deleteMany(place.attachments.getRemovedItems()),
+      this.cache.delete(`place:${place.id}:details`)
     ])
   }
 
