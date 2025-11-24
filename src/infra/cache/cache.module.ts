@@ -14,6 +14,7 @@ import { EnvModule } from '../env/env.module'
       provide: CacheRepository,
       useClass: RedisCacheRepository
     }
-  ]
+  ],
+  exports: [CacheRepository]
 })
 export class CacheModule { }
