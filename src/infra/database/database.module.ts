@@ -17,7 +17,10 @@ import { PrismaReviewAttachmentsRepository } from './prisma/repositories/prisma-
 import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-repository'
 import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notifications-repository'
 
+import { CacheModule } from '../cache/cache.module'
+
 @Module({
+  imports: [CacheModule],
   providers: [
     PrismaService,
     {
