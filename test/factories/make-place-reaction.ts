@@ -1,6 +1,3 @@
-
-import { faker } from '@faker-js/faker'
-
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 import { PlaceReaction, PlaceReactionProps } from '@/domain/core/enterprise/entities/place-reaction'
