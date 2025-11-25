@@ -8,17 +8,18 @@ datasource db {
 }
 
 model User {
-  id             String         @id @default(uuid())
+  id             String          @id @default(uuid())
   name           String
-  email          String         @unique
+  email          String          @unique
   password       String
-  profilePicture String?        @map("profile_picture")
+  profilePicture String?         @map("profile_picture")
   bio            String?
-  createdAt      DateTime       @default(now()) @map("created_at")
-  updatedAt      DateTime?      @updatedAt @map("updated_at")
-  places          Place[]
-  reviews         Review[]
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime?       @updatedAt @map("updated_at")
+  places         Place[]
+  reviews        Review[]
   notifications  Notification[]
+  placeReactions PlaceReaction[]
 
   @@map("users")
 }
@@ -35,11 +36,25 @@ model Place {
   updatedAt   DateTime? @updatedAt @map("updated_at")
   userId      String    @map("user_id")
 
-  user        User         @relation(fields: [userId], references: [id])
-  reviews      Review[]
-  attachments Attachment[]
+  user           User            @relation(fields: [userId], references: [id])
+  reviews        Review[]
+  attachments    Attachment[]
+  placeReactions PlaceReaction[]
 
   @@map("places")
+}
+
+model PlaceReaction {
+  id      String   @id @default(uuid())
+  placeId String   @map("place_id")
+  userId  String   @map("user_id")
+  like    Boolean?
+  dislike Boolean?
+
+  place Place @relation(fields: [placeId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@map("place_reactions")
 }
 
 model Review {

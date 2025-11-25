@@ -1,9 +1,12 @@
-import { makeUser } from 'test/factories/make-user'
-import { TogglePlaceReactionUseCase } from './Toggle-place-reaction'
+import { ReactionType } from '@/core/enums/reaction-type'
+
+import { TogglePlaceReactionUseCase } from './toggle-place-reaction'
+
 
 import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
+
 import { makePlace } from 'test/factories/make-place'
-import { ReactionType } from '@/core/enums/reaction-type'
+import { makeUser } from 'test/factories/make-user'
 import { makePlaceReaction } from 'test/factories/make-place-reaction'
 
 let sut: TogglePlaceReactionUseCase
