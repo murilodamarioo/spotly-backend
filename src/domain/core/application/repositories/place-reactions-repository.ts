@@ -2,6 +2,11 @@ import { PlaceReaction } from '../../enterprise/entities/place-reaction'
 
 export abstract class PlaceReactionsRepository {
 
+  /**
+   * Persists a new `PlaceReaction` in the repository.
+   * @param {PlaceReaction} placeReaction - The `PlaceReaction` entity to be created.
+   * @return {Promise<void>} A promise that resolves when the reaction is successfully persisted.
+   */
   abstract create(placeReaction: PlaceReaction): Promise<void>
 
   /**
