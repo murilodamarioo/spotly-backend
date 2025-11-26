@@ -17,6 +17,7 @@ import { TogglePlaceReactionUseCase } from '@/domain/core/application/use-cases/
 
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
+import { ApiBearerAuth, ApiForbiddenResponse, ApiNoContentResponse, ApiParam, ApiTags } from '@nestjs/swagger'
 
 const TogglePlaceReactionBodySchema = z.object({
   reactionType: z.enum(ReactionType)
@@ -24,15 +25,32 @@ const TogglePlaceReactionBodySchema = z.object({
 
 type TogglePlaceReactionBodySchema = z.infer<typeof TogglePlaceReactionBodySchema>
 
-@Controller('/places/:id/reactions')
+@ApiTags('reactions')
+@ApiBearerAuth('jwt')
+@Controller('/places/:placeId/reactions')
 export class TogglePlaceReactionController {
 
   constructor(private togglePlaceReaction: TogglePlaceReactionUseCase) { }
 
   @Patch()
   @HttpCode(204)
+  @ApiParam({
+    name: 'placeId',
+    type: 'string',
+    example: '550e8400-e29b-41d4-a716-446655440000'
+  })
+  @ApiNoContentResponse({ description: 'Reaction successfully toggled' })
+  @ApiForbiddenResponse({
+    schema: {
+      properties: {
+        message: { type: 'string', example: 'Not allowed to perform this action.' },
+        error: { type: 'string', example: 'Forbidden' },
+        statusCode: { type: 'number', example: 403 }
+      }
+    }
+  })
   async handle(
-    @Param('id') placeId: string,
+    @Param('placeId') placeId: string,
     @CurrentUser() user: UserPayload,
     @Body() body: TogglePlaceReactionBodySchema
   ) {
