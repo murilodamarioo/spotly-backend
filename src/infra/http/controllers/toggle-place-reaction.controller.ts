@@ -8,6 +8,14 @@ import {
   Patch
 } from '@nestjs/common'
 
+import {
+  ApiBearerAuth,
+  ApiForbiddenResponse,
+  ApiNoContentResponse,
+  ApiParam,
+  ApiTags
+} from '@nestjs/swagger'
+
 import z from 'zod'
 
 import { ReactionType } from '@/core/enums/reaction-type'
@@ -17,7 +25,6 @@ import { TogglePlaceReactionUseCase } from '@/domain/core/application/use-cases/
 
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
-import { ApiBearerAuth, ApiForbiddenResponse, ApiNoContentResponse, ApiParam, ApiTags } from '@nestjs/swagger'
 
 const TogglePlaceReactionBodySchema = z.object({
   reactionType: z.enum(ReactionType)
