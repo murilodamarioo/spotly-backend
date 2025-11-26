@@ -8,6 +8,7 @@ import { AttachmentsRepository } from '@/domain/core/application/repositories/at
 import { ReviewAttachmentsRepository } from '@/domain/core/application/repositories/review-attachments-repository'
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications-repository'
+import { PlaceReactionsRepository } from '@/domain/core/application/repositories/place-reactions-repository'
 
 import { PrismaUsersRepository } from './prisma/repositories/prisma-user-repository'
 import { PrismaPlacesRepository } from './prisma/repositories/prisma-places-repository'
@@ -18,6 +19,7 @@ import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-re
 import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notifications-repository'
 
 import { CacheModule } from '../cache/cache.module'
+import { PrismaPlaceReactionsRepository } from './prisma/repositories/prisma-place-reactions-repository'
 
 @Module({
   imports: [CacheModule],
@@ -50,6 +52,10 @@ import { CacheModule } from '../cache/cache.module'
     {
       provide: NotificationsRepository,
       useClass: PrismaNotificationsRepository
+    },
+    {
+      provide: PlaceReactionsRepository,
+      useClass: PrismaPlaceReactionsRepository
     }
   ],
   exports: [
@@ -60,7 +66,8 @@ import { CacheModule } from '../cache/cache.module'
     PlaceAttachmentsRepository,
     ReviewAttachmentsRepository,
     ReviewsRepository,
-    NotificationsRepository
+    NotificationsRepository,
+    PlaceReactionsRepository
   ]
 })
 export class DatabaseModule { }

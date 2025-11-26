@@ -20,6 +20,7 @@ import { DeleteReviewUseCase } from '@/domain/core/application/use-cases/delete-
 import { FetchReviewsUseCase } from '@/domain/core/application/use-cases/fetch-review'
 import { GetReviewUseCase } from '@/domain/core/application/use-cases/get-review'
 import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
+import { TogglePlaceReactionUseCase } from '@/domain/core/application/use-cases/toggle-place-reaction'
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
@@ -37,6 +38,7 @@ import { DeleteReviewController } from './controllers/delete-review.controller'
 import { FetchReviewsController } from './controllers/fetch-reviews.controller'
 import { GetReviewController } from './controllers/get-review.controller'
 import { ReadNotificationController } from './controllers/read-notification.controller'
+import { TogglePlaceReactionController } from './controllers/toggle-place-reaction.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule],
@@ -56,7 +58,8 @@ import { ReadNotificationController } from './controllers/read-notification.cont
     DeleteReviewController,
     FetchReviewsController,
     GetReviewController,
-    ReadNotificationController
+    ReadNotificationController,
+    TogglePlaceReactionController
   ],
   providers: [
     RegisterUserUseCase,
@@ -74,7 +77,8 @@ import { ReadNotificationController } from './controllers/read-notification.cont
     DeleteReviewUseCase,
     FetchReviewsUseCase,
     GetReviewUseCase,
-    ReadNotificationUseCase
+    ReadNotificationUseCase,
+    TogglePlaceReactionUseCase
   ]
 })
 export class HttpModule { }

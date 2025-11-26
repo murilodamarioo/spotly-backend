@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { NotAllowedError } from '@/core/errors/errors-message'
 import { ReactionType } from '@/core/enums/reaction-type'
 import { Either, failure, success } from '@/core/either'
@@ -15,6 +17,7 @@ interface TogglePlaceReactionUseCaseRequest {
 
 type TogglePlaceReactionUseCaseResponse = Either<NotAllowedError, null>
 
+@Injectable()
 export class TogglePlaceReactionUseCase {
 
   constructor(private placeReactionsRepository: PlaceReactionsRepository) { }
