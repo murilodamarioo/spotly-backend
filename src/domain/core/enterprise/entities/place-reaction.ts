@@ -8,7 +8,7 @@ export interface PlaceReactionProps {
   like?: boolean | null
   dislike?: boolean | null
   createdAt?: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class PlaceReaction extends Entity<PlaceReactionProps> {
@@ -26,6 +26,14 @@ export class PlaceReaction extends Entity<PlaceReactionProps> {
 
   get dislike() {
     return this.props.dislike
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
   }
 
   public toggleLike() {
