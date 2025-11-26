@@ -45,11 +45,13 @@ model Place {
 }
 
 model PlaceReaction {
-  id      String   @id @default(uuid())
-  placeId String   @map("place_id")
-  userId  String   @map("user_id")
-  like    Boolean?
-  dislike Boolean?
+  id        String    @id @default(uuid())
+  placeId   String    @map("place_id")
+  userId    String    @map("user_id")
+  like      Boolean?
+  dislike   Boolean?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
   place Place @relation(fields: [placeId], references: [id])
   user  User  @relation(fields: [userId], references: [id])
