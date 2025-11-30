@@ -1,15 +1,20 @@
 import { PaginationParam } from '@/core/repositories/pagination-param'
+import { PlaceFiltersParams } from '@/core/repositories/place-filters-params'
 
 import { Place } from '@/domain/core/enterprise/entities/place'
 import { PlacesRepository } from '@/domain/core/application/repositories/places-repository'
 import { PlaceDetails } from '@/domain/core/enterprise/entities/value-objects/place-details'
 
+import { InMemoryPlaceReactionsRepository } from './in-memory-place-reactions-reposiotry'
 import { InMemoryPlaceAttachmentsRepository } from './in-memory-place-attachments-repository'
 
 export class InMemoryPlacesRepository implements PlacesRepository {
   public places: Place[] = []
 
-  constructor(private placeAttachmentsRepository: InMemoryPlaceAttachmentsRepository) { }
+  constructor(
+    private placeAttachmentsRepository: InMemoryPlaceAttachmentsRepository,
+    private placeReactionsRepository: InMemoryPlaceReactionsRepository
+  ) { }
 
   async create(place: Place): Promise<void> {
     this.places.push(place)
@@ -66,6 +71,60 @@ export class InMemoryPlacesRepository implements PlacesRepository {
       createdAt: place.createdAt,
       updatedAt: place.updatedAt
     })
+  }
+
+async findManyByFilter(userId: string, params: PlaceFiltersParams): Promise<Place[]> {
+    const { page, query, category, filterType, sortBy } = params
+    const perPage = 20
+
+    let places = this.places
+
+    if (category) {
+      places = places.filter(place => place.category === category)
+    }
+
+    if (query) {
+      const lowerQuery = query.toLowerCase()
+      places = places.filter(place =>
+        place.name.toLowerCase().includes(lowerQuery) ||
+        place.description?.toLowerCase().includes(lowerQuery)
+      )
+    }
+
+    if (filterType && userId) {
+      const userReactions = this.placeReactionsRepository.placeReactions.filter(
+        reaction => reaction.userId.toString() === userId
+      )
+
+      if (filterType === 'liked_by_user') {
+        const likedIds = userReactions
+          .filter(r => r.like)
+          .map(r => r.placeId.toString())
+
+        places = places.filter(place => likedIds.includes(place.id.toString()))
+      }
+
+      if (filterType === 'disliked_by_user') {
+        const dislikedIds = userReactions
+          .filter(r => r.dislike)
+          .map(r => r.placeId.toString())
+
+        places = places.filter(place => dislikedIds.includes(place.id.toString()))
+      }
+    }
+
+    const sortedPlaces = [...places].sort((a, b) => {
+      if (sortBy === 'most_popular') {
+        const aCount = this.placeReactionsRepository.placeReactions.filter(r => r.placeId.equals(a.id)).length
+        const bCount = this.placeReactionsRepository.placeReactions.filter(r => r.placeId.equals(b.id)).length
+        
+        return bCount - aCount
+      }
+
+      return b.createdAt.getTime() - a.createdAt.getTime()
+    })
+
+    return sortedPlaces.slice((page - 1) * perPage, page * perPage)
   }
 
   async findManyByRecent({ page }: PaginationParam): Promise<Place[]> {

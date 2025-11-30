@@ -3,17 +3,22 @@ import { FetchPlacesUseCase } from './fetch-places'
 
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
+import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
 
 let inMemoryPlacesRepository: InMemoryPlacesRepository
+let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let inMemoryPlaceAttachmentsRepository: InMemoryPlaceAttachmentsRepository
 let sut: FetchPlacesUseCase
 
 describe('Fetch Places', () => {
   beforeEach(() => {
     inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
+    inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlacesRepository = new InMemoryPlacesRepository(
-      inMemoryPlaceAttachmentsRepository
+      inMemoryPlaceAttachmentsRepository,
+      inMemoryPlaceReactionsRepository
     )
+    
     sut = new FetchPlacesUseCase(inMemoryPlacesRepository)
   })
 
