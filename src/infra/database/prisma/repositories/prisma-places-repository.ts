@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
+import { PlaceFiltersParams } from '@/core/repositories/place-filters-params'
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
 import { PlaceAttachmentsRepository } from '@/domain/core/application/repositories/place-attachments-repository'
@@ -8,6 +9,7 @@ import { PlaceDetails } from '@/domain/core/enterprise/entities/value-objects/pl
 import { Place } from '@/domain/core/enterprise/entities/place'
 
 import { CacheRepository } from '@/infra/cache/cache-repository'
+import { BuilderClausesHelper } from '@/infra/helpers/builder-clauses-helper'
 
 import { PrismaService } from '../prisma.service'
 
@@ -66,6 +68,22 @@ export class PrismaPlacesRepository implements PlacesRepository {
     const placeDetails = PrismaPlaceDetailsMapper.toDomain(place)
 
     return placeDetails
+  }
+
+  async findManyByFilter(userId: string, params: PlaceFiltersParams): Promise<Place[]> {
+    const { page } = params
+    const perPage = 20
+
+    const places = await this.prisma.place.findMany({
+      where: BuilderClausesHelper.buildWhereClause(userId, params),
+      orderBy: BuilderClausesHelper.buildOrderByClause(params),
+      take: perPage,
+      skip: (page - 1) * perPage
+    })
+
+    return places.map(place => {
+      return PrismaPlaceMapper.toDomain(place)
+    })
   }
 
   async findManyByRecent(params: PaginationParam): Promise<Place[]> {

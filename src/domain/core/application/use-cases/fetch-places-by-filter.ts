@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { PlaceFiltersParams } from '@/core/repositories/place-filters-params'
 import { Either, success } from '@/core/either'
 
@@ -11,6 +13,7 @@ interface FetchPlacesByFilterUseCaseRequest {
 
 type FetchPlacesByFilterUseCaseResponse = Either<null, { places: Place[] }>
 
+@Injectable()
 export class FetchPlacesByFilterUseCase {
 
   constructor(private placesRepository: PlacesRepository) { }

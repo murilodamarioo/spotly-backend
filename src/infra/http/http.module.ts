@@ -9,6 +9,7 @@ import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/aut
 import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profile'
 import { EditUserUseCase } from '@/domain/core/application/use-cases/edit-user'
 import { DeleteAccountUseCase } from '@/domain/core/application/use-cases/delete-account'
+import { FetchPlacesByFilterUseCase } from '@/domain/core/application/use-cases/fetch-places-by-filter'
 import { FetchPlacesUseCase } from '@/domain/core/application/use-cases/fetch-places'
 import { GetPlaceUseCase } from '@/domain/core/application/use-cases/get-place'
 import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-place'
@@ -27,6 +28,7 @@ import { AuthenticateController } from './controllers/authenticate.controller'
 import { GetProfileController } from './controllers/get-profile.controller'
 import { EditUserController } from './controllers/edit-user.controller'
 import { DeleteAccountController } from './controllers/delete-account.controller'
+import { FetchPlacesByFilterController } from './controllers/fetch-places-by-filter.controller'
 import { FetchPlacesController } from './controllers/fetch-places.controller'
 import { GetPlaceController } from './controllers/get-place.controller'
 import { CreatePlaceController } from './controllers/create-place.controller'
@@ -48,7 +50,8 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     GetProfileController,
     EditUserController,
     DeleteAccountController,
-    FetchPlacesController,
+    FetchPlacesByFilterController,
+    //FetchPlacesController,
     GetPlaceController,
     CreatePlaceController,
     EditPlaceController,
@@ -67,7 +70,8 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     GetProfileUseCase,
     EditUserUseCase,
     DeleteAccountUseCase,
-    FetchPlacesUseCase,
+    FetchPlacesByFilterUseCase,
+    //FetchPlacesUseCase,
     GetPlaceUseCase,
     CreatePlaceUseCase,
     EditPlaceUseCase,
