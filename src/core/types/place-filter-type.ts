@@ -1,0 +1,1 @@
+export type PlaceFilterType = 'all' | 'liked_by_user' | 'disliked_by_user'
