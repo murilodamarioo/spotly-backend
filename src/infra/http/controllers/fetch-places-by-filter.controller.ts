@@ -1,5 +1,7 @@
 import { Controller, Get, HttpCode, Query } from '@nestjs/common'
 
+import { ApiBearerAuth, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger'
+
 import z from 'zod'
 
 import { FetchPlacesByFilterUseCase } from '@/domain/core/application/use-cases/fetch-places-by-filter'
@@ -29,12 +31,70 @@ type FetchPlacesQuerySchema = z.infer<typeof fetchPlacesQuerySchema>
 
 const queryValidationPipe = new ZodValidationPipe(fetchPlacesQuerySchema)
 
+@ApiTags('places')
+@ApiBearerAuth('jwt')
 @Controller('/places')
 export class FetchPlacesByFilterController {
   constructor(private fetchPlacesByFilter: FetchPlacesByFilterUseCase) { }
 
   @Get()
   @HttpCode(200)
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page Number (default: 1)'
+  })
+  @ApiQuery({
+    name: 'query',
+    required: false,
+    type: String,
+    description: 'Search text'
+  })
+  @ApiQuery({
+    name: 'category',
+    required: false,
+    type: String,
+    description: 'Category name'
+  })
+  @ApiQuery({
+    name: 'sortBy',
+    required: false,
+    enum: ['recent', 'most_popular'],
+    description: 'Sort option'
+  })
+  @ApiQuery({
+    name: 'filterType',
+    required: false,
+    enum: ['all', 'liked_by_user', 'disliked_by_user'],
+    description: 'Filter type'
+  })
+  @ApiOkResponse({
+    schema: {
+      example: {
+        places: [
+          {
+            name: 'Coffee Shop',
+            category: 'Restaurant',
+            description: 'A cozy coffee shop in downtown.',
+            attachments: [
+              'attachment1.jpg',
+              'attachment2.jpg'
+            ]
+          },
+          {
+            name: 'Bart`s Pub',
+            category: 'Pub',
+            description: 'N/A',
+            attachments: [
+              'attachment1.jpg',
+              'attachment2.jpg'
+            ]
+          }
+        ]
+      }
+    }
+  })
   async handle(
     @Query(queryValidationPipe) filters: FetchPlacesQuerySchema,
     @CurrentUser() user: UserPayload
@@ -49,7 +109,7 @@ export class FetchPlacesByFilterController {
         query: filters.query,
         filterType: filters.filterType,
         sortBy: filters.sortBy
-        
+
       }
     })
 

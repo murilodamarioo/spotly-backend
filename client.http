@@ -56,8 +56,8 @@ Authorization: Bearer {{authToken}}
 
 ### Places routes
 
-# @name fetch_places
-GET {{baseUrl}}/places?page=1
+# @name fetch_places_by_filter
+GET {{baseUrl}}/places?page=1&category=Restaurant
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
