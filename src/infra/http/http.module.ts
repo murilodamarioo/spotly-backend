@@ -10,7 +10,6 @@ import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profi
 import { EditUserUseCase } from '@/domain/core/application/use-cases/edit-user'
 import { DeleteAccountUseCase } from '@/domain/core/application/use-cases/delete-account'
 import { FetchPlacesByFilterUseCase } from '@/domain/core/application/use-cases/fetch-places-by-filter'
-import { FetchPlacesUseCase } from '@/domain/core/application/use-cases/fetch-places'
 import { GetPlaceUseCase } from '@/domain/core/application/use-cases/get-place'
 import { CreatePlaceUseCase } from '@/domain/core/application/use-cases/create-place'
 import { EditPlaceUseCase } from '@/domain/core/application/use-cases/edit-place'
@@ -29,7 +28,6 @@ import { GetProfileController } from './controllers/get-profile.controller'
 import { EditUserController } from './controllers/edit-user.controller'
 import { DeleteAccountController } from './controllers/delete-account.controller'
 import { FetchPlacesByFilterController } from './controllers/fetch-places-by-filter.controller'
-import { FetchPlacesController } from './controllers/fetch-places.controller'
 import { GetPlaceController } from './controllers/get-place.controller'
 import { CreatePlaceController } from './controllers/create-place.controller'
 import { EditPlaceController } from './controllers/edit-place.controller'
@@ -51,7 +49,6 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     EditUserController,
     DeleteAccountController,
     FetchPlacesByFilterController,
-    //FetchPlacesController,
     GetPlaceController,
     CreatePlaceController,
     EditPlaceController,
@@ -71,7 +68,6 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     EditUserUseCase,
     DeleteAccountUseCase,
     FetchPlacesByFilterUseCase,
-    //FetchPlacesUseCase,
     GetPlaceUseCase,
     CreatePlaceUseCase,
     EditPlaceUseCase,
