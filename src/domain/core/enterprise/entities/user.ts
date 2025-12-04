@@ -2,12 +2,15 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
+import { FavoriteCategoryList } from './favorite-category-list'
+
 export interface UserProps {
   name: string
   email: string
   password: string
   profilePicture?: string | null
   bio?: string | null
+  favoriteCategories: FavoriteCategoryList
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -58,6 +61,15 @@ export class User extends Entity<UserProps> {
     this.touch()
   }
 
+  get favoriteCategories() {
+    return this.props.favoriteCategories
+  }
+
+  set favoriteCategories(favoriteCategories: FavoriteCategoryList) {
+    this.props.favoriteCategories = favoriteCategories
+    this.touch()
+  }
+
   get createdAt() {
     return this.props.createdAt
   }
@@ -70,10 +82,11 @@ export class User extends Entity<UserProps> {
     this.props.updatedAt = new Date()
   }
 
-  static create(props: Optional<UserProps, 'createdAt'>, id?: UniqueEntityId): User {
+  static create(props: Optional<UserProps, 'createdAt' | 'favoriteCategories'>, id?: UniqueEntityId): User {
     const user = new User({
       ...props,
-      createdAt: props.createdAt ?? new Date()
+      createdAt: props.createdAt ?? new Date(),
+      favoriteCategories: props.favoriteCategories ?? new FavoriteCategoryList()
     }, id)
 
     return user
