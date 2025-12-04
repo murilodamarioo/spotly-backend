@@ -32,6 +32,15 @@ export class PrismaUsersRepository implements UsersRepository {
     const data = PrismaUserMapper.toPrisma(user)
 
     await this.prisma.user.create({ data })
+
+    await this.prisma.favoriteCategory.createMany({
+      data: user.favoriteCategories.getItems().map((favoriteCategory) => {
+        return {
+          userId: favoriteCategory.userId.toString(),
+          categoryId: favoriteCategory.categoryId.toString()
+        }
+      })
+    })
   }
 
   async save(user: User): Promise<void> {

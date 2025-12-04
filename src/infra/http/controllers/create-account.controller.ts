@@ -14,7 +14,8 @@ const createAccountBodySchema = z.object({
   name: z.string(),
   email: z.email(),
   password: z.string(),
-  bio: z.string().optional()
+  bio: z.string().optional(),
+  categories: z.array(z.uuid())
 })
 
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
@@ -35,7 +36,12 @@ export class CreateAccountController {
         name: { type: 'string', example: 'John Wick' },
         email: { type: 'string', example: 'john@gmail.com' },
         password: { type: 'string', example: 'nEwP@ssw0rd' },
-        bio: { type: 'string', example: 'I am John Wick, the best hitman in the world.' }
+        bio: { type: 'string', example: 'I am John Wick, the best hitman in the world.' },
+        categories: {
+          type: 'array',
+          items: { type: 'string', format: 'uuid' },
+          example: ['550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001']
+        }
       },
       required: ['name', 'email', 'password']
     }
@@ -51,13 +57,14 @@ export class CreateAccountController {
     }
   })
   async handle(@Body() body: CreateAccountBodySchema) {
-    const { name, email, password, bio } = body
+    const { name, email, password, bio, categories } = body
 
     const response = await this.registerUser.execute({
       name,
       email,
       password,
-      bio
+      bio,
+      categoryIds: categories
     })
 
     if (response.isFailure()) {
