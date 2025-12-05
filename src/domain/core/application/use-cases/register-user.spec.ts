@@ -21,7 +21,8 @@ describe('Register User', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: 'nEwP@ssw0rd',
-      bio: 'Bio of John Doe'
+      bio: 'Bio of John Doe',
+      categoryIds: ['1', '2']
     })
 
     expect(response.isSuccess()).toBeTruthy()
@@ -33,7 +34,8 @@ describe('Register User', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: 'nEwP@ssw0rd',
-      bio: 'Bio of John Doe'
+      bio: 'Bio of John Doe',
+      categoryIds: ['1', '2']
     })
 
     expect(response.isSuccess()).toBeTruthy()
@@ -49,7 +51,8 @@ describe('Register User', () => {
       name: 'John Doe',
       email: 'john@gmail.com',
       password: 'nEwP@ssw0rd',
-      bio: 'Bio of John Doe'
+      bio: 'Bio of John Doe',
+      categoryIds: ['1', '2']
     })
 
     expect(response.isFailure()).toBeTruthy()
