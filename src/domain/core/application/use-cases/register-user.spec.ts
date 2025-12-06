@@ -3,16 +3,24 @@ import { RegisterUserUseCase } from './register-user'
 
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 import { makeUser } from 'test/factories/make-user'
+
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryFavoriteCategory: InMemoryFavoriteCategoriesRepository
 let fakeHahser: FakeHasher
 let sut: RegisterUserUseCase
 
 describe('Register User', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryFavoriteCategory = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategory
+    )
+
     fakeHahser = new FakeHasher()
+
     sut = new RegisterUserUseCase(inMemoryUsersRepository, fakeHahser)
   })
 
@@ -27,6 +35,10 @@ describe('Register User', () => {
 
     expect(response.isSuccess()).toBeTruthy()
     expect(inMemoryUsersRepository.users).toHaveLength(1)
+
+    expect(
+      inMemoryUsersRepository.users[0].favoriteCategories.getItems()
+    ).toHaveLength(2)
   })
 
   it('should hash User password upon registration', async () => {
