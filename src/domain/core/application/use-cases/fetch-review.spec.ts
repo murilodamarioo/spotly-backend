@@ -5,8 +5,10 @@ import { FetchReviewsUseCase } from './fetch-review'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryReviewsRepository } from 'test/repositories/in-memory-reviews-repository'
+import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
 import { InMemoryReviewAttachmentsRepository } from 'test/repositories/in-memory-review-attachments-repository'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
 
 import { makePlace } from 'test/factories/make-place'
 import { makeReview } from 'test/factories/make-review'
@@ -16,21 +18,29 @@ let inMemoryReviewsRepository: InMemoryReviewsRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryPlaceAttachmentsRepository: InMemoryPlaceAttachmentsRepository
 let inMemoryReviewAttachmentsRepository: InMemoryReviewAttachmentsRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
+let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let inMemoryPlaceRepository: InMemoryPlacesRepository
 let sut: FetchReviewsUseCase
 
 describe('Fetch Review', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategoriesRepository
+    )
     inMemoryReviewAttachmentsRepository = new InMemoryReviewAttachmentsRepository()
     inMemoryReviewsRepository = new InMemoryReviewsRepository(
       inMemoryReviewAttachmentsRepository,
       inMemoryUsersRepository
     )
     inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
+    inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlaceRepository = new InMemoryPlacesRepository(
-      inMemoryPlaceAttachmentsRepository
+      inMemoryPlaceAttachmentsRepository,
+      inMemoryPlaceReactionsRepository
     )
+
     sut = new FetchReviewsUseCase(inMemoryReviewsRepository)
   })
 

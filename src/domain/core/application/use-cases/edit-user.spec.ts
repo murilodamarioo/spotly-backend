@@ -1,15 +1,21 @@
 
 import { EditUserUseCase } from './edit-user'
 
-import { makeUser } from 'test/factories/make-user'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 
+import { makeUser } from 'test/factories/make-user'
+
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let sut: EditUserUseCase
 
 describe('Edit User', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategoriesRepository
+    )
     sut = new EditUserUseCase(inMemoryUsersRepository)
   })
 

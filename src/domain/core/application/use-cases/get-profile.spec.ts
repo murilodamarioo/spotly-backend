@@ -1,14 +1,21 @@
 import { GetProfileUseCase } from './get-profile'
 
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
+
 import { makeUser } from 'test/factories/make-user'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let sut: GetProfileUseCase
 
 describe('Get Profile', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategoriesRepository
+    )
+    
     sut = new GetProfileUseCase(inMemoryUsersRepository)
   })
 

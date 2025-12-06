@@ -10,6 +10,8 @@ import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-rep
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
+import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
 
 import { makePlace } from 'test/factories/make-place'
 import { makeReview } from 'test/factories/make-review'
@@ -17,7 +19,9 @@ import { makeReview } from 'test/factories/make-review'
 import { waitFor } from 'test/utils/wait.for'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryFavotiteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let inMemoryPlacesRepository: InMemoryPlacesRepository
+let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let inMemoryPlacesAttachmentsRepository: InMemoryPlaceAttachmentsRepository
 let inMemoryReviewsRepository: InMemoryReviewsRepository
 let inMemoryReviewsAttachmentsRepository: InMemoryReviewAttachmentsRepository
@@ -28,10 +32,15 @@ let sendNotificationExecuteSpy: MockInstance
 
 describe('On review created', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryFavotiteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavotiteCategoriesRepository
+    )
+    inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlacesAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
     inMemoryPlacesRepository = new InMemoryPlacesRepository(
-      inMemoryPlacesAttachmentsRepository
+      inMemoryPlacesAttachmentsRepository,
+      inMemoryPlaceReactionsRepository
     )
     inMemoryReviewsAttachmentsRepository = new InMemoryReviewAttachmentsRepository()
     inMemoryReviewsRepository = new InMemoryReviewsRepository(

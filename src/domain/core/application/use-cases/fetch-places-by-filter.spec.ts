@@ -4,6 +4,7 @@ import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repos
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
 
 import { makeUser } from 'test/factories/make-user'
 import { makePlace } from 'test/factories/make-place'
@@ -12,12 +13,16 @@ import { makePlaceReaction } from 'test/factories/make-place-reaction'
 let sut: FetchPlacesByFilterUseCase
 let inMemoryUseraRepository: InMemoryUsersRepository
 let inMemoryPlacesRepository: InMemoryPlacesRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let inMemoryPlaceAttachmentsReposiotry: InMemoryPlaceAttachmentsRepository
 
 describe('Fetch places by filter', () => {
   beforeEach(() => {
-    inMemoryUseraRepository = new InMemoryUsersRepository()
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUseraRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategoriesRepository
+    )
     inMemoryPlaceAttachmentsReposiotry = new InMemoryPlaceAttachmentsRepository()
     inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlacesRepository = new InMemoryPlacesRepository(

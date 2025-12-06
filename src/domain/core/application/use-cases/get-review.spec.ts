@@ -3,23 +3,30 @@ import { GetReviewUseCase } from './get-review'
 import { InMemoryReviewsRepository } from 'test/repositories/in-memory-reviews-repository'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 import { InMemoryReviewAttachmentsRepository } from 'test/repositories/in-memory-review-attachments-repository'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
+
 import { makeReview } from 'test/factories/make-review'
 import { makeUser } from 'test/factories/make-user'
 
 let inMemoryReviewsRepository: InMemoryReviewsRepository
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryReviewAttachmentsRepository: InMemoryReviewAttachmentsRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let sut: GetReviewUseCase
 
 describe('Get Review', () => {
 
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategoriesRepository
+    )
     inMemoryReviewAttachmentsRepository = new InMemoryReviewAttachmentsRepository()
     inMemoryReviewsRepository = new InMemoryReviewsRepository(
       inMemoryReviewAttachmentsRepository,
       inMemoryUsersRepository
     )
+    
     sut = new GetReviewUseCase(inMemoryReviewsRepository)
   })
 

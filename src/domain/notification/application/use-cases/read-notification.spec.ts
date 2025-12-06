@@ -3,17 +3,23 @@ import { ReadNotificationUseCase } from './read-notification'
 
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
+
 import { makeUser } from 'test/factories/make-user'
-import { exec } from 'child_process'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository
 let sut: ReadNotificationUseCase
 
 describe('Read notification', () => {
   beforeEach(() => {
-    inMemoryUsersRepository = new InMemoryUsersRepository()
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategoriesRepository
+    )
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
+    
     sut = new ReadNotificationUseCase(inMemoryNotificationsRepository)
   })
 
