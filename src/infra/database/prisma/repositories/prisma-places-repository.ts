@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
+import { DomainEvents } from '@/core/events/domain-events'
 import { PlaceFiltersParams } from '@/core/repositories/place-filters-params'
 import { PaginationParam } from '@/core/repositories/pagination-param'
 
@@ -110,6 +111,8 @@ export class PrismaPlacesRepository implements PlacesRepository {
       this.placeAttachmentsRepository.deleteMany(place.attachments.getRemovedItems()),
       this.cache.delete(`place:${place.id}:details`)
     ])
+
+    DomainEvents.dispatchEventsForAggregate(place.id)
   }
 
   async delete(id: string): Promise<void> {
