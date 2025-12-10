@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common'
 
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { NotAllowedError } from '@/core/errors/errors-message'
 import { ReactionType } from '@/core/enums/reaction-type'
 import { Either, failure, success } from '@/core/either'
 
-import { PlaceReactionsRepository } from '../repositories/place-reactions-repository'
-
 import { PlaceReaction } from '../../enterprise/entities/place-reaction'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+
+import { PlaceReactionsRepository } from '../repositories/place-reactions-repository'
+import { PlacesRepository } from '../repositories/places-repository'
 
 interface TogglePlaceReactionUseCaseRequest {
   placeId: string
@@ -20,7 +21,10 @@ type TogglePlaceReactionUseCaseResponse = Either<NotAllowedError, null>
 @Injectable()
 export class TogglePlaceReactionUseCase {
 
-  constructor(private placeReactionsRepository: PlaceReactionsRepository) { }
+  constructor(
+    private placeReactionsRepository: PlaceReactionsRepository,
+    private placesRepository: PlacesRepository
+  ) { }
 
   async execute({
     placeId,
@@ -51,6 +55,16 @@ export class TogglePlaceReactionUseCase {
     }
 
     await this.placeReactionsRepository.save(placeReaction)
+
+    const total = await this.placeReactionsRepository.countReactionsByPlaceId(placeId)
+
+    if (total % 100 === 0) {
+      const place = await this.placesRepository.findById(placeId)
+      if (place) {
+        place.notifyReactionsMilestone(total)
+        await this.placesRepository.save(place)
+      }
+    }
 
     return success(null)
   }

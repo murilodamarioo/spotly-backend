@@ -4,6 +4,8 @@ import { Optional } from '@/core/types/optional'
 
 import { PlaceAttachmentList } from './place-attachment-list'
 
+import { PlaceReactionsReachedEvent } from '../events/place-reactions-reached-event'
+
 export interface PlaceProps {
   userId: UniqueEntityId
   name: string
@@ -95,6 +97,10 @@ export class Place extends AggregateRoot<PlaceProps> {
 
   private touch() {
     this.props.updatedAt = new Date()
+  }
+
+  public notifyReactionsMilestone(reactionsCount: number): void {
+    this.addDomainEvent(new PlaceReactionsReachedEvent(this.id, reactionsCount))
   }
 
   static create(props: Optional<PlaceProps, 'createdAt' | 'attachments'>, id?: UniqueEntityId): Place {

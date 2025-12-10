@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { PaginationParam } from '@/core/repositories/pagination-param'
 import { PlaceFiltersParams } from '@/core/repositories/place-filters-params'
 
@@ -73,7 +74,7 @@ export class InMemoryPlacesRepository implements PlacesRepository {
     })
   }
 
-async findManyByFilter(userId: string, params: PlaceFiltersParams): Promise<Place[]> {
+  async findManyByFilter(userId: string, params: PlaceFiltersParams): Promise<Place[]> {
     const { page, query, category, filterType, sortBy } = params
     const perPage = 20
 
@@ -117,7 +118,7 @@ async findManyByFilter(userId: string, params: PlaceFiltersParams): Promise<Plac
       if (sortBy === 'most_popular') {
         const aCount = this.placeReactionsRepository.placeReactions.filter(r => r.placeId.equals(a.id)).length
         const bCount = this.placeReactionsRepository.placeReactions.filter(r => r.placeId.equals(b.id)).length
-        
+
         return bCount - aCount
       }
 
@@ -139,6 +140,8 @@ async findManyByFilter(userId: string, params: PlaceFiltersParams): Promise<Plac
     const placeIndex = this.places.findIndex((item) => item.id === place.id)
 
     this.places[placeIndex] = place
+
+    DomainEvents.dispatchEventsForAggregate(place.id)
   }
 
   async delete(id: string) {
