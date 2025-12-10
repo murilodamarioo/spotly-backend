@@ -19,7 +19,7 @@ import { makeReview } from 'test/factories/make-review'
 import { waitFor } from 'test/utils/wait.for'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
-let inMemoryFavotiteCategoriesRepository: InMemoryFavoriteCategoriesRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let inMemoryPlacesRepository: InMemoryPlacesRepository
 let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let inMemoryPlacesAttachmentsRepository: InMemoryPlaceAttachmentsRepository
@@ -32,9 +32,9 @@ let sendNotificationExecuteSpy: MockInstance
 
 describe('On review created', () => {
   beforeEach(() => {
-    inMemoryFavotiteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
     inMemoryUsersRepository = new InMemoryUsersRepository(
-      inMemoryFavotiteCategoriesRepository
+      inMemoryFavoriteCategoriesRepository
     )
     inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlacesAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
