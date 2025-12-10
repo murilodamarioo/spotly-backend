@@ -8,6 +8,12 @@ export class InMemoryPlaceReactionsRepository implements PlaceReactionsRepositor
     this.placeReactions.push(placeReaction)
   }
 
+  async countReactionsByPlaceId(placeId: string): Promise<number> {
+    return this.placeReactions.filter(r =>
+      r.placeId.toString() === placeId && (r.like === true || r.dislike === true)
+    ).length
+  }
+
   async findExistingReaction(placeId: string, userId: string): Promise<PlaceReaction | null> {
     const placeReaction = this.placeReactions.find(
       (reaction) => {

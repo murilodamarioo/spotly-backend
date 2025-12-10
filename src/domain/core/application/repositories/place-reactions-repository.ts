@@ -10,6 +10,14 @@ export abstract class PlaceReactionsRepository {
   abstract create(placeReaction: PlaceReaction): Promise<void>
 
   /**
+   * Counts the number of reactions for a specific place.
+   *
+   * @param {string} placeId - The ID of the place for which to count the reactions.
+   * @return {Promise<number>} A promise that resolves with the number of reactions for the specified place.
+   */
+  abstract countReactionsByPlaceId(placeId: string): Promise<number>
+
+  /**
    * Search for a specific reaction record based on the user and the place.
    * @param {string} placeId - The unique identifier of the target place.
    * @param {string} userId - The unique identifier of the user to check.

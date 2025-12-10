@@ -31,6 +31,19 @@ export class PrismaPlaceReactionsRepository implements PlaceReactionsRepository 
     })
   }
 
+  async countReactionsByPlaceId(placeId: string): Promise<number> {
+    const count = await this.prisma.placeReaction.count({
+      where: {
+        placeId,
+        OR: [
+          { like: true },
+          { dislike: true }
+        ]
+      }
+    })
+    return count
+  }
+
   async save(placeReaction: PlaceReaction): Promise<void> {
     const data = PrismaPlaceReactionMapper.toPrisma(placeReaction)
 
