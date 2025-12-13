@@ -1,81 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <style>
-        /* Inline Styles for better email client compatibility */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333333;
+            background-color: #181926;
+            color: #cad3f5;
+            line-height: 1.6;
         }
+
         .container {
             width: 100%;
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            max-width: 580px;
+            margin: 30px auto;
+            background-color: #24273a;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             overflow: hidden;
-            border: 1px solid #e0e0e0;
         }
+
         .header {
-            background-color: #4A90E2; /* A friendly blue */
-            color: #ffffff;
-            padding: 20px;
+            background-color: #7dc4e4;
+            color: #181926;
+            padding: 25px 20px;
             text-align: center;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
         }
+
         .header h1 {
             margin: 0;
             font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
+
         .content-box {
-            padding: 30px;
-            text-align: center;
+            padding: 40px 35px;
+            text-align: left;
         }
+
         .content-box p {
             font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
+
         .emoji-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
+            font-size: 50px;
+            margin-bottom: 25px;
             display: block;
-        }
-        .footer {
-            background-color: #f9f9f9;
-            color: #aaaaaa;
-            padding: 15px;
-            font-size: 12px;
             text-align: center;
-            border-top: 1px solid #e0e0e0;
+        }
+
+        .highlight-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: #b7bdf8;
+            padding: 15px;
+            border-left: 5px solid #7dc4e4;
+            margin: 25px 0;
+            background-color: #363a4f;
+        }
+
+        .signature {
+            margin-top: 35px;
+            font-style: normal;
+            font-size: 14px;
+            color: #8087a2;
+        }
+
+        .footer {
+            background-color: #181926;
+            color: #5b6078;
+            padding: 18px;
+            font-size: 11px;
+            text-align: center;
+            border-top: 1px solid #363a4f;
+            /* Linha de separação */
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>🎉 {{title}}</h1>
         </div>
         <div class="content-box">
-            <span class="emoji-icon">🚀</span>
-            <p>Hello,</p>
-            <p style="font-size: 18px; font-weight: bold; color: #1f78c2;">
+            <p class="highlight-text">
                 {{content}}
             </p>
+
             <p>
-                Keep up the great work! Your users are loving what you're doing.
+                Awesome contribution! Keep up the good vibes in the community.
             </p>
-            <p style="margin-top: 40px;">
+
+            <p class="signature">
                 Sincerely,<br>
-                The Spot Team
+                The Spotly Team
             </p>
         </div>
         <div class="footer">
@@ -83,4 +109,5 @@
         </div>
     </div>
 </body>
+
 </html>
