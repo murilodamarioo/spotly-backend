@@ -22,8 +22,7 @@ export class MailService implements Mail {
       subject: message.subject,
       template: 'index',
       context: {
-        title: 'Mr.',
-        name: 'John Doe',
+        title: message.subject,
         content: message.content
       }
     })

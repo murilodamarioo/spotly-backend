@@ -9,7 +9,9 @@ import {
 } from '@nestjs/common'
 
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
+  ApiBody,
   ApiForbiddenResponse,
   ApiNoContentResponse,
   ApiParam,
@@ -19,7 +21,7 @@ import {
 import z from 'zod'
 
 import { ReactionType } from '@/core/enums/reaction-type'
-import { NotAllowedError } from '@/core/errors/errors-message'
+import { InvalidAttachementTypeError, NotAllowedError } from '@/core/errors/errors-message'
 
 import { TogglePlaceReactionUseCase } from '@/domain/core/application/use-cases/toggle-place-reaction'
 
@@ -46,6 +48,16 @@ export class TogglePlaceReactionController {
     type: 'string',
     example: '550e8400-e29b-41d4-a716-446655440000'
   })
+  @ApiBody({
+    schema: {
+      properties: {
+        reactionType: {
+          type: 'string',
+          enum: Object.values(ReactionType)
+        }
+      }
+    }
+  })
   @ApiNoContentResponse({ description: 'Reaction successfully toggled' })
   @ApiForbiddenResponse({
     schema: {
@@ -53,6 +65,15 @@ export class TogglePlaceReactionController {
         message: { type: 'string', example: 'Not allowed to perform this action.' },
         error: { type: 'string', example: 'Forbidden' },
         statusCode: { type: 'number', example: 403 }
+      }
+    }
+  })
+  @ApiBadRequestResponse({
+    schema: {
+      properties: {
+        message: { type: 'string', example: 'Invalid reaction type' },
+        error: { type: 'string', example: 'Bad Request' },
+        statusCode: { type: 'number', example: 400 }
       }
     }
   })
@@ -77,6 +98,8 @@ export class TogglePlaceReactionController {
       switch (error.constructor) {
         case NotAllowedError:
           throw new ForbiddenException(error.message)
+        case InvalidAttachementTypeError:
+          throw new BadRequestException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { NotAllowedError } from '@/core/errors/errors-message'
+import { InvalidReactionTypeError, NotAllowedError } from '@/core/errors/errors-message'
 import { ReactionType } from '@/core/enums/reaction-type'
 import { Either, failure, success } from '@/core/either'
 
@@ -16,7 +16,7 @@ interface TogglePlaceReactionUseCaseRequest {
   reactionType: ReactionType
 }
 
-type TogglePlaceReactionUseCaseResponse = Either<NotAllowedError, null>
+type TogglePlaceReactionUseCaseResponse = Either<NotAllowedError | InvalidReactionTypeError, null>
 
 @Injectable()
 export class TogglePlaceReactionUseCase {
@@ -46,6 +46,10 @@ export class TogglePlaceReactionUseCase {
         dislike: null
       })
       await this.placeReactionsRepository.create(placeReaction)
+    }
+
+    if (!Object.values(ReactionType).includes(reactionType)) {
+      return failure(new InvalidReactionTypeError())
     }
 
     if (reactionType === ReactionType.LIKE) {
