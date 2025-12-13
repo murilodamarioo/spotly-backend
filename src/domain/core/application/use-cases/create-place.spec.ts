@@ -4,16 +4,21 @@ import { CreatePlaceUseCase } from './create-place'
 
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
+import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
 
 let inMemoryPlacesRepository: InMemoryPlacesRepository
 let inMemoryPlaceAttachmentsRepository: InMemoryPlaceAttachmentsRepository
+let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let sut: CreatePlaceUseCase
 
 describe('Create Place', () => {
   beforeEach(() => {
-    inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
+    
+inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
+    inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlacesRepository = new InMemoryPlacesRepository(
-      inMemoryPlaceAttachmentsRepository
+      inMemoryPlaceAttachmentsRepository,
+      inMemoryPlaceReactionsRepository
     )
     sut = new CreatePlaceUseCase(inMemoryPlacesRepository)
   })

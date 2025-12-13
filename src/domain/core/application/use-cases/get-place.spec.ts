@@ -2,20 +2,25 @@ import { ResourceNotFoundError } from '@/core/errors/errors-message/resource-not
 
 import { GetPlaceUseCase } from './get-place'
 
-import { makePlace } from 'test/factories/make-place'
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
+import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
+
+import { makePlace } from 'test/factories/make-place'
 
 let inMemoryPlacesRepository: InMemoryPlacesRepository
 let inMemoryPlaceAttachmentsRepository: InMemoryPlaceAttachmentsRepository
+let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let sut: GetPlaceUseCase
 
 describe('Get Place', () => {
 
   beforeEach(() => {
     inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
+    inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlacesRepository = new InMemoryPlacesRepository(
-      inMemoryPlaceAttachmentsRepository
+      inMemoryPlaceAttachmentsRepository,
+      inMemoryPlaceReactionsRepository
     )
     sut = new GetPlaceUseCase(inMemoryPlacesRepository)
   })

@@ -3,19 +3,32 @@ import { ReactionType } from '@/core/enums/reaction-type'
 import { TogglePlaceReactionUseCase } from './toggle-place-reaction'
 
 
+import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
+import { makePlaceReaction } from 'test/factories/make-place-reaction'
 
 import { makePlace } from 'test/factories/make-place'
 import { makeUser } from 'test/factories/make-user'
-import { makePlaceReaction } from 'test/factories/make-place-reaction'
+import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
 
 let sut: TogglePlaceReactionUseCase
 let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
+let inMemoryPlacesRepository: InMemoryPlacesRepository
+let inMemoryPlaceAttachmentsRepository: InMemoryPlaceAttachmentsRepository
+
 
 describe('Toggle place reaction', () => {
   beforeEach(() => {
+    inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
     inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
-    sut = new TogglePlaceReactionUseCase(inMemoryPlaceReactionsRepository)
+    inMemoryPlacesRepository = new InMemoryPlacesRepository(
+      inMemoryPlaceAttachmentsRepository,
+      inMemoryPlaceReactionsRepository
+    )
+    sut = new TogglePlaceReactionUseCase(
+      inMemoryPlaceReactionsRepository,
+      inMemoryPlacesRepository
+    )
   })
 
   it('should be possible to mark a place with a "like"', async () => {

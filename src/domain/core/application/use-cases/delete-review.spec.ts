@@ -4,19 +4,30 @@ import { DeleteReviewUseCase } from './delete-review'
 
 import { InMemoryReviewAttachmentsRepository } from 'test/repositories/in-memory-review-attachments-repository'
 import { InMemoryReviewsRepository } from 'test/repositories/in-memory-reviews-repository'
+import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository'
 
 import { makeReview } from 'test/factories/make-review'
+import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memory-favorite-categories-repository'
 
+let inMemoryUsersRepository: InMemoryUsersRepository
+let inMemoryFavoriteCategoriesRepository: InMemoryFavoriteCategoriesRepository
 let inMemoryReviewAttachmentsRepository: InMemoryReviewAttachmentsRepository
 let inMemoryReviewRepository: InMemoryReviewsRepository
 let sut: DeleteReviewUseCase
 
 describe('Delete Review', () => {
   beforeEach(() => {
+    inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
+    inMemoryUsersRepository = new InMemoryUsersRepository(
+      inMemoryFavoriteCategoriesRepository
+    )
+
     inMemoryReviewAttachmentsRepository = new InMemoryReviewAttachmentsRepository()
     inMemoryReviewRepository = new InMemoryReviewsRepository(
-      inMemoryReviewAttachmentsRepository
+      inMemoryReviewAttachmentsRepository,
+      inMemoryUsersRepository
     )
+  
     sut = new DeleteReviewUseCase(inMemoryReviewRepository)
   })
 

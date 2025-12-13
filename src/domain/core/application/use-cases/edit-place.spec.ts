@@ -5,18 +5,23 @@ import { EditPlaceUseCase } from './edit-place'
 
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
+import { InMemoryPlaceReactionsRepository } from 'test/repositories/in-memory-place-reactions-reposiotry'
+
 import { makePlace } from 'test/factories/make-place'
 import { makePlaceAttachment } from 'test/factories/make-place-attachment'
 
 let inMemoryPlacesRepository: InMemoryPlacesRepository
 let inMemoryPlaceAttachmentsRepository: InMemoryPlaceAttachmentsRepository
+let inMemoryPlaceReactionsRepository: InMemoryPlaceReactionsRepository
 let sut: EditPlaceUseCase
 
 describe('Edit Place', () => {
   beforeEach(() => {
     inMemoryPlaceAttachmentsRepository = new InMemoryPlaceAttachmentsRepository()
+    inMemoryPlaceReactionsRepository = new InMemoryPlaceReactionsRepository()
     inMemoryPlacesRepository = new InMemoryPlacesRepository(
-      inMemoryPlaceAttachmentsRepository
+      inMemoryPlaceAttachmentsRepository,
+      inMemoryPlaceReactionsRepository
     )
     sut = new EditPlaceUseCase(
       inMemoryPlacesRepository,
