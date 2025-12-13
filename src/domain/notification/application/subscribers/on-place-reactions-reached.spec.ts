@@ -15,6 +15,8 @@ import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-not
 import { InMemoryPlacesRepository } from 'test/repositories/in-memory-places-repository'
 import { InMemoryPlaceAttachmentsRepository } from 'test/repositories/in-memory-place-attachments-repository'
 
+import { FakeMailService } from 'test/mail/fake-mail-service'
+
 import { makePlace } from 'test/factories/make-place'
 import { makeUser } from 'test/factories/make-user'
 import { waitFor } from 'test/utils/wait.for'
@@ -29,10 +31,12 @@ let sendNotificationUseCase: SendNotificationUseCase
 let sut: TogglePlaceReactionUseCase
 
 let sendNotificationExecuteSpy: MockInstance
+let fakeMailService: FakeMailService
 
 describe('On place reactions reached', () => {
 
   beforeEach(() => {
+
     inMemoryFavoriteCategoriesRepository = new InMemoryFavoriteCategoriesRepository()
     inMemoryUsersRepository = new InMemoryUsersRepository(
       inMemoryFavoriteCategoriesRepository
@@ -50,6 +54,8 @@ describe('On place reactions reached', () => {
       inMemoryNotificationsRepository
     )
 
+    fakeMailService = new FakeMailService()
+
     sut = new TogglePlaceReactionUseCase(
       inMemoryPlaceReactionsRepository,
       inMemoryPlacesRepository
@@ -59,7 +65,9 @@ describe('On place reactions reached', () => {
 
     new OnPlaceReactionsReached(
       inMemoryPlacesRepository,
-      sendNotificationUseCase
+      inMemoryUsersRepository,
+      sendNotificationUseCase,
+      fakeMailService
     )
   })
 
