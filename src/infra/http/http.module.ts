@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 import { DatabaseModule } from '../database/database.module'
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { StorageModule } from '../storage/storage.module'
+import { MailModule } from '../mail/mail.module'
 
 import { RegisterUserUseCase } from '@/domain/core/application/use-cases/register-user'
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
@@ -41,7 +42,7 @@ import { ReadNotificationController } from './controllers/read-notification.cont
 import { TogglePlaceReactionController } from './controllers/toggle-place-reaction.controller'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule, StorageModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule, MailModule],
   controllers: [
     CreateAccountController,
     AuthenticateController,

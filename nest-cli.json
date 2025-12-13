@@ -10,6 +10,11 @@
         "include": "../generated/prisma",
         "outDir": "dist/generated",
         "watchAssets": true
+      },
+      {
+        "include": "infra/mail/templates/**/*",
+        "outDir": "dist/src",
+        "watchAssets": true
       }
     ]
   }

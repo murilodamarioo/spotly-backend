@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "postbuild": "cpx \"src/infra/mail/templates/**/*\" \"dist/infra/mail/templates\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -22,6 +23,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -32,7 +34,9 @@
     "@prisma/client": "^6.19.0",
     "bcryptjs": "^3.0.2",
     "client-s3": "github:aws-sdk/client-s3",
+    "handlebars": "^4.7.8",
     "ioredis": "^5.8.2",
+    "nodemailer": "^7.0.11",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
@@ -54,6 +58,7 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^6.0.3",
     "@vitest/coverage-v8": "^3.2.4",
+    "cpx": "^1.5.0",
     "globals": "^16.0.0",
     "prisma": "^6.19.0",
     "source-map-support": "^0.5.21",
@@ -61,6 +66,7 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "unplugin-swc": "^1.5.8",
+    "vite-plugin-copy": "^0.1.6",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4"
   }

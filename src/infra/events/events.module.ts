@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common'
 
 import { OnReviewCreated } from '@/domain/notification/application/subscribers/on-review-created'
 import { SendNotificationUseCase } from '@/domain/notification/application/use-cases/send-notification'
-
-import { DatabaseModule } from '../database/database.module'
 import { OnPlaceReactionsReached } from '@/domain/notification/application/subscribers/on-place-reactions-reached'
 
+import { DatabaseModule } from '../database/database.module'
+import { MailModule } from '../mail/mail.module'
+
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, MailModule],
   providers: [OnReviewCreated, OnPlaceReactionsReached, SendNotificationUseCase]
 })
 export class EventsModule { }

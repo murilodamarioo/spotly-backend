@@ -1,16 +1,21 @@
 import { Injectable } from '@nestjs/common'
 
+import { DomainEvents } from '@/core/events/domain-events'
+
 import { PlaceReactionsReachedEvent } from '@/domain/core/enterprise/events/place-reactions-reached-event'
 import { PlacesRepository } from '@/domain/core/application/repositories/places-repository'
+import { UsersRepository } from '@/domain/core/application/repositories/users-repository'
+import { Mail } from '@/domain/core/mail/mail'
 
 import { SendNotificationUseCase } from '../use-cases/send-notification'
-import { DomainEvents } from '@/core/events/domain-events'
 
 @Injectable()
 export class OnPlaceReactionsReached {
   constructor(
     private placesRepository: PlacesRepository,
-    private sendNotificationUseCase: SendNotificationUseCase
+    private usersReposiotry: UsersRepository,
+    private sendNotificationUseCase: SendNotificationUseCase,
+    private mail: Mail
   ) {
     this.setupSubscriptions()
   }
@@ -33,6 +38,15 @@ export class OnPlaceReactionsReached {
     await this.sendNotificationUseCase.execute({
       recipientId,
       title,
+      content
+    })
+
+    const user = await this.usersReposiotry.findById(recipientId)
+    if (!user) return
+
+    await this.mail.sendMail({
+      to: user.email,
+      subject: title,
       content
     })
   }

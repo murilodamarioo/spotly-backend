@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        /* Inline Styles for better email client compatibility */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333333;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+        .header {
+            background-color: #4A90E2; /* A friendly blue */
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content-box {
+            padding: 30px;
+            text-align: center;
+        }
+        .content-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .emoji-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer {
+            background-color: #f9f9f9;
+            color: #aaaaaa;
+            padding: 15px;
+            font-size: 12px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 {{title}}</h1>
+        </div>
+        <div class="content-box">
+            <span class="emoji-icon">🚀</span>
+            <p>Hello,</p>
+            <p style="font-size: 18px; font-weight: bold; color: #1f78c2;">
+                {{content}}
+            </p>
+            <p>
+                Keep up the great work! Your users are loving what you're doing.
+            </p>
+            <p style="margin-top: 40px;">
+                Sincerely,<br>
+                The Spot Team
+            </p>
+        </div>
+        <div class="footer">
+            This is an automated notification. Please do not reply to this email.
+        </div>
+    </div>
+</body>
+</html>
