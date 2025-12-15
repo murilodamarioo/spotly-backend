@@ -9,6 +9,7 @@ import { RegisterUserUseCase } from '@/domain/core/application/use-cases/registe
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
 import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profile'
 import { EditUserUseCase } from '@/domain/core/application/use-cases/edit-user'
+import { ChangePasswordUseCase } from '@/domain/core/application/use-cases/change-password'
 import { DeleteAccountUseCase } from '@/domain/core/application/use-cases/delete-account'
 import { FetchPlacesByFilterUseCase } from '@/domain/core/application/use-cases/fetch-places-by-filter'
 import { GetPlaceUseCase } from '@/domain/core/application/use-cases/get-place'
@@ -27,6 +28,7 @@ import { CreateAccountController } from './controllers/create-account.controller
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { GetProfileController } from './controllers/get-profile.controller'
 import { EditUserController } from './controllers/edit-user.controller'
+import { ChangePasswordController } from './controllers/change-password.controller'
 import { DeleteAccountController } from './controllers/delete-account.controller'
 import { FetchPlacesByFilterController } from './controllers/fetch-places-by-filter.controller'
 import { GetPlaceController } from './controllers/get-place.controller'
@@ -48,6 +50,7 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     AuthenticateController,
     GetProfileController,
     EditUserController,
+    ChangePasswordController,
     DeleteAccountController,
     FetchPlacesByFilterController,
     GetPlaceController,
@@ -67,6 +70,7 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     AuthenticateUserUseCase,
     GetProfileUseCase,
     EditUserUseCase,
+    ChangePasswordUseCase,
     DeleteAccountUseCase,
     FetchPlacesByFilterUseCase,
     GetPlaceUseCase,
