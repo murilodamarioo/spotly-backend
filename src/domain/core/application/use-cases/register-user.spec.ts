@@ -9,7 +9,7 @@ import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memor
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryFavoriteCategory: InMemoryFavoriteCategoriesRepository
-let fakeHahser: FakeHasher
+let fakeHasher: FakeHasher
 let sut: RegisterUserUseCase
 
 describe('Register User', () => {
@@ -19,9 +19,9 @@ describe('Register User', () => {
       inMemoryFavoriteCategory
     )
 
-    fakeHahser = new FakeHasher()
+    fakeHasher = new FakeHasher()
 
-    sut = new RegisterUserUseCase(inMemoryUsersRepository, fakeHahser)
+    sut = new RegisterUserUseCase(inMemoryUsersRepository, fakeHasher)
   })
 
   it('should be able to register a new user', async () => {
