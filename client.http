@@ -50,6 +50,18 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+# @name change_password
+PATCH {{baseUrl}}/users/me/change-password
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "oldPassword": "0ldP@sswOrd",
+  "newPassword": "newP@ssw0rd"
+}
+
+###
+
 # @name delete_account
 DELETE {{baseUrl}}/users/me
 Content-Type: application/json
@@ -161,3 +173,14 @@ Content-Type: image/png
 PATCH {{baseUrl}}/notifications/69ded367-8444-4011-b1df-aacf4d871bff/read
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name toggle_place_reaction
+PATCH {{baseUrl}}/places/ae0c4a59-dece-46f3-b238-684325430c7d/reactions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "reactionType": "dislike"
+}
