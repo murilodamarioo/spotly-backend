@@ -8,21 +8,34 @@ datasource db {
 }
 
 model User {
-  id                 String             @id @default(uuid())
-  name               String
-  email              String             @unique
-  password           String
-  profilePicture     String?            @map("profile_picture")
-  bio                String?
-  createdAt          DateTime           @default(now()) @map("created_at")
-  updatedAt          DateTime?          @updatedAt @map("updated_at")
-  places             Place[]
-  reviews            Review[]
-  notifications      Notification[]
-  placeReactions     PlaceReaction[]
-  favoriteCategories FavoriteCategory[]
+  id                  String               @id @default(uuid())
+  name                String
+  email               String               @unique
+  password            String
+  profilePicture      String?              @map("profile_picture")
+  bio                 String?
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime?            @updatedAt @map("updated_at")
+  places              Place[]
+  reviews             Review[]
+  notifications       Notification[]
+  placeReactions      PlaceReaction[]
+  favoriteCategories  FavoriteCategory[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("password_reset_tokens")
 }
 
 model Place {
