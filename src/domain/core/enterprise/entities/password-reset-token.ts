@@ -1,6 +1,7 @@
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { ForgotPasswordEvent } from '../events/forgot-password-event'
 
 interface PasswordResetTokenProps {
   userId: UniqueEntityId
@@ -9,7 +10,7 @@ interface PasswordResetTokenProps {
   createdAt: Date
 }
 
-export class PasswordResetToken extends Entity<PasswordResetTokenProps> {
+export class PasswordResetToken extends AggregateRoot<PasswordResetTokenProps> {
 
   get userId() {
     return this.props.userId
@@ -39,6 +40,14 @@ export class PasswordResetToken extends Entity<PasswordResetTokenProps> {
       ...props,
       createdAt: props.createdAt ?? new Date()
     }, id)
+
+    const isNewToken = !id
+
+    if (isNewToken) {
+      passwordResetToken.addDomainEvent(
+        new ForgotPasswordEvent(passwordResetToken)
+      )
+    }
 
     return passwordResetToken
   }

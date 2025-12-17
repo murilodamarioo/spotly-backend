@@ -1,7 +1,6 @@
 import { Either, failure, success } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors-message'
 
-import { Mail } from '../../mail/mail'
 import { Encrypter } from '../cryptography'
 import { UsersRepository } from '../repositories/users-repository'
 import { PasswordResetTokenRepository } from '../repositories/password-reset-token-repository'
@@ -17,8 +16,7 @@ export class SendForgotPasswordMailUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private passwordResetToken: PasswordResetTokenRepository,
-    private encrypter: Encrypter,
-    private mail: Mail
+    private encrypter: Encrypter
   ) { }
 
   async execute({ email }: SendForgotPasswrodMailUseCase): Promise<SendForgotPasswrodMailUseCaseResponse> {
@@ -44,16 +42,6 @@ export class SendForgotPasswordMailUseCase {
     })
 
     await this.passwordResetToken.create(resetToken)
-
-    const resetLink = `http://my-app.com/reset?token=${token}&id=${user.id.toString()}`
-
-    await this.mail.sendMail({
-      to: user.email,
-      subject: 'SPOTLY - Password Recovery',
-      content: `Oops! Memory lapse? 🧠💨 Don't worry, 
-      it happens to the best of us. Let’s get you back in the game before you forget what you came here for!
-      👉 ${resetLink} 🔓`
-    })
 
     return success(null)
   }
