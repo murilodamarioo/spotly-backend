@@ -23,6 +23,7 @@ import { FetchReviewsUseCase } from '@/domain/core/application/use-cases/fetch-r
 import { GetReviewUseCase } from '@/domain/core/application/use-cases/get-review'
 import { ReadNotificationUseCase } from '@/domain/notification/application/use-cases/read-notification'
 import { TogglePlaceReactionUseCase } from '@/domain/core/application/use-cases/toggle-place-reaction'
+import { SendForgotPasswordMailUseCase } from '@/domain/core/application/use-cases/send-forgot-password-mail'
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
@@ -42,6 +43,7 @@ import { FetchReviewsController } from './controllers/fetch-reviews.controller'
 import { GetReviewController } from './controllers/get-review.controller'
 import { ReadNotificationController } from './controllers/read-notification.controller'
 import { TogglePlaceReactionController } from './controllers/toggle-place-reaction.controller'
+import { SendForgotPasswordMailController } from './controllers/send-forgot-password-mail.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, MailModule],
@@ -63,7 +65,8 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     FetchReviewsController,
     GetReviewController,
     ReadNotificationController,
-    TogglePlaceReactionController
+    TogglePlaceReactionController,
+    SendForgotPasswordMailController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -83,7 +86,8 @@ import { TogglePlaceReactionController } from './controllers/toggle-place-reacti
     FetchReviewsUseCase,
     GetReviewUseCase,
     ReadNotificationUseCase,
-    TogglePlaceReactionUseCase
+    TogglePlaceReactionUseCase,
+    SendForgotPasswordMailUseCase
   ]
 })
 export class HttpModule { }

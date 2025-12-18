@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, failure, success } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors-message'
 
@@ -12,6 +14,7 @@ interface SendForgotPasswrodMailUseCase {
 
 type SendForgotPasswrodMailUseCaseResponse = Either<ResourceNotFoundError, null>
 
+@Injectable()
 export class SendForgotPasswordMailUseCase {
   constructor(
     private usersRepository: UsersRepository,
