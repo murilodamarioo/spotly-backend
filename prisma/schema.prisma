@@ -28,12 +28,12 @@ model User {
 
 model PasswordResetToken {
   id        String   @id @default(uuid())
+  userId    String   @map("user_id")
   token     String   @unique
   expiresAt DateTime @map("expires_at")
   createdAt DateTime @default(now()) @map("created_at")
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
   @@map("password_reset_tokens")
 }
