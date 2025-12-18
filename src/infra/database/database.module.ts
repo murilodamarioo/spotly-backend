@@ -9,17 +9,19 @@ import { ReviewAttachmentsRepository } from '@/domain/core/application/repositor
 import { ReviewsRepository } from '@/domain/core/application/repositories/reviews-repository'
 import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications-repository'
 import { PlaceReactionsRepository } from '@/domain/core/application/repositories/place-reactions-repository'
+import { PasswordResetTokenRepository } from '@/domain/core/application/repositories/password-reset-token-repository'
 
 import { PrismaUsersRepository } from './prisma/repositories/prisma-user-repository'
 import { PrismaPlacesRepository } from './prisma/repositories/prisma-places-repository'
 import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments-repository'
 import { PrismaPlaceAttachmentsRepository } from './prisma/repositories/prisma-place-attachments-repository'
 import { PrismaReviewAttachmentsRepository } from './prisma/repositories/prisma-review-attachments-repository'
+import { PrismaPlaceReactionsRepository } from './prisma/repositories/prisma-place-reactions-repository'
 import { PrismaReviewsRepository } from './prisma/repositories/prisma-reviews-repository'
 import { PrismaNotificationsRepository } from './prisma/repositories/prisma-notifications-repository'
+import { PrismaPasswordResetTokenRepository } from './prisma/repositories/prisma-password-reset-token-repository'
 
 import { CacheModule } from '../cache/cache.module'
-import { PrismaPlaceReactionsRepository } from './prisma/repositories/prisma-place-reactions-repository'
 
 @Module({
   imports: [CacheModule],
@@ -56,6 +58,10 @@ import { PrismaPlaceReactionsRepository } from './prisma/repositories/prisma-pla
     {
       provide: PlaceReactionsRepository,
       useClass: PrismaPlaceReactionsRepository
+    },
+    {
+      provide: PasswordResetTokenRepository,
+      useClass: PrismaPasswordResetTokenRepository
     }
   ],
   exports: [
@@ -67,7 +73,8 @@ import { PrismaPlaceReactionsRepository } from './prisma/repositories/prisma-pla
     ReviewAttachmentsRepository,
     ReviewsRepository,
     NotificationsRepository,
-    PlaceReactionsRepository
+    PlaceReactionsRepository,
+    PasswordResetTokenRepository
   ]
 })
 export class DatabaseModule { }
