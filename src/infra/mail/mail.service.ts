@@ -15,15 +15,16 @@ export class MailService implements Mail {
     private envService: EnvService
   ) { }
 
-  async sendMail(message: Message): Promise<void> {
+  async sendMail(message: Message, template: string, extraInfo?: Record<string, unknown>): Promise<void> {
     await this.mailService.sendMail({
       to: message.to,
       from: this.envService.get('EMAIL_USER'),
       subject: message.subject,
-      template: 'index',
+      template,
       context: {
         title: message.subject,
-        content: message.content
+        content: message.content,
+        ...extraInfo
       }
     })
   }

@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { EventHandler } from '@/core/events/event-handler'
 import { DomainEvents } from '@/core/events/domain-events'
 
@@ -5,6 +7,7 @@ import { UsersRepository } from '@/domain/core/application/repositories/users-re
 import { ForgotPasswordEvent } from '@/domain/core/enterprise/events/forgot-password-event'
 import { Mail } from '@/domain/core/mail/mail'
 
+@Injectable()
 export class OnForgotPassword implements EventHandler {
 
   constructor(
@@ -21,12 +24,11 @@ export class OnForgotPassword implements EventHandler {
     )
   }
 
-
   private async sendResetPasswordMail({ passwordResetToken }: ForgotPasswordEvent) {
     const userId = passwordResetToken.userId.toString()
 
     const user = await this.usersRepository.findById(userId)
-    
+
     if (!user) return
 
     const resetLink = `http://my-app.com/reset?token=${passwordResetToken.token}&id=${userId}`
@@ -35,9 +37,12 @@ export class OnForgotPassword implements EventHandler {
       to: user.email,
       subject: 'SPOTLY - Password Recovery',
       content: `Oops! Memory lapse? 🧠💨 Don't worry, 
-        it happens to the best of us. Let’s get you back in the game before you forget what you came here for!
-        👉 ${resetLink} 🔓`
-    })
+        it happens to the best of us. Let’s get you back in the game 
+        before you forget what you came here for!`
+    },
+      'spotly-password-recovery',
+      { link: resetLink }
+    )
   }
 
 }

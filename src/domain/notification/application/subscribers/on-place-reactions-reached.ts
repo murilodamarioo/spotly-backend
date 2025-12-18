@@ -48,6 +48,6 @@ export class OnPlaceReactionsReached {
       to: user.email,
       subject: title,
       content
-    })
+    }, 'spotly-achievement-notification')
   }
 }
