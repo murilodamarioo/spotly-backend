@@ -22,7 +22,7 @@ export class InMemoryPasswordResetTokenRepository implements PasswordResetTokenR
 
   async deleteByUserId(id: string): Promise<void> {
     const resetTokenIndex = this.resetTokens.findIndex(
-      (resetToken) => resetToken.id.toString() === id
+      (resetToken) => resetToken.userId.toString() === id
     )
 
     this.resetTokens.splice(resetTokenIndex, 1)
