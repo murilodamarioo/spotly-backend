@@ -31,7 +31,7 @@ export class OnForgotPassword implements EventHandler {
 
     if (!user) return
 
-    const resetLink = `http://my-app.com/reset?token=${passwordResetToken.token}&id=${userId}`
+    const resetLink = `http://localhost:3333/reset-password?token=${passwordResetToken.token}`
 
     await this.mail.sendMail({
       to: user.email,

@@ -44,6 +44,8 @@ import { GetReviewController } from './controllers/get-review.controller'
 import { ReadNotificationController } from './controllers/read-notification.controller'
 import { TogglePlaceReactionController } from './controllers/toggle-place-reaction.controller'
 import { SendForgotPasswordMailController } from './controllers/send-forgot-password-mail.controller'
+import { ResetPasswordController } from './controllers/reset-password.controller'
+import { ResetPasswordUseCase } from '@/domain/core/application/use-cases/reset-password'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule, StorageModule, MailModule],
@@ -67,6 +69,7 @@ import { SendForgotPasswordMailController } from './controllers/send-forgot-pass
     ReadNotificationController,
     TogglePlaceReactionController,
     SendForgotPasswordMailController,
+    ResetPasswordController
   ],
   providers: [
     RegisterUserUseCase,
@@ -87,7 +90,8 @@ import { SendForgotPasswordMailController } from './controllers/send-forgot-pass
     GetReviewUseCase,
     ReadNotificationUseCase,
     TogglePlaceReactionUseCase,
-    SendForgotPasswordMailUseCase
+    SendForgotPasswordMailUseCase,
+    ResetPasswordUseCase
   ]
 })
 export class HttpModule { }
