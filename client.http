@@ -10,8 +10,30 @@ Content-Type: application/json
 
 {
   "email": "john@email.com",
-  "password": "NewP@ssw0rd"
+  "password": "NewP@ssw0rd1"
 }
+
+### Reset password endpoints
+
+# @name forgot_password
+POST {{baseUrl}}/auth/sign-in/forgot-password
+Content-Type: application/json
+
+{
+  "email": "john@email.com"
+}
+
+###
+
+# @name forgot_password
+PATCH {{baseUrl}}/reset-password?token=
+Content-Type: application/json
+
+{
+  "newPassword": "NewP@ssw0rd1"
+}
+
+###
 
 ### Users endpoints
 
@@ -25,16 +47,6 @@ Content-Type: application/json
   "password": "NewP@ssw0rd",
   "bio": "Hello, I'm John Doe!",
   "categories": ["0f494894-e7a7-454e-9ef1-28a53ee6f237"]
-}
-
-###
-
-# @name forgot_password
-POST {{baseUrl}}/auth/sign-in/forgot-password
-Content-Type: application/json
-
-{
-  "email": "john@email.com"
 }
 
 ###
