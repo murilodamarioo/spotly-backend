@@ -3,7 +3,7 @@ import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { ForgotPasswordEvent } from '../events/forgot-password-event'
 
-interface PasswordResetTokenProps {
+export interface PasswordResetTokenProps {
   userId: UniqueEntityId
   token: string
   expiresAt: Date
