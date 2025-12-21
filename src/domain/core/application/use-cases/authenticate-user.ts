@@ -10,7 +10,12 @@ interface AuthenticateUserRequest {
   password: string
 }
 
-type AuthenticateUserResponse = Either<InvalidCredentialsError, { access_token: string }>
+type AuthenticateUserResponse = Either<InvalidCredentialsError,
+  {
+    access_token: string,
+    refresh_token: string
+  }
+>
 
 @Injectable()
 export class AuthenticateUserUseCase {
@@ -33,8 +38,19 @@ export class AuthenticateUserUseCase {
       return failure(new InvalidCredentialsError())
     }
 
-    const accessToken = await this.encrypter.encrypt({ sub: user.id.toString() })
+    const accessToken = await this.encrypter.encrypt(
+      { sub: user.id.toString() },
+      { expiresIn: '30m' }
+    )
 
-    return success({ access_token: accessToken })
+    const refreshToken = await this.encrypter.encrypt(
+      { sub: user.id.toString() },
+      { expiresIn: '7d' }
+    )
+
+    return success({
+      access_token: accessToken,
+      refresh_token: refreshToken
+    })
   }
 }
