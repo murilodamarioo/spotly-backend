@@ -1,12 +1,15 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { NestFactory } from '@nestjs/core'
 
+import cookieParser from 'cookie-parser'
+
 import { AppModule } from './app.module'
 
 import { EnvService } from './env/env.service'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule)
+  app.use(cookieParser())
   const envService = app.get(EnvService)
 
   const port = envService.get('PORT')
