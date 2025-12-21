@@ -31,7 +31,9 @@ beforeAll(async () => {
 
   DomainEvents.shouldRun = false
 
-  execSync('npx prisma migrate deploy')
+  // execSync('npx prisma migrate deploy')
+
+  execSync('npx prisma db push --skip-generate')
 })
 
 afterAll(async () => {
