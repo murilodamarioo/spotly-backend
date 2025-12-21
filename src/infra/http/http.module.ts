@@ -7,6 +7,7 @@ import { MailModule } from '../mail/mail.module'
 
 import { RegisterUserUseCase } from '@/domain/core/application/use-cases/register-user'
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
+import { RefreshAccessTokenUseCase } from '@/domain/core/application/use-cases/refresh-access-token'
 import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profile'
 import { EditUserUseCase } from '@/domain/core/application/use-cases/edit-user'
 import { ChangePasswordUseCase } from '@/domain/core/application/use-cases/change-password'
@@ -27,6 +28,7 @@ import { SendForgotPasswordMailUseCase } from '@/domain/core/application/use-cas
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
+import { RefreshAccessTokenController } from './controllers/refresh-access-token.controller'
 import { GetProfileController } from './controllers/get-profile.controller'
 import { EditUserController } from './controllers/edit-user.controller'
 import { ChangePasswordController } from './controllers/change-password.controller'
@@ -52,6 +54,7 @@ import { ResetPasswordUseCase } from '@/domain/core/application/use-cases/reset-
   controllers: [
     CreateAccountController,
     AuthenticateController,
+    RefreshAccessTokenController,
     GetProfileController,
     EditUserController,
     ChangePasswordController,
@@ -74,6 +77,7 @@ import { ResetPasswordUseCase } from '@/domain/core/application/use-cases/reset-
   providers: [
     RegisterUserUseCase,
     AuthenticateUserUseCase,
+    RefreshAccessTokenUseCase,
     GetProfileUseCase,
     EditUserUseCase,
     ChangePasswordUseCase,

@@ -1,11 +1,29 @@
-import { BadRequestException, Body, Controller, HttpCode, Post, UsePipes } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  UseInterceptors,
+  UsePipes
+} from '@nestjs/common'
+
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiOkResponse,
+  ApiTags
+} from '@nestjs/swagger'
+
 import z from 'zod'
+
+import { InvalidCredentialsError } from '@/core/errors/errors-message'
 
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
 
+import { SetRefreshTokenInterceptor } from '@/infra/auth/set-refresh-token.interceptor'
 import { Public } from '@/infra/auth/public'
-import { InvalidCredentialsError } from '@/core/errors/errors-message'
-import { ApiBadRequestResponse, ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger'
+
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const authenticateUserBodySchema = z.object({
@@ -25,6 +43,7 @@ export class AuthenticateController {
   @Post()
   @HttpCode(200)
   @UsePipes(new ZodValidationPipe(authenticateUserBodySchema))
+  @UseInterceptors(SetRefreshTokenInterceptor)
   @ApiBody({
     schema: {
       type: 'object',
