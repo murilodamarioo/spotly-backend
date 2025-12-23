@@ -9,6 +9,7 @@ import {
 
 import {
   ApiBody,
+  ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiTags
 } from '@nestjs/swagger'
@@ -45,6 +46,7 @@ export class SendForgotPasswordMailController {
       }
     }
   })
+  @ApiCreatedResponse({ description: 'Email sent successfully' })
   @ApiNotFoundResponse({
     schema: {
       properties: {

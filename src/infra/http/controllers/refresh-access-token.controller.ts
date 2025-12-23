@@ -13,13 +13,33 @@ import { RefreshAccessTokenUseCase } from '@/domain/core/application/use-cases/r
 
 import { Cookies } from '@/infra/auth/cookies-decorator'
 import { Public } from '@/infra/auth/public'
+import { ApiCookieAuth, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger'
 
+@ApiTags('authentication')
 @Public()
 @Controller('/auth/refresh')
 export class RefreshAccessTokenController {
 
   constructor(private refreshAccessToken: RefreshAccessTokenUseCase) { }
 
+  @ApiCookieAuth('refreshToken')
+  @ApiOkResponse({
+    schema: {
+      properties: {
+        accessToken: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' },
+        refreshToken: { type: 'string', example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c' }
+      }
+    }
+  })
+  @ApiUnauthorizedResponse({
+    schema: {
+      properties: {
+        message: { type: 'string', example: 'Invalid token provided' },
+        error: { type: 'string', example: 'Unauthorized' },
+        statusCode: { type: 'number', example: 401 }
+      }
+    }
+  })
   @Post()
   @HttpCode(200)
   async handle(@Cookies('refreshToken') refreshToken: string) {
