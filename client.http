@@ -25,7 +25,7 @@ Content-Type: application/json
 
 ###
 
-# @name forgot_password
+# @name reset_password
 PATCH {{baseUrl}}/reset-password?token=
 Content-Type: application/json
 
@@ -203,5 +203,5 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "reactionType": "dislike"
+  "reactionType": "like"
 }
