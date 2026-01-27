@@ -7,7 +7,6 @@ import { InMemoryFavoriteCategoriesRepository } from 'test/repositories/in-memor
 import { FakeMailService } from 'test/mail/fake-mail-service'
 import { FakeEncrypter } from 'test/cryptography/fake-encrypter'
 import { makeUser } from 'test/factories/make-user'
-import { E } from 'node_modules/@faker-js/faker/dist/airline-DF6RqYmq'
 
 let fakeEncrypter: FakeEncrypter
 let inMemoryPasswordResetTokenRespository: InMemoryPasswordResetTokenRepository
@@ -33,8 +32,7 @@ describe('Send forgot password mail', () => {
     sut = new SendForgotPasswordMailUseCase(
       inMemoryUsersRepository,
       inMemoryPasswordResetTokenRespository,
-      fakeEncrypter,
-      fakeMailService
+      fakeEncrypter
     )
   })
 
