@@ -16,4 +16,10 @@ export class PrismaAttachmentsRepository implements AttachmentsRepository {
     await this.prisma.attachment.create({ data })
   }
 
+  async delete(id: string): Promise<void> {
+    await this.prisma.attachment.delete({
+      where: { id }
+    })
+  }
+
 }

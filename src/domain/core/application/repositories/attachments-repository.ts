@@ -10,4 +10,12 @@ export abstract class AttachmentsRepository {
    */
   abstract create(attachment: Attachment): Promise<void>
 
+  /**
+   * Deletes an `Attachment` from the repository by its unique identifier.
+   * 
+   * @param {string} id - The unique identifier of the `Attachment` to be deleted.
+   * @return {Promise<void>} A promise that resolves when the `Attachment` is successfully deleted.
+   */
+  abstract delete(id: string): Promise<void>
+
 }

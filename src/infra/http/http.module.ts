@@ -7,6 +7,7 @@ import { MailModule } from '../mail/mail.module'
 
 import { RegisterUserUseCase } from '@/domain/core/application/use-cases/register-user'
 import { AuthenticateUserUseCase } from '@/domain/core/application/use-cases/authenticate-user'
+import { SetUserProfilePictureUseCase } from '@/domain/core/application/use-cases/set-profile-picture'
 import { RefreshAccessTokenUseCase } from '@/domain/core/application/use-cases/refresh-access-token'
 import { GetProfileUseCase } from '@/domain/core/application/use-cases/get-profile'
 import { EditUserUseCase } from '@/domain/core/application/use-cases/edit-user'
@@ -28,6 +29,7 @@ import { SendForgotPasswordMailUseCase } from '@/domain/core/application/use-cas
 
 import { CreateAccountController } from './controllers/create-account.controller'
 import { AuthenticateController } from './controllers/authenticate.controller'
+import { SetProfilePictureController } from './controllers/set-profile-picture.controller'
 import { RefreshAccessTokenController } from './controllers/refresh-access-token.controller'
 import { GetProfileController } from './controllers/get-profile.controller'
 import { EditUserController } from './controllers/edit-user.controller'
@@ -54,6 +56,7 @@ import { ResetPasswordUseCase } from '@/domain/core/application/use-cases/reset-
   controllers: [
     CreateAccountController,
     AuthenticateController,
+    SetProfilePictureController,
     RefreshAccessTokenController,
     GetProfileController,
     EditUserController,
@@ -77,6 +80,7 @@ import { ResetPasswordUseCase } from '@/domain/core/application/use-cases/reset-
   providers: [
     RegisterUserUseCase,
     AuthenticateUserUseCase,
+    SetUserProfilePictureUseCase,
     RefreshAccessTokenUseCase,
     GetProfileUseCase,
     EditUserUseCase,

@@ -10,7 +10,7 @@ export class PrismaUserMapper {
       email: raw.email,
       password: raw.password,
       bio: raw.bio,
-      profilePicture: raw.profilePicture
+      profilePictureId: raw.profilePictureId
     }, new UniqueEntityId(raw.id))
   }
 
@@ -21,7 +21,7 @@ export class PrismaUserMapper {
       email: user.email,
       password: user.password,
       bio: user.bio,
-      profilePicture: user.profilePicture
+      profilePictureId: user.profilePictureId
     }
   }
 }

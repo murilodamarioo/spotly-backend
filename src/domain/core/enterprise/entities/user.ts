@@ -8,7 +8,7 @@ export interface UserProps {
   name: string
   email: string
   password: string
-  profilePicture?: string | null
+  profilePictureId?: string | null
   bio?: string | null
   favoriteCategories: FavoriteCategoryList
   createdAt: Date
@@ -43,12 +43,12 @@ export class User extends Entity<UserProps> {
     this.touch()
   }
 
-  get profilePicture() {
-    return this.props.profilePicture
+  get profilePictureId() {
+    return this.props.profilePictureId
   }
 
-  set profilePicture(profilePicture: string | null | undefined) {
-    this.props.profilePicture = profilePicture
+  set profilePictureId(profilePictureId: string | null | undefined) {
+    this.props.profilePictureId = profilePictureId
     this.touch()
   }
 

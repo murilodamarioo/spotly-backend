@@ -17,8 +17,8 @@ interface SetUserProfilePictureRequest {
 }
 
 type SetUserProfilePictureUseCaseResponse = Either<
-  InvalidAttachementTypeError | ResourceNotFoundError, 
-  null
+  InvalidAttachementTypeError | ResourceNotFoundError,
+  { attachment: Attachment }
 >
 
 @Injectable()
@@ -28,7 +28,7 @@ export class SetUserProfilePictureUseCase {
     private usersRepository: UsersRepository,
     private attachmentsRepository: AttachmentsRepository,
     private uploader: Uploader
-  ) {}
+  ) { }
 
   async execute({
     userId,
@@ -42,10 +42,13 @@ export class SetUserProfilePictureUseCase {
       return failure(new ResourceNotFoundError())
     }
 
-    const regexFileType = /^image\/(png|jpeg)$/
-    
+    const regexFileType = /^image\/(png|jpeg|jpg)$/
     if (!regexFileType.test(fileType)) {
       return failure(new InvalidAttachementTypeError(fileType))
+    }
+
+    if (user.profilePictureId) {
+      await this.attachmentsRepository.delete(user.profilePictureId)
     }
 
     const { url } = await this.uploader.upload({
@@ -56,14 +59,14 @@ export class SetUserProfilePictureUseCase {
 
     const attachment = Attachment.create({
       title: fileName,
-      url
+      url,
     })
 
     await this.attachmentsRepository.create(attachment)
 
-    user.profilePicture = attachment.url
+    user.profilePictureId = attachment.id.toString()
     await this.usersRepository.save(user)
 
-    return success(null)
+    return success({ attachment })
   }
 }

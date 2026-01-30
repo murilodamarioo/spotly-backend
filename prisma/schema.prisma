@@ -12,7 +12,7 @@ model User {
   name                String
   email               String               @unique
   password            String
-  profilePicture      String?              @map("profile_picture")
+  profilePictureId    String?              @unique @map("profile_picture_id")
   bio                 String?
   createdAt           DateTime             @default(now()) @map("created_at")
   updatedAt           DateTime?            @updatedAt @map("updated_at")
@@ -22,6 +22,7 @@ model User {
   placeReactions      PlaceReaction[]
   favoriteCategories  FavoriteCategory[]
   passwordResetTokens PasswordResetToken[]
+  profilePicture      Attachment?          @relation("UserProfilePicture", fields: [profilePictureId], references: [id])
 
   @@map("users")
 }
@@ -96,8 +97,9 @@ model Attachment {
   placeId  String? @map("place_id")
   reviewId String? @map("review_id")
 
-  place  Place?  @relation(fields: [placeId], references: [id])
-  review Review? @relation(fields: [reviewId], references: [id])
+  place              Place?  @relation(fields: [placeId], references: [id])
+  review             Review? @relation(fields: [reviewId], references: [id])
+  userProfilePicture User?   @relation("UserProfilePicture")
 
   @@map("attachments")
 }
