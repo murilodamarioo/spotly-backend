@@ -54,7 +54,8 @@ export class SetUserProfilePictureUseCase {
     const { url } = await this.uploader.upload({
       fileName,
       fileType,
-      body
+      body,
+      bucketType: 'profile-picture'
     })
 
     const attachment = Attachment.create({

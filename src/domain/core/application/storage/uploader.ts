@@ -1,7 +1,10 @@
+export type BucketType = 'default' | 'profile-picture'
+
 export interface UploadParams {
   fileName: string
   fileType: string
   body: Buffer
+  bucketType?: BucketType
 }
 
 export abstract class Uploader {

@@ -19,4 +19,15 @@ export class FakerUploader implements Uploader {
 
     return { url }
   }
+
+  async uploadProfilePicture({ fileName }: UploadParams) {
+    const url = randomUUID()
+
+    this.uploads.push({
+      fileName,
+      url
+    })
+
+    return { url }
+  }
 }

@@ -1,11 +1,16 @@
+import { randomUUID } from 'node:crypto'
+
 import { Injectable } from '@nestjs/common'
 
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-import { Uploader, UploadParams } from '@/domain/core/application/storage/uploader'
+import { 
+  BucketType, 
+  Uploader, 
+  UploadParams
+} from '@/domain/core/application/storage/uploader'
 
 import { EnvService } from '../env/env.service'
-import { randomUUID } from 'node:crypto'
 
 @Injectable()
 export class R2Storage implements Uploader {
@@ -25,12 +30,21 @@ export class R2Storage implements Uploader {
     })
   }
 
-  async upload({ fileName, fileType, body }: UploadParams): Promise<{ url: string }> {
+  private getBucketName(bucketType: BucketType): string {
+    const buckets: Record<BucketType, string> = {
+      'default': this.envService.get('AWS_BUCKET_NAME'),
+      'profile-picture': this.envService.get('AWS_BUCKET_PROFILE_PICTURE')
+    }
+
+    return buckets[bucketType]
+  }
+
+  async upload({ fileName, fileType, body, bucketType = 'default' }: UploadParams): Promise<{ url: string }> {
     const uploadId = randomUUID()
     const uniqueFileName = `${uploadId}-${fileName}`
 
     const putObjectCommand = new PutObjectCommand({
-      Bucket: this.envService.get('AWS_BUCKET_NAME'),
+      Bucket: this.getBucketName(bucketType),
       Key: uniqueFileName,
       ContentType: fileType,
       Body: body

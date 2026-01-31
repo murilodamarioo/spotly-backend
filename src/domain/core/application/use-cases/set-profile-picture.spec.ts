@@ -35,7 +35,7 @@ describe('Set Profile Picture Use Case', () => {
     const user = makeUser()
     await inMemoryUsersRepository.create(user)
 
-    expect(user.profilePicture).toBeNull()
+    expect(user.profilePictureId).toBeNull()
 
     const response = await sut.execute({
       userId: user.id.toString(),
@@ -45,6 +45,6 @@ describe('Set Profile Picture Use Case', () => {
     })
 
     expect(response.isSuccess()).toBe(true)
-    expect(user.profilePicture).toBeDefined()
+    expect(user.profilePictureId).toBeDefined()
   })
 })
